@@ -1,0 +1,28 @@
+mixin Navbar
+	nav.navbar.bg-white.navbar-expand-lg.sticky-top
+		.container-small.px-0.px-sm-3
+			a.navbar-brand.flex-1.flex-lg-grow-0(href=`${CWD}${paths['default-dashboard']}`)
+				+Logo
+			.d-lg-none
+				+ToggleThemeBtn
+			button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+				span.navbar-toggler-icon
+			.collapse.navbar-collapse#navbarSupportedContent
+				.border-bottom.border-bottom-lg-0.mb-2
+					+Search({placeholder: 'Search', inputClass:'rounded-pill my-4'}).d-inline.d-lg-none
+				ul.navbar-nav.me-auto.mb-2.mb-lg-0
+					li.nav-item.border-bottom.border-bottom-lg-0
+						a.nav-link.lh-1.py-0.fs--1.fw-bold.py-3.active(aria-current='page' href='#') Home
+					li.nav-item.border-bottom.border-bottom-lg-0
+						a.nav-link.lh-1.py-0.fs--1.fw-bold.py-3(href='#feature') Feature
+					li.nav-item.border-bottom.border-bottom-lg-0
+						a.nav-link.lh-1.py-0.fs--1.fw-bold.py-3(href='#blog') Blog
+					li.nav-item
+						a.nav-link.lh-1.py-0.fs--1.fw-bold.py-3(href='#team') Team
+				.d-grid.d-lg-flex.align-items-center
+					li.nav-item.d-flex.align-items-center.d-none.d-lg-block
+						+ToggleThemeBtn
+
+					button.btn.btn-link.text-900.order-1.order-lg-0(type='button') Sign in
+					button.btn.btn-phoenix-primary.order-0(type='submit')
+						span.fw-bold Sign Up

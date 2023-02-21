@@ -1,0 +1,113 @@
+mixin LayoutContentProd
+
+  div.container-fluid.px-0&attributes(attrsLayout)
+    //- script.
+
+    block wrapperContent
+      block beforeContent
+        block navbarVertical
+          +NavbarVertical.navbar-expand-lg(style='display:none')
+        
+        block navbarHorizontal
+          block navbarTop 
+            +NavbarTop({
+              toggleID: 'navbarVerticalCollapse',
+              links: false,
+              search: true
+            }).navbar-expand(style='display:none')
+          block navbarTopSlim
+            +NavbarTopSlim({
+                toggleID: 'navbarVerticalCollapse',
+                links: false,
+                search: true
+              }).navbar-expand(style='display:none')
+          block navbarTopNew
+            +NavbarTopNew({
+                toggleID: 'navbarToplCollapse',
+                links: false,
+                search: true
+              }).navbar-expand-lg(style='display:none')
+          block navbarTopSlimNew
+            +NavbarTopSlimNew({
+                toggleID: 'navbarToplCollapse',
+                links: false,
+                search: true
+              }).navbar-expand-lg(style='display:none')
+
+
+
+      .content()&attributes(attrsContent)
+        if breadcrumb
+          nav.mb-2(aria-label='breadcrumb')
+            ol.breadcrumb.mb-0
+              each item in breadcrumb
+                if item.active
+                  li.breadcrumb-item.active=item.label
+                else
+                  li.breadcrumb-item
+                    a(href=item.href)=item.label
+
+        block content
+
+        if footer
+          +Footer.position-absolute
+
+      block afterContent
+  script.
+    var navbarTopShape = localStorage.getItem('phoenixNavbarTopShape');
+    var navbarPosition = localStorage.getItem('phoenixNavbarPosition');
+    var body = document.querySelector('body');
+    var navbarDefault = document.querySelector('#navbarDefault');
+    var navbarTopNew = document.querySelector('#navbarTopNew');
+    var navbarSlim = document.querySelector('#navbarSlim');
+    var navbarTopSlimNew = document.querySelector('#navbarTopSlimNew');
+
+    var documentElement = 	document.documentElement;
+    var navbarVertical = document.querySelector('.navbar-vertical');
+
+    if(navbarTopShape === 'slim' && navbarPosition === 'vertical'){
+      navbarDefault.remove();
+      navbarTopNew.remove();
+      navbarTopSlimNew.remove();
+      navbarSlim.style.display='block';
+      navbarVertical.style.display='inline-block';
+      body.classList.add('nav-slim');
+    }
+    else if(navbarTopShape === 'slim' && navbarPosition === 'horizontal'){
+      navbarDefault.remove();
+      navbarVertical.remove();
+      navbarTopNew.remove();
+      navbarSlim.remove();
+      navbarTopSlimNew.removeAttribute('style');
+      body.classList.add('nav-slim');
+    }
+    else if(navbarTopShape === 'default' && navbarPosition === 'horizontal'){
+      navbarDefault.remove();
+      navbarSlim.remove();
+      navbarVertical.remove();
+      navbarTopSlimNew.remove();
+      navbarTopNew.removeAttribute('style');
+      documentElement.classList.add('navbar-horizontal')
+
+    }
+    else {
+      body.classList.remove('nav-slim');
+      navbarSlim.remove();
+      navbarTopNew.remove();
+      navbarTopSlimNew.remove();
+      navbarDefault.removeAttribute('style');
+      navbarVertical.removeAttribute('style');
+    }
+
+    var navbarTopStyle = localStorage.getItem('phoenixNavbarTopStyle');
+    var navbarTop = document.querySelector('.navbar-top');
+    if(navbarTopStyle === 'darker'){
+        navbarTop.classList.add('navbar-darker');
+    }
+
+    var navbarVerticalStyle = localStorage.getItem('phoenixNavbarVerticalStyle');
+    var navbarVertical = document.querySelector('.navbar-vertical');
+    if(navbarVerticalStyle === 'darker'){
+        navbarVertical.classList.add('navbar-darker');
+    }
+

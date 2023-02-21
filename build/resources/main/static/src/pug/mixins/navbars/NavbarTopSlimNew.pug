@@ -1,0 +1,11 @@
+include Mixins
+include ../common/Avatar
+//- include ../common/Card
+//- include ../common/Notification
+
+mixin NavbarTopSlimNew(config)
+  nav.navbar.navbar-top.navbar-slim.justify-content-between#navbarTopSlimNew&attributes(attributes)
+    +NavbarLogoSlim(config.toggleID)
+    #navbarToplCollapse.collapse.navbar-collapse.navbar-top-collapse.order-1.order-lg-0.justify-content-center
+      +NewTopNav({combo:false})
+    +NavbarIconsSlim

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/sign-in-sign-up.html}">
+
+<body>
+<div layout:fragment="content">
+    <div class="row flex-center min-vh-100 py-5">
+        <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3"><a class="d-flex flex-center text-decoration-none mb-4" href="../../../index.html">
+            <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block"><img th:src="@{/public/assets/img/icons/icon_0.png}" alt="phoenix" width="58" />
+            </div>
+        </a>
+            <div class="text-center mb-7">
+                <h3 class="text-1000">Sign Up as a Ticket Submitter</h3>
+                <p class="text-700">Create your account</p>
+            </div>
+            <form th:action="@{'/sign-up/sub'}" method="post">
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="full_name">Full name</label>
+                    <input class="form-control" name="fullName" id="full_name" type="text" placeholder="Azamat Akhmetov" required/>
+                </div>
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="email">Email address</label>
+                    <input class="form-control" name="email" id="email" type="email" placeholder="a_akhmetov@vespa.com" required />
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label" for="password">Password</label>
+                        <input class="form-control form-icon-input" name="password" type="password" id="password" placeholder="Password" onkeyup='check();' required />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="confirm_password">Confirm Password</label>
+                        <input class="form-control form-icon-input" name="confirmPassword" type="password" id="confirm_password" placeholder="Confirm Password" onkeyup='check();' required />
+                    </div>
+                    <div class="text-sm-center mt-1">
+                        <p id='message'></p>
+                    </div>
+                </div>
+                <div class="mb-3 text-start">
+                    <label class="form-label">Position</label>
+                    <div class="form-check">
+                        <input class="form-check-input" id="qa" type="radio" name="position" value="QA Engineer" checked=""/>
+                        <label class="form-check-label" for="qa">QA Engineer</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" id="ba" type="radio" name="position" value="Business Analyst"/>
+                        <label class="form-check-label" for="ba">Business Analyst</label>
+                    </div>
+                </div>
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="grade">Grade</label>
+                    <select class="form-select" name="grade" id="grade" aria-label="grade_select">
+                        <option selected="">Select your grade</option>
+                        <option value="Intern">Intern</option>
+                        <option value="Junior">Junior</option>
+                        <option value="Middle">Middle</option>
+                        <option value="Senior">Senior</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary w-100 mb-3">Sign up</button>
+                <div class="text-center"><a class="fs--1 fw-bold" th:href="@{'/sign-in'}">Sign in to an existing account</a></div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

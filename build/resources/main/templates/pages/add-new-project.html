@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main.html}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>New Project</title>
+</head>
+<body>
+    <div layout:fragment="content" onload="loadData()">
+        <h2 class="mb-6">  Create a project</h2>
+        <div class="row">
+            <div class="col-xl-9">
+                <div id="success_alert">
+
+                </div>
+            </div>
+            <div class="col-xl-9">
+                <form class="row g-3 mb-6">
+                    <div class="row my-2">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="form-floating">
+                                <input class="form-control" id="projectTitle" type="text" placeholder="Project title" />
+                                <label for="projectTitle">Project title</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-floating">
+                                <select class="form-select" id="selectPM">
+                                    <option selected="selected" value="null">Select PM</option>
+                                </select>
+                                <label for="selectPM">Project manager</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4">
+                            <div class="flatpickr-input-container">
+                                <div class="form-floating">
+                                    <input class="form-control datetimepicker" id="initiation_date" type="date" placeholder="end date" data-options='{"disableMobile":true}' />
+                                    <label class="ps-6" for="initiation_date">Start date</label><span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4">
+                            <div class="flatpickr-input-container">
+                                <div class="form-floating">
+                                    <input class="form-control datetimepicker" id="deadline_date" type="date" placeholder="deadline" data-options='{"disableMobile":true}' />
+                                    <label class="ps-6" for="deadline_date">Deadline</label><span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-6 gy-2">
+                            <select class="form-select" id="selectDevelopers" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'>
+                                <option value="" class="mt-2">Add developers</option>
+                            </select>
+                        </div>
+                        <div class="col-6 gy-2">
+                            <select class="form-select" id="selectSubmitters" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'>
+                                <option value="" class="mt-2">Add submitters</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-12 gy-2">
+                            <div class="form-floating">
+                                <textarea class="form-control" id="projectOverview" placeholder="Leave a comment here" style="height: 100px"></textarea>
+                                <label for="projectOverview">Project overview</label>
+                            </div>
+                        </div>
+                        <div class="col-12 gy-5">
+                            <div class="row g-3 justify-content-end">
+                                <div class="col-auto">
+                                    <button class="btn btn-lg btn-phoenix-primary px-5" id="cancelBtn">Cancel</button>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-lg btn-primary px-5 px-sm-15" type="submit" id="create-project-btn" onclick="addNewProject()">Create Project</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script layout:fragment="script" type="text/javascript">
+
+        loadData();
+
+        function loadData() {
+            loadProjectManagersList();
+            loadDevelopersList();
+            loadSubmittersList();
+        }
+
+        function loadProjectManagersList() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/pm", true);
+            xhr.responseType = 'json';
+
+            xhr.onload = () => {
+                let status = xhr.status;
+                if (status === 200) {
+                    let pmList = xhr.response;
+                    let selectPM = document.getElementById("selectPM");
+
+                    for (let i = 0; i < pmList.length; i++) {
+                        selectPM.innerHTML += "<option value=\"" + pmList[i].id + "\">" + pmList[i].fullName + "</option>"
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function loadDevelopersList() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/dev", true);
+            xhr.responseType = 'json';
+
+            xhr.onload = () => {
+                let status = xhr.status;
+                if (status === 200) {
+                    let developersList = xhr.response;
+                    let selectDevelopers = document.getElementById("selectDevelopers");
+
+                    for (let i = 0; i < developersList.length; i++) {
+                        selectDevelopers.innerHTML +=
+                            "<option value=\""
+                                + developersList[i].id + "\">"
+                                + developersList[i].fullName + " / "
+                                + developersList[i].grade + " / "
+                                + developersList[i].specialization +
+                            "</option>"
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function loadSubmittersList() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/sub", true);
+            xhr.responseType = 'json';
+
+            xhr.onload = () => {
+                let status = xhr.status;
+                if (status === 200) {
+                    let submittersList = xhr.response;
+                    let selectSubmitters = document.getElementById("selectSubmitters");
+
+                    for (let i = 0; i < submittersList.length; i++) {
+                        if (submittersList[i].position === "Admin") continue;
+                        selectSubmitters.innerHTML +=
+                            "<option value=\""
+                            + submittersList[i].id + "\">"
+                            + submittersList[i].fullName + " / "
+                            + submittersList[i].grade + " / "
+                            + submittersList[i].position +
+                            "</option>"
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function addNewProject() {
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', "/api/projects", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            let title = projectTitle.value;
+            let overview = projectOverview.value;
+            let initiationDate = initiation_date.value;
+            let completionDate = deadline_date.value;
+            let projectManager = null;
+            if (selectPM.value !== "null") projectManager = {"id": selectPM.value};
+
+            const team = [];
+            Array.from(document.querySelector("#selectDevelopers").options).forEach(function(option_element) {
+                if (option_element.selected === true) {
+                    let option_value = option_element.value;
+                    team.push({"id": option_value});
+                }
+            });
+
+            const submitters = [];
+            Array.from(document.querySelector("#selectSubmitters").options).forEach(function(option_element) {
+                if (option_element.selected === true) {
+                    let option_value = option_element.value;
+                    submitters.push({"id": option_value});
+                }
+            });
+
+            const params = {
+                title: title,
+                status: "Ongoing",
+                overview: overview,
+                initiationDate: initiationDate,
+                completionDate: completionDate,
+                projectManager: projectManager,
+                team: team,
+                submitters: submitters
+            };
+            xhr.onload = () => {
+                let url = "/projects";
+                window.location.href = url;
+            };
+            xhr.send(JSON.stringify(params));
+        }
+
+        document.getElementById("cancelBtn").addEventListener("click", function () {
+            let url = "/projects";
+            window.location.href = url;
+        });
+    </script>
+</body>
+</html>

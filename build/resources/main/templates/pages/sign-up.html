@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/sign-in-sign-up.html}">
+
+  <body>
+    <div layout:fragment="content">
+        <div class="row flex-center min-vh-100 py-5">
+            <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3">
+                <a class="d-flex flex-center text-decoration-none mb-4" href="/projects">
+                    <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block"><img th:src="@{/public/assets/img/icons/icon_0.png}" alt="phoenix" width="58" /></div>
+                </a>
+                <div class="text-center mb-7">
+                    <h3 class="text-1000">Sign Up</h3>
+                    <p class="text-700">Create your account</p>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-12 w-50">
+                        <a class="btn btn-soft-primary mb-3" href="/sign-up/dev">Developer's account</a>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center w-50">
+                        <a class="btn btn-soft-primary mb-3" href="/sign-up/sub">Submitter's account</a>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center w-50">
+                        <a class="btn btn-soft-primary mb-3" href="/sign-up/pm">Project manager's account</a>
+                    </div>
+                </div>
+                <div class="text-center"><a class="fs--1 fw-bold" th:href="@{'/sign-in'}">Sign in to an existing account</a></div>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>

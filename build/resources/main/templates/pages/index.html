@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main.html}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Home Page</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <a sec:authorize="hasAnyRole('ROLE_ADMIN')" th:href="@{'/admin'}">GO TO ADMIN PAGE</a>
+        <h2>WELCOME TO THE MAIN PAGE, <span th:text="${#authentication.principal.fullName}"></span>!</h2>
+    </div>
+</body>
+</html>
