@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main.html}">
+<head>
+    <title>Project Tickets</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <input type="hidden" id="projectId" th:value="${projectId}">
+        <div class="row">
+            <!-- ===============================================-->
+            <!--    BREADCRUMB -->
+            <!-- ===============================================-->
+
+            <nav aria-label="breadcrumb" class="m-3" style="--phoenix-breadcrumb-divider: '&gt;';">
+                <ol class="breadcrumb mb-0" id="breadcrumb">
+
+                </ol>
+            </nav>
+
+            <div class="col-3">
+                <div class="d-flex flex-column justify-content-between col-12">
+                    <div class="row mt-5" id="main">
+                        <div class="row" id="projectTitle">
+
+                        </div>
+                        <div class="row">
+                            <h4 class="text-bold text-800 my-5">
+                                All project tickets are displayed here
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-7">
+                <div class="row">
+                    <div class="col-4 mx-auto">
+                        <div class="row" id="chart2">
+                            <h4 class="text-bold text-center text-800 mb-3">
+                                Type
+                            </h4>
+                            <!-- ===============================================-->
+                            <!--    DONUT STATUS CHART -->
+                            <!-- ===============================================-->
+                            <div id="donutChartType" style="min-height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" class="echart" _echarts_instance_="ec_1673269516976"><div style="position: relative; width: 304px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+                                <canvas data-zr-dom-id="zr_0" width="400" height="400" style="position: absolute; left: 0px; top: 0px; width: 304px; height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                            </div>
+                                <div class="" style="position: absolute; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 10px; transition: opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgb(255, 255, 255); border-width: 1px; border-radius: 4px; color: rgb(102, 102, 102); font: 14px / 21px &quot;Microsoft YaHei&quot;; padding: 10px; top: 0px; left: 0px; transform: translate3d(37px, 173px, 0px); border-color: rgb(84, 112, 198); pointer-events: none; visibility: hidden; opacity: 0;">
+                                    <div style="margin: 0px 0 0;line-height:1;">
+                                        <div style="margin: 10px 0 0;line-height:1;">
+                                            <div style="margin: 0px 0 0;line-height:1;">
+                                                <span style="display:inline-block; margin-right:4px; border-radius:10px; width:10px; height:10px; background-color:#5470c6;"></span>
+                                                <span style="font-size:14px; color:#666; font-weight:400; margin-left:2px"></span>
+                                                <span style="float:right; margin-left:20px; font-size:14px; color:#666; font-weight:900"></span>
+                                                <div style="clear:both"></div>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                        <div style="clear:both"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Donut Chart -->
+                        </div>
+                    </div>
+                    <div class="col-4 mx-auto">
+                        <div class="row" id="chart">
+                            <h4 class="text-bold text-center text-800 mb-3">
+                                Status
+                            </h4>
+                            <!-- ===============================================-->
+                            <!--    DONUT STATUS CHART -->
+                            <!-- ===============================================-->
+                            <div id="donutChartStatus" style="min-height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" class="echart" _echarts_instance_="ec_1673269516976"><div style="position: relative; width: 304px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+                                <canvas data-zr-dom-id="zr_0" width="400" height="400" style="position: absolute; left: 0px; top: 0px; width: 304px; height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                            </div>
+                                <div class="" style="position: absolute; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 10px; transition: opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgb(255, 255, 255); border-width: 1px; border-radius: 4px; color: rgb(102, 102, 102); font: 14px / 21px &quot;Microsoft YaHei&quot;; padding: 10px; top: 0px; left: 0px; transform: translate3d(37px, 173px, 0px); border-color: rgb(84, 112, 198); pointer-events: none; visibility: hidden; opacity: 0;">
+                                    <div style="margin: 0px 0 0;line-height:1;">
+                                        <div style="margin: 10px 0 0;line-height:1;">
+                                            <div style="margin: 0px 0 0;line-height:1;">
+                                                <span style="display:inline-block; margin-right:4px; border-radius:10px; width:10px; height:10px; background-color:#5470c6;"></span>
+                                                <span style="font-size:14px; color:#666; font-weight:400; margin-left:2px"></span>
+                                                <span style="float:right; margin-left:20px; font-size:14px; color:#666; font-weight:900"></span>
+                                                <div style="clear:both"></div>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                        <div style="clear:both"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Donut Chart -->
+                        </div>
+                    </div>
+                    <div class="col-4 mx-auto">
+                        <div class="row" id="chart1">
+                            <h4 class="text-bold text-center text-800 mb-3">
+                                Priority
+                            </h4>
+                            <!-- ===============================================-->
+                            <!--    DONUT PRIORITY CHART -->
+                            <!-- ===============================================-->
+                            <div id="donutChartPriority" style="min-height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" class="echart" _echarts_instance_="ec_1673269516976"><div style="position: relative; width: 304px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+                                <canvas data-zr-dom-id="zr_0" width="400" height="400" style="position: absolute; left: 0px; top: 0px; width: 304px; height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                            </div>
+                                <div class="" style="position: absolute; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 10px; transition: opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgb(255, 255, 255); border-width: 1px; border-radius: 4px; color: rgb(102, 102, 102); font: 14px / 21px &quot;Microsoft YaHei&quot; padding: 10px; top: 0px; left: 0px; transform: translate3d(37px, 173px, 0px); border-color: rgb(84, 112, 198); pointer-events: none; visibility: hidden; opacity: 0;">
+                                    <div style="margin: 0px 0 0;line-height:1;">
+                                        <div style="margin: 10px 0 0;line-height:1;">
+                                            <div styledasd="margin: 0px 0 0;line-height:1;">
+                                                <span style="display:inline-block; margin-right:4px; border-radius:10px; width:10px; height:10px; background-color:#5470c6;"></span>
+                                                <span style="font-size:14px; color:#666; font-weight:400; margin-left:2px"></span>
+                                                <span style="float:right; margin-left:20px; font-size:14px; color:#666; font-weight:900"></span>
+                                                <div style="clear:both"></div>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                        <div style="clear:both"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Donut Chart -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto d-flex flex-column justify-content-start">
+                <div class="row align-items-center justify-content-between g-3 mb-3">
+                    <div class="col-auto">
+                        <div class="d-flex align-items-center">
+                            <!-- ===============================================-->
+                            <!--    ADD TICKET MODAL -->
+                            <!-- ===============================================-->
+                            <button class="btn btn-primary" sec:authorize="hasAnyRole('ADMIN', 'SUB')" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-plus me-2"></i>Add new ticket</button>
+                            <div class="modal fade modal-md" id="staticBackdrop" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-primary">
+                                            <h5 class="modal-title text-white" id="staticBackdropLabel"><i class="fa-solid fa-plus me-2"></i>Add new ticket</h5>
+                                            <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1 text-white"></span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="row g-3 mb-3 mt-3">
+                                                <div class="row my-2">
+                                                    <div class="col-sm-6 col-md-6">
+                                                        <div class="form-floating">
+                                                            <input class="form-control" id="ticketTitle" type="text" placeholder="Ticket title" />
+                                                            <label for="ticketTitle">Ticket title</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-md-6">
+                                                        <div class="form-floating">
+                                                            <select class="form-select" id="selectType">
+                                                                <option selected="selected">Select ticket type</option>
+                                                                <option value="null">N/A</option>
+                                                                <option value="Bug">Bug</option>
+                                                                <option value="Incident">Incident</option>
+                                                                <option value="Change">Change request</option>
+                                                                <option value="Feature">Feature request</option>
+                                                            </select>
+                                                            <label for="selectPriority">Ticket Type</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row my-2">
+                                                    <div class="col-sm-6 col-md-6">
+                                                        <div class="form-floating">
+                                                            <select class="form-select" id="selectPriority">
+                                                                <option selected="selected">Select priority</option>
+                                                                <option value="Low">Low</option>
+                                                                <option value="Medium">Medium</option>
+                                                                <option value="High">High</option>
+                                                                <option value="Critical">Critical</option>
+                                                            </select>
+                                                            <label for="selectPriority">Ticket Priority</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-md-6">
+                                                        <div class="flatpickr-input-container">
+                                                            <div class="form-floating">
+                                                                <input class="form-control datetimepicker" id="deadline_date" type="text" placeholder="dd/mm/yyyy hour : minute" data-options='{"enableTime":true,"dateFormat":"Z","disableMobile":true}' />
+                                                                <label class="ps-6" for="deadline_date">Deadline</label><span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row my-2">
+                                                    <div class="col-sm-12 col-md-12 gy-2">
+                                                        <div class="form-floating">
+                                                            <textarea class="form-control" id="ticketDescription" placeholder="Provide ticket description here" style="height: 100px"></textarea>
+                                                            <label for="ticketDescription">Ticket Description</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-outline-primary" id="cancelBtn" type="button" data-bs-dismiss="modal">Cancel</button>
+                                            <button class="btn btn-primary" type="button" onclick="addNewTicket()">Create</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="row">
+                <div id="members" data-list='{"valueNames":["", "full_name","email","current_role"],"page":10,"pagination":true}'>
+                    <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 mb-3  mt-2 position-relative top-1">
+                        <div class="table-responsive scrollbar ms-n1 ps-1" id="tableTitles">
+                            <table class="table table-md bg-white border-x border-y border-200 fs--1 mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="white-space-nowrap fs--1 align-middle ps-0 mx-3" style="width:5%"></th>
+                                    <th class="align-middle pe-3 ms-3" scope="col" style="width:20%; min-width:200px;">Title</th>
+                                    <th class="sort align-middle pe-3 ms-3" scope="col" style="width:20%; min-width:200px;">Type</th>
+                                    <th class="sort align-middle pe-3" scope="col" style="width:20%; min-width:200px;">Priority</th>
+                                    <th class="sort align-middle pe-3" scope="col" style="width:20%; min-width:200px;">Creation date</th>
+                                    <th class="sort align-middle pe-3" scope="col" style="width:20%; min-width:200px;">Deadline</th>
+                                    <th class="sort align-middle pe-3" scope="col" style="width:20%; min-width:200px;">Owner</th>
+                                    <th class="sort align-middle pe-3" scope="col" style="width:25%; min-width:200px;">Link</th>
+                                </tr>
+                                </thead>
+                                <tbody class="list" id="table-latest-review-body">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                            <div class="col-auto d-flex">
+                                <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                            </div>
+                            <div class="col-auto d-flex">
+                                <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+                                <ul class="mb-0 pagination"></ul>
+                                <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script layout:fragment="script" type="text/javascript">
+
+        loadDefaultTicketList();
+
+        function loadDefaultTicketList() {
+            let xhr = new XMLHttpRequest();
+            const projectId = document.getElementById("projectId").value;
+            xhr.open('GET', "/api/projects/" + projectId, true);
+            xhr.responseType = 'json';
+            renderTicketData(xhr);
+            xhr.send();
+        }
+
+        function renderTicketData(xhr) {
+            xhr.onload = () => {
+                let status = xhr.status;
+                let tableTitles = document.getElementById("members");
+                let title = document.getElementById("projectTitle");
+                let breadcrumb = document.getElementById("breadcrumb");
+                let table = document.getElementById("table-latest-review-body");
+
+                if (status === 200) {
+                    let project = xhr.response;
+
+                    title.innerHTML = "<h2 className=\"text-bold text-1100 mb-5\">" + project.title + " tickets<span class=\"fw-normal text-700 ms-3\">(" + project.tickets.length + ")</span></h2>"
+                    breadcrumb.innerHTML =
+                        "        <li className=\"breadcrumb-item\" class='ms-3'><a href=\"/projects\">All projects</a>  > </li>\n" +
+                        "        <li className=\"breadcrumb-item\" class='ms-3'><a href=\"/projects/" + project.id + "\">" + project.title + "</a>  > </li>\n" +
+                        "        <li className=\"breadcrumb-item active\" class='ms-3'><a href=\"/tickets/project/" + project.id + "\">Tickets</a></li>\n";
+                    table.innerHTML = "";
+
+
+                    let ticketList = project.tickets;
+
+                    if (ticketList !== null) {
+                        for (let i = 0; i < ticketList.length; i++) {
+
+                            let owner = ticketList[i].owner === null ? "N/A" : ticketList[i].owner.fullName;
+                            let ticketType = ticketList[i].type === "null" || ticketList[i].type === null ? "N/A" : ticketList[i].type;
+                            let ticketPriority = ticketList[i].priority === "null" || ticketList[i].priority === null ? "N/A" : ticketList[i].priority;
+
+                            let creationDate = formatDateTime(ticketList[i].creationDate);
+                            let deadline = formatDateTime(ticketList[i].deadline);
+
+                            let ticketTypeTD = "";
+                            switch(ticketType) {
+                                case ("Incident"): ticketTypeTD =
+                                    "    <td class=\"align-middle white-space-nowrap ms-3\">" +
+                                    "        <span class=\"d-flex align-items-center text-900 text-hover-1000\">\n" +
+                                    "            <h6 class=\"mb-0 fw-bold text-danger\">" + ticketType + "</h6>\n" +
+                                    "        </span>" +
+                                    "    </td>\n";
+                                    break;
+                                case ("Feature"): ticketTypeTD =
+                                    "    <td class=\"align-middle white-space-nowrap ms-3\">" +
+                                    "        <span class=\"d-flex align-items-center text-900 text-hover-1000 text-primary\">\n" +
+                                    "            <h6 class=\"mb-0 fw-semi-bold text-primary\">" + ticketType + "</h6>\n" +
+                                    "        </span>" +
+                                    "    </td>\n";
+                                    break;
+                                case ("Bug"): ticketTypeTD =
+                                    "    <td class=\"align-middle white-space-nowrap ms-3\">" +
+                                    "        <span class=\"d-flex align-items-center text-900 text-hover-1000\">\n" +
+                                    "            <h6 class=\"mb-0 fw-semi-bold text-warning\">" + ticketType + "</h6>\n" +
+                                    "        </span>" +
+                                    "    </td>\n";
+                                    break;
+                                case ("Change"): ticketTypeTD =
+                                    "    <td class=\"align-middle white-space-nowrap ms-3\">" +
+                                    "        <span class=\"d-flex align-items-center text-900 text-hover-1000\">\n" +
+                                    "            <h6 class=\"mb-0 fw-bold text-info\">" + ticketType + "</h6>\n" +
+                                    "        </span>" +
+                                    "    </td>\n";
+                                    break;
+                                default: ticketTypeTD =
+                                    "    <td class=\"align-middle white-space-nowrap ms-3\">" +
+                                    "        <span class=\"d-flex align-items-center text-900 text-hover-1000\">\n" +
+                                    "            <h6 class=\"mb-0 fw-bold\">" + ticketType + "</h6>\n" +
+                                    "        </span>" +
+                                    "    </td>\n";
+                            }
+
+                            let ticketPriorityTD = "";
+                            switch(ticketPriority) {
+                                case ("Low"): ticketPriorityTD =
+                                    "    <td class=\"align-middle white-space-nowrap ms-3\">" +
+                                    "        <span class=\"d-flex align-items-center text-900 text-hover-1000\">\n" +
+                                    "            <h6 class=\"mb-0 fw-semi-bold text-success\">" + ticketPriority + "</h6>\n" +
+                                    "        </span>" +
+                                    "    </td>\n";
+                                    break;
+                                case ("Medium"): ticketPriorityTD =
+                                    "    <td class=\"align-middle white-space-nowrap ms-3\">" +
+                                    "        <span class=\"d-flex align-items-center text-900 text-hover-1000\">\n" +
+                                    "            <h6 class=\"mb-0 fw-semi-bold text-warning\">" + ticketPriority + "</h6>\n" +
+                                    "        </span>" +
+                                    "    </td>\n";
+                                    break;
+                                case ("High"): ticketPriorityTD =
+                                    "    <td class=\"align-middle white-space-nowrap ms-3\">" +
+                                    "        <span class=\"d-flex align-items-center text-900 text-hover-1000\">\n" +
+                                    "            <h6 class=\"mb-0 fw-semi-bold text-danger\">" + ticketPriority + "</h6>\n" +
+                                    "        </span>" +
+                                    "    </td>\n";
+                                    break;
+                                case ("Critical"): ticketPriorityTD =
+                                    "    <td class=\"align-middle white-space-nowrap ms-3\">" +
+                                    "        <span class=\"d-flex align-items-center text-900 text-hover-1000\">\n" +
+                                    "            <h6 class=\"mb-0 fw-bold text-danger\">" + ticketPriority + "</h6>\n" +
+                                    "        </span>" +
+                                    "    </td>\n";
+                                    break;
+                            }
+
+                            table.innerHTML +=
+                                "<tr class=\"hover-actions-trigger btn-reveal-trigger position-static\">\n" +
+                                "    <td class=\"align-middle white-space-nowrap\">" +
+                                "        <span class=\"d-flex align-items-center text-900 text-hover-1000\">\n" +
+                                "            <h6 class=\"mb-0 ms-3 fw-semi-bold\">" + (i + 1) + "</h6>\n" +
+                                "        </span>" +
+                                "    </td>\n" +
+                                "    <td class=\"align-middle white-space-nowrap ms-3\">" +
+                                "        <span class=\"d-flex align-items-center text-900 text-hover-1000\" href=\"#\">\n" +
+                                "            <h6 class=\"mb-0 fw-semi-bold\">" + ticketList[i].title + "</h6>\n" +
+                                "        </span>" +
+                                     ticketTypeTD +
+                                     ticketPriorityTD +
+                                "    <td class=\"align-middle white-space-nowrap\">" +
+                                "        <span class=\"d-flex align-items-center text-900 text-hover-1000\" href=\"#\">\n" +
+                                "            <h6 class=\"mb-0 fw-semi-bold\">" + creationDate + "</h6>\n" +
+                                "        </span>" +
+                                "    </td>\n" +
+                                "    <td class=\"align-middle white-space-nowrap\">" +
+                                "        <span class=\"d-flex align-items-center text-900 text-hover-1000\" href=\"#\">\n" +
+                                "            <h6 class=\"mb-0 fw-semi-bold\">" + deadline + "</h6>\n" +
+                                "        </span>" +
+                                "    </td>\n" +
+                                "    <td class=\"align-middle white-space-nowrap\">" +
+                                "        <span class=\"d-flex align-items-center text-900 text-hover-1000\" href=\"#\">\n" +
+                                "            <h6 class=\"mb-0 fw-semi-bold\">" + owner + "</h6>\n" +
+                                "        </span>" +
+                                "    </td>\n" +
+                                "    <td class=\"align-middle white-space-nowrap\">" +
+                                "        <span class=\"d-flex align-items-center text-900 text-hover-1000\">\n" +
+                                "            <a class=\"mb-0 fw-semi-bold\" href='/tickets/" + ticketList[i].id + "'>Details</a>\n" +
+                                "        </span>" +
+                                "    </td>\n" +
+                                '</tr>';
+                        }
+                    } else {
+                        tableTitles.innerHTML =
+                            "<h5 class=\"text-900 mb-4\">Project does not have active tickets.</h5>";
+                    }
+
+                }
+            }
+        }
+
+        function formatDateTime(datetime) {
+            let formattedDateTime = "";
+            for (let i = 0; i < datetime.length - 3; i++) {
+                if (datetime.charAt(i) === "T") {
+                    formattedDateTime += " ";
+                } else {
+                    formattedDateTime += datetime.charAt(i);
+                }
+            }
+            return formattedDateTime;
+        }
+
+        function displayJSONObj() {
+            let project_id = projectId.value;
+            let title = ticketTitle.value;
+            let priority = selectPriority.value;
+            let creationDate = getCurrentDateTime();
+            let deadline = deadline_date.value;
+            let ticket_description = ticketDescription.value;
+
+            const params = {
+                projectId: project_id,
+                title: title,
+                content: ticket_description,
+                priority: priority,
+                status: "Pending",
+                creationDate: creationDate,
+                deadline: deadline
+            };
+
+            console.log(JSON.stringify(params));
+        }
+
+        function addNewTicket() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', "/api/tickets", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            let project_id = projectId.value;
+            let type = selectType.value;
+            let title = ticketTitle.value;
+            let priority = selectPriority.value;
+            let creationDate = getCurrentDateTime();
+            let deadline = deadline_date.value;
+            let ticket_description = ticketDescription.value;
+            // ADD COMMENTS TO TICKET MODEL
+            // let ownersComment = ownersComment.value;
+
+            const params = {
+                projectId: project_id,
+                type: type,
+                title: title,
+                content: ticket_description,
+                priority: priority,
+                status: "Pending",
+                creationDate: creationDate,
+                deadline: deadline
+            };
+
+            xhr.onload = () => {
+                selectType.value = "";
+                ticketTitle.value = "";
+                selectPriority.value = "";
+                deadline_date.value = "";
+                ticketDescription.value = "";
+
+                let cancelButton = document.getElementById("cancelBtn");
+                cancelButton.click();
+                loadDefaultTicketList();
+                renderChart();
+            };
+            xhr.send(JSON.stringify(params));
+        }
+
+        // function contains(arr, key, val) {
+        //     for (let i = 0; i < arr.length; i++) {
+        //         if (arr[i][key] === val) return true;
+        //     }
+        //     return false;
+        // }
+
+        function getCurrentDateTime() {
+            let date = new Date();
+
+            let year = date.getFullYear();
+            let month = ((date.getMonth() + 1) < 10 ? "0" : "") + (date.getMonth() + 1);
+            let day = (date.getDate() < 10 ? "0" : "") + date.getDate();
+            let hours = (date.getHours() < 10 ? "0" : "") + date.getHours();
+            let minutes = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+            let seconds = (date.getSeconds() < 10 ? "0" : "") + date.getSeconds();
+            return (year + "-" + month + "-" + day + "T" + hours + ":" + minutes + ":" + seconds);
+        }
+    </script>
+
+    <script layout:fragment="script2" type="text/javascript">
+        document.addEventListener("DOMContentLoaded", renderChart);
+
+        function renderChart() {
+            let xhr = new XMLHttpRequest();
+            const projectId = document.getElementById("projectId").value;
+            xhr.open('GET', "/api/projects/" + projectId, true);
+            xhr.responseType = 'json';
+
+            let typeNACount = 0;
+            let bugsCount = 0;
+            let incidentsCount = 0;
+            let changeRequestsCount = 0;
+            let featureRequestsCount = 0;
+
+            let pendingTicketsCount = 0;
+            let assignedTicketsCount = 0;
+            let inProgressTicketsCount = 0;
+            let closedTicketsCount = 0;
+
+            let priorityNACount = 0;
+            let priorityLowCount = 0;
+            let priorityMediumCount = 0;
+            let priorityHighCount = 0;
+            let priorityCriticalCount = 0;
+
+            xhr.onload = () => {
+                let status = xhr.status;
+
+                if (status === 200) {
+                    let project = xhr.response;
+                    let projectTickets = project.tickets;
+
+                    if (projectTickets !== null && projectTickets.length > 0) {
+                        for (let i = 0; i < projectTickets.length; i++) {
+                            let ticketType = projectTickets[i].type;
+                            switch (ticketType) {
+                                case ("null"):
+                                    typeNACount++;
+                                    break;
+                                case ("Bug"):
+                                    bugsCount++;
+                                    break;
+                                case ("Incident"):
+                                    incidentsCount++;
+                                    break;
+                                case ("Change"):
+                                    changeRequestsCount++;
+                                    break;
+                                case ("Feature"):
+                                    featureRequestsCount++;
+                                    break;
+                            }
+                        }
+
+                        for (let i = 0; i < projectTickets.length; i++) {
+                            let ticketStatus = projectTickets[i].status;
+                            switch (ticketStatus) {
+                                case ("Pending"):
+                                    pendingTicketsCount++;
+                                    break;
+                                case ("Assigned"):
+                                    assignedTicketsCount++;
+                                    break;
+                                case ("In Progress"):
+                                    inProgressTicketsCount++;
+                                    break;
+                                case ("Closed"):
+                                    closedTicketsCount++;
+                                    break;
+                            }
+                        }
+
+                        for (let i = 0; i < projectTickets.length; i++) {
+                            let ticketPriority = projectTickets[i].priority;
+                            switch (ticketPriority) {
+                                case ("N/A"):
+                                    priorityNACount++;
+                                    break;
+                                case ("Low"):
+                                    priorityLowCount++;
+                                    break;
+                                case ("Medium"):
+                                    priorityMediumCount++;
+                                    break;
+                                case ("High"):
+                                    priorityHighCount++;
+                                    break;
+                                case ("Critical"):
+                                    priorityCriticalCount++;
+                                    break;
+                            }
+                        }
+
+                        echarts.init(document.querySelector("#donutChartType")).setOption({
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                top: '5%',
+                                left: 'center'
+                            },
+                            series: [{
+                                type: 'pie',
+                                radius: ['40%', '70%'],
+                                avoidLabelOverlap: false,
+                                label: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    label: {
+                                        show: true,
+                                        fontSize: '18',
+                                        fontWeight: 'bold'
+                                    }
+                                },
+                                labelLine: {
+                                    show: false
+                                },
+                                data: [
+                                    {
+                                        value: typeNACount,
+                                        name: "N/A"
+                                    },
+                                    {
+                                        value: bugsCount,
+                                        name: "Bugs"
+                                    },
+                                    {
+                                        value: incidentsCount,
+                                        name: "Incidents"
+                                    },
+                                    {
+                                        value: changeRequestsCount,
+                                        name: "Change Requests"
+                                    },
+                                    {
+                                        value: featureRequestsCount,
+                                        name: "Feature Requests"
+                                    }
+                                ],
+                            }]
+                        });
+
+                        echarts.init(document.querySelector("#donutChartStatus")).setOption({
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                top: '5%',
+                                left: 'center'
+                            },
+                            series: [{
+                                type: 'pie',
+                                radius: ['40%', '70%'],
+                                avoidLabelOverlap: false,
+                                label: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    label: {
+                                        show: true,
+                                        fontSize: '18',
+                                        fontWeight: 'bold'
+                                    }
+                                },
+                                labelLine: {
+                                    show: false
+                                },
+                                data: [
+                                    {
+                                        value: pendingTicketsCount,
+                                        name: "Pending"
+                                    },
+                                    {
+                                        value: assignedTicketsCount,
+                                        name: "Assigned"
+                                    },
+                                    {
+                                        value: inProgressTicketsCount,
+                                        name: "In Progress"
+                                    },
+                                    {
+                                        value: closedTicketsCount,
+                                        name: "Closed"
+                                    }
+                                ],
+                            }]
+                        });
+
+                        echarts.init(document.querySelector("#donutChartPriority")).setOption({
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                top: '5%',
+                                left: 'center'
+                            },
+                            series: [{
+                                type: 'pie',
+                                radius: ['40%', '70%'],
+                                avoidLabelOverlap: false,
+                                label: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    label: {
+                                        show: true,
+                                        fontSize: '18',
+                                        fontWeight: 'bold'
+                                    }
+                                },
+                                labelLine: {
+                                    show: false
+                                },
+                                data: [
+                                    {
+                                        value: priorityNACount,
+                                        name: "N/A"
+                                    },
+                                    {
+                                        value: priorityLowCount,
+                                        name: "Low"
+                                    },
+                                    {
+                                        value: priorityMediumCount,
+                                        name: "Medium"
+                                    },
+                                    {
+                                        value: priorityHighCount,
+                                        name: "High"
+                                    },
+                                    {
+                                        value: priorityCriticalCount,
+                                        name: "Critical"
+                                    }
+                                ],
+                            }]
+                        });
+                    } else {
+                        document.getElementById("chart").innerHTML =
+                            "<h5 class=\"text-900 mb-4\">Not enough tickets to render the chart.</h5>";
+                        document.getElementById("chart1").innerHTML =
+                            "<h5 class=\"text-900 mb-4\">Not enough tickets to render the chart.</h5>";
+                    }
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

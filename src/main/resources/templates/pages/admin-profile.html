@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main.html}">
+<head>
+    <title>Project Tickets</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="container-small">
+            <div class="row align-items-center justify-content-between g-3 mb-4">
+                <div class="col-auto">
+                    <h2 class="mb-0">Profile</h2>
+                </div>
+                <div class="col-auto">
+                    <div class="row g-2 g-sm-3">
+                        <div class="col-auto">
+                            <button class="btn btn-phoenix-primary" onclick="editUserInfo()"><span class="far fa-edit me-2"></span>Edit info</button>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-phoenix-secondary" onclick="changePassword()"><span class="fas fa-key me-2"></span>Change password</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-3 mb-6">
+                <div class="col-12">
+                    <div class="card h-100">
+                        <div class="card-body" id="card-main">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script layout:fragment="script" type="text/javascript">
+
+        loadProfileData();
+
+        function loadProfileData() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/users/profile", true);
+            xhr.responseType = 'json';
+            renderProfileData(xhr);
+            xhr.send();
+        }
+
+        function renderProfileData(xhr) {
+            xhr.onload = () => {
+                let status = xhr.status;
+                let cardMain = document.getElementById("card-main");
+
+                if (status === 200) {
+                    let admin = xhr.response;
+
+                    cardMain.innerHTML =
+                        "<div class=\"border-bottom border-dashed border-300 pb-4\">\n" +
+                        "    <div class=\"row align-items-center g-3 g-sm-5 text-center text-sm-start\">\n" +
+                        "        <div class=\"col-12 col-sm-auto flex-1\">\n" +
+                        "            <h3>" + admin.fullName + "</h3>\n" +
+                        "            <p class=\"text-800\">Admin</p>\n" +
+                        "        </div>\n" +
+                        "    </div>\n" +
+                        "</div>\n" +
+                        "<div class=\"d-flex flex-between-center pt-4\">\n" +
+                        "    <div>\n" +
+                        "        <h6 class=\"mb-2 text-800\">Current role</h6>\n" +
+                        "        <h4 class=\"fs-1 text-1000 mb-0\">Admin</h4>\n" +
+                        "    </div>\n" +
+                        "    <div class=\"text-end\">\n" +
+                        "        <h6 class=\"mb-2 text-800\">Email</h6>\n" +
+                        "        <h4 class=\"fs-1 text-1000 mb-0\">" + admin.email + "</h4>\n" +
+                        "    </div>\n" +
+                        "</div>"
+                }
+            }
+        }
+    </script>
+</body>
+</html>

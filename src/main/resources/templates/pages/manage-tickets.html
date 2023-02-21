@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main.html}">
+<head>
+    <title>Manage tickets</title>
+</head>
+<body>
+    <div layout:fragment="content" onload="renderPage()">
+        <div class="row">
+            <div class="d-flex flex-column justify-content-between col-sm-3 col-md-3">
+                <div class="row mt-5" id="generalData">
+
+                </div>
+                <div class="row my-5">
+                    <hr>
+                </div>
+                <div class="row mb-5">
+                    <div class="row me-5">
+                        <div class="col col-auto">
+                            <div class="search-box">
+                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                    <input class="form-control search-input search" type="search" placeholder="Search projects" aria-label="Search" />
+                                    <span class="fas fa-search search-box-icon"></span>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9 col-md-9 mx-auto">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="row text-center">
+                            <h3 class="text-bold text-1100 my-5">Ticket Charts</h3>
+                        </div>
+                        <div class="col-4 mx-auto">
+                            <div class="row" id="chart2">
+                                <h4 class="text-bold text-center text-800 mb-3">
+                                    Type
+                                </h4>
+                                <!-- ===============================================-->
+                                <!--    DONUT STATUS CHART -->
+                                <!-- ===============================================-->
+                                <div id="donutChartType" style="min-height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" class="echart" _echarts_instance_="ec_1673269516976"><div style="position: relative; width: 304px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+                                    <canvas data-zr-dom-id="zr_0" width="400" height="400" style="position: absolute; left: 0px; top: 0px; width: 304px; height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                                </div>
+                                    <div class="" style="position: absolute; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 10px; transition: opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgb(255, 255, 255); border-width: 1px; border-radius: 4px; color: rgb(102, 102, 102); font: 14px / 21px &quot;Microsoft YaHei&quot;; padding: 10px; top: 0px; left: 0px; transform: translate3d(37px, 173px, 0px); border-color: rgb(84, 112, 198); pointer-events: none; visibility: hidden; opacity: 0;">
+                                        <div style="margin: 0px 0 0;line-height:1;">
+                                            <div style="margin: 10px 0 0;line-height:1;">
+                                                <div style="margin: 0px 0 0;line-height:1;">
+                                                    <span style="display:inline-block; margin-right:4px; border-radius:10px; width:10px; height:10px; background-color:#5470c6;"></span>
+                                                    <span style="font-size:14px; color:#666; font-weight:400; margin-left:2px"></span>
+                                                    <span style="float:right; margin-left:20px; font-size:14px; color:#666; font-weight:900"></span>
+                                                    <div style="clear:both"></div>
+                                                </div>
+                                                <div style="clear:both"></div>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Donut Chart -->
+                            </div>
+                        </div>
+                        <div class="col-4 mx-auto">
+                            <div class="row" id="chart">
+                                <h4 class="text-bold text-center text-800 mb-3">
+                                    Status
+                                </h4>
+                                <!-- ===============================================-->
+                                <!--    DONUT STATUS CHART -->
+                                <!-- ===============================================-->
+                                <div id="donutChartStatus" style="min-height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" class="echart" _echarts_instance_="ec_1673269516976"><div style="position: relative; width: 304px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+                                    <canvas data-zr-dom-id="zr_0" width="400" height="400" style="position: absolute; left: 0px; top: 0px; width: 304px; height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                                </div>
+                                    <div class="" style="position: absolute; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 10px; transition: opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgb(255, 255, 255); border-width: 1px; border-radius: 4px; color: rgb(102, 102, 102); font: 14px / 21px &quot;Microsoft YaHei&quot;; padding: 10px; top: 0px; left: 0px; transform: translate3d(37px, 173px, 0px); border-color: rgb(84, 112, 198); pointer-events: none; visibility: hidden; opacity: 0;">
+                                        <div style="margin: 0px 0 0;line-height:1;">
+                                            <div style="margin: 10px 0 0;line-height:1;">
+                                                <div style="margin: 0px 0 0;line-height:1;">
+                                                    <span style="display:inline-block; margin-right:4px; border-radius:10px; width:10px; height:10px; background-color:#5470c6;"></span>
+                                                    <span style="font-size:14px; color:#666; font-weight:400; margin-left:2px"></span>
+                                                    <span style="float:right; margin-left:20px; font-size:14px; color:#666; font-weight:900"></span>
+                                                    <div style="clear:both"></div>
+                                                </div>
+                                                <div style="clear:both"></div>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Donut Chart -->
+                            </div>
+                        </div>
+                        <div class="col-4 mx-auto">
+                            <div class="row" id="chart1">
+                                <h4 class="text-bold text-center text-800 mb-3">
+                                    Priority
+                                </h4>
+                                <!-- ===============================================-->
+                                <!--    DONUT PRIORITY CHART -->
+                                <!-- ===============================================-->
+                                <div id="donutChartPriority" style="min-height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" class="echart" _echarts_instance_="ec_1673269516976"><div style="position: relative; width: 304px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+                                    <canvas data-zr-dom-id="zr_0" width="400" height="400" style="position: absolute; left: 0px; top: 0px; width: 304px; height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                                </div>
+                                    <div class="" style="position: absolute; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 10px; transition: opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgb(255, 255, 255); border-width: 1px; border-radius: 4px; color: rgb(102, 102, 102); font: 14px / 21px &quot;Microsoft YaHei&quot; padding: 10px; top: 0px; left: 0px; transform: translate3d(37px, 173px, 0px); border-color: rgb(84, 112, 198); pointer-events: none; visibility: hidden; opacity: 0;">
+                                        <div style="margin: 0px 0 0;line-height:1;">
+                                            <div style="margin: 10px 0 0;line-height:1;">
+                                                <div styledasd="margin: 0px 0 0;line-height:1;">
+                                                    <span style="display:inline-block; margin-right:4px; border-radius:10px; width:10px; height:10px; background-color:#5470c6;"></span>
+                                                    <span style="font-size:14px; color:#666; font-weight:400; margin-left:2px"></span>
+                                                    <span style="float:right; margin-left:20px; font-size:14px; color:#666; font-weight:900"></span>
+                                                    <div style="clear:both"></div>
+                                                </div>
+                                                <div style="clear:both"></div>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Donut Chart -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xxl-4 g-3 mb-9" id="projectCards">
+
+            </div>
+            <div id="ticketModals">
+
+            </div>
+        </div>
+    </div>
+    <script layout:fragment="script" type="text/javascript">
+
+        renderPage();
+
+        function renderPage() {
+            loadGeneralData();
+            loadProjectCards();
+        }
+
+        function loadGeneralData() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/projects", true);
+            xhr.responseType = 'json';
+            xhr.onload = () => {
+                let status = xhr.status;
+                let generalData = document.getElementById("generalData");
+
+                if (status === 200) {
+                    let projects = xhr.response;
+
+                    if (projects !== null) {
+
+                        let totalTickets = 0;
+                        let totalDevelopers = 0;
+                        let totalSubmitters = 0;
+                        let unassignedTickets = 0;
+
+                        projects.forEach(
+                            project => {
+                                if (project.tickets !== null) totalTickets += project.tickets.length;
+                                if (project.team !== null ) totalDevelopers += project.team.length;
+                                if (project.submitters !== null) totalSubmitters += project.submitters.length;
+                                if (project.tickets !== null) {
+                                    project.tickets.forEach(ticket => function() {
+                                        if (ticket.status === null) unassignedTickets++;
+                                    });
+                                }
+                            });
+
+                        generalData.innerHTML =
+                            "<div class=\"row\">\n" +
+                            "    <h2 class=\"text-bold text-1100 mb-5\">Manage tickets</h2>\n" +
+                            "</div>\n" +
+                            "<div class=\"row\">\n" +
+                            "    <div class=\"row\">\n" +
+                            "        <div class=\"col-10 me-3\">\n" +
+                            "            <p class=\"700 mb-2\">\n" +
+                            "                Project you are assigned to:\n" +
+                            "            </p>\n" +
+                            "        </div>\n" +
+                            "        <div class=\"col-1 justify-content-start\">\n" +
+                            "            <h5 class=\"text-bold text-600 mb-3\">\n" +
+                                            projects.length +
+                            "            </h5>\n" +
+                            "        </div>\n" +
+                            "    </div>\n" +
+                            "    <div class=\"row\">\n" +
+                            "        <div class=\"col-10 me-3\">\n" +
+                            "            <p class=\"700 mb-2\">\n" +
+                            "                Total tickets across all projects:\n" +
+                            "            </p>\n" +
+                            "        </div>\n" +
+                            "        <div class=\"col-1 justify-content-start\">\n" +
+                            "            <h5 class=\"text-bold text-600 mb-3\">\n" +
+                                            totalTickets +
+                            "            </h5>\n" +
+                            "        </div>\n" +
+                            "    </div>\n" +
+                            "    <div class=\"row\">\n" +
+                            "        <div class=\"col-10 me-3\">\n" +
+                            "            <p class=\"text-700 mb-2\">\n" +
+                            "                Developers available across all projects:\n" +
+                            "            </p>\n" +
+                            "        </div>\n" +
+                            "        <div class=\"col-1 justify-content-start\">\n" +
+                            "            <h5 class=\"text-bold text-600 mb-3\">\n" +
+                                            totalDevelopers +
+                            "            </h5>\n" +
+                            "        </div>\n" +
+                            "    </div>\n" +
+                            "    <div class=\"row\">\n" +
+                            "        <div class=\"col-10 me-3\">\n" +
+                            "            <p class=\"text-700 mb-2\">\n" +
+                            "                Submitters available across all projects:\n" +
+                            "            </p>\n" +
+                            "        </div>\n" +
+                            "        <div class=\"col-1 justify-content-start\">\n" +
+                            "            <h5 class=\"text-bold text-600 mb-3\">\n" +
+                                            totalSubmitters +
+                            "            </h5>\n" +
+                            "        </div>\n" +
+                            "    </div>\n" +
+                            "    <div class=\"row\">\n" +
+                            "        <div class=\"col-10 me-3\">\n" +
+                            "            <p class=\"text-700 mb-2\">\n" +
+                            "                Unassigned tickets across all projects:\n" +
+                            "            </p>\n" +
+                            "        </div>\n" +
+                            "        <div class=\"col-1 justify-content-start\">\n" +
+                            "            <h5 class=\"text-bold text-600 mb-3\">\n" +
+                                            unassignedTickets +
+                            "            </h5>\n" +
+                            "        </div>\n" +
+                            "    </div>\n" +
+                            "</div>";
+                    }
+                }
+            }
+            xhr.send();
+        }
+
+        function loadProjectCards() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/projects", true);
+            xhr.responseType = 'json';
+            xhr.onload = () => {
+                let status = xhr.status;
+                let projectCards = document.getElementById("projectCards");
+                projectCards.innerHTML = "";
+
+                if (status === 200) {
+                    let projects = xhr.response;
+
+                    if (projects !== null) {
+                        projectCards.innerHTML = "";
+                        for (let i = 0; i < projects.length; i++) {
+                                let projectTicketsCount = 0;
+                                let projectDevelopers = 0;
+                                let projectSubmitters = 0;
+                                let projectUnassignedTickets = 0;
+
+                                let status = projects[i].status;
+
+                                if (projects[i].tickets !== null) {
+                                    projectTicketsCount = projects[i].tickets.length;
+                                }
+                                if (projects[i].team !== null ) {
+                                    projectDevelopers = projects[i].team.length;
+                                }
+                                if (projects[i].submitters !== null) {
+                                    projectSubmitters = projects[i].submitters.length;
+                                }
+                                if (projects[i].tickets !== null) {
+                                    projects[i].tickets.forEach(ticket => function() {
+                                        if (ticket.status === null) {
+                                            projectUnassignedTickets++;
+                                        }
+                                    });
+                                }
+
+                                switch(status) {
+                                    case "Inactive":
+                                        status =
+                                            "<span class=\"badge badge-phoenix fs--2 badge-phoenix-warning mb-3\">Inactive</span>\n";
+                                        break;
+                                    case "Ongoing":
+                                        status =
+                                            "<span class=\"badge badge-phoenix fs--2 badge-phoenix-primary mb-3\">Ongoing</span>\n";
+                                        break;
+                                    case "Cancelled":
+                                        status =
+                                            "<span class=\"badge badge-phoenix fs--2 badge-phoenix-secondary mb-3\">Cancelled</span>\n";
+                                        break;
+                                    case "Completed":
+                                        status =
+                                            "<span class=\"badge badge-phoenix fs--2 badge-phoenix-success mb-3\">Completed</span>\n";
+                                        break;
+                                }
+
+                                projectCards.innerHTML +=
+                                    "<div class=\"col\">\n" +
+                                    "    <div class=\"card h-100 hover-actions-trigger\">\n" +
+                                    "        <div class=\"card-body\">\n" +
+                                    "            <div class=\"d-flex align-items-center\">\n" +
+                                    "                <h4 class=\"mb-2 line-clamp-1 lh-sm flex-1 me-5\">" + projects[i].title + "</h4>\n" +
+                                    "                <div class=\"hover-actions top-0 end-0 mt-4 me-4\">\n" +
+                                    "                    <button id=\"modalOpenBtn" + projects[i].id + "\" class=\"btn btn-primary btn-icon flex-shrink-0\" data-bs-target=\"#modalForProject" + projects[i].id + "\" data-bs-toggle=\"modal\"><svg class=\"svg-inline--fa fa-chevron-right\" aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"chevron-right\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 512\" data-fa-i2svg=\"\"><path fill=\"currentColor\" d=\"M96 480c-8.188 0-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L242.8 256L73.38 86.63c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l192 192c12.5 12.5 12.5 32.75 0 45.25l-192 192C112.4 476.9 104.2 480 96 480z\"></path></svg><!-- <span class=\"fa-solid fa-chevron-right\"></span> Font Awesome fontawesome.com --></button>\n" +
+                                    "                </div>\n" +
+                                    "            </div>" + status +
+                                    "            <div class=\"d-flex align-items-center mb-2\"><span class=\"fa-solid far fa-file-code me-2 text-700 fs--1 fw-extra-bold\"></span>\n" +
+                                    "                <p class=\"fw-bold mb-0 text-truncate lh-1\">Tickets: <span class=\"fw-semi-bold ms-1\">" + projectTicketsCount + "</span></p>\n" +
+                                    "            </div>\n" +
+                                    "            <div class=\"d-flex align-items-center mb-2\"><svg class=\"svg-inline--fa fa-user me-2 text-700 fs--1 fw-extra-bold\" aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"user\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\" data-fa-i2svg=\"\"><path fill=\"currentColor\" d=\"M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z\"></path></svg><!-- <span class=\"fa-solid fa-user me-2 text-700 fs--1 fw-extra-bold\"></span> Font Awesome fontawesome.com -->\n" +
+                                    "                <p class=\"fw-bold mb-0 text-truncate lh-1\">Developers: <span class=\"fw-semi-bold ms-1\">" + projectDevelopers + "</span></p>\n" +
+                                    "            </div>\n" +
+                                    "            <div class=\"d-flex align-items-center mb-2\"><svg class=\"svg-inline--fa fa-user me-2 text-700 fs--1 fw-extra-bold\" aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"user\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\" data-fa-i2svg=\"\"><path fill=\"currentColor\" d=\"M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z\"></path></svg><!-- <span class=\"fa-solid fa-user me-2 text-700 fs--1 fw-extra-bold\"></span> Font Awesome fontawesome.com -->\n" +
+                                    "                <p class=\"fw-bold mb-0 text-truncate lh-1\">Submitters: <span class=\"fw-semi-bold ms-1\">" + projectSubmitters + "</span></p>\n" +
+                                    "            </div>\n" +
+                                    "            <div class=\"d-flex align-items-center mt-4\">\n" +
+                                    "                <p class=\"mb-0 fw-bold fs--1\">Initiation date:<span class=\"fw-semi-bold text-600 ms-1\">" + projects[i].initiationDate + "</span></p>\n" +
+                                    "            </div>\n" +
+                                    "            <div class=\"d-flex align-items-center mt-2\">\n" +
+                                    "                <p class=\"mb-0 fw-bold fs--1\">Completion date: <span class=\"fw-semi-bold text-600 ms-1\">" + projects[i].completionDate + "</span></p>\n" +
+                                    "            </div>\n" +
+                                    "            <div class=\"d-flex align-items-center mt-2\">\n" +
+                                    "                <a class=\"mb-0 fw-bold fs--1\" href=\"/projects/" + projects[i].id + "\">Details</a>\n" +
+                                    "            </div>\n" +
+                                    "        </div>\n" +
+                                    "    </div>\n" +
+                                    "</div>";
+                            }
+                        loadProjectTicketModals(projects);
+                    }
+                }
+            }
+            xhr.send();
+        }
+
+        function loadProjectTicketModals(projects) {
+            let ticketModals = document.getElementById("ticketModals");
+
+            if (projects !== null) {
+                ticketModals.innerHTML = "";
+                for (let i = 0; i < projects.length; i++) {
+                    let projectTickets = projects[i].tickets;
+
+                    if (projectTickets !== null && projectTickets.length > 0) {
+                        let status = null;
+                        switch(projects[i].status) {
+                            case "Inactive":
+                                status =
+                                    "<span class=\"badge badge-phoenix fs--2 badge-phoenix-warning h-25 mt-2\">Inactive</span>\n";
+                                break;
+                            case "Ongoing":
+                                status =
+                                    "<span class=\"badge badge-phoenix fs--2 badge-phoenix-primary h-25 mt-2\">Ongoing</span>\n";
+                                break;
+                            case "Cancelled":
+                                status =
+                                    "<span class=\"badge badge-phoenix fs--2 badge-phoenix-secondary h-25 mt-2\">Cancelled</span>\n";
+                                break;
+                            case "Completed":
+                                status =
+                                    "<span class=\"badge badge-phoenix fs--2 badge-phoenix-success h-25 mt-2\">Completed</span>\n";
+                                break;
+                        }
+
+                        ticketModals.innerHTML +=
+                            "<div class=\"modal fade modal-xl\" id=\"modalForProject" + projects[i].id + "\" tabindex=\"-1\" data-bs-backdrop=\"static\" aria-labelledby=\"staticBackdropLabel\" aria-hidden=\"true\">\n" +
+                            "    <div class=\"modal-dialog\">\n" +
+                            "        <div class=\"modal-content\">\n" +
+                            "            <div class=\"modal-header bg-secondary\">\n" +
+                            "                <div class=\"d-flex justify-content-start\">\n" +
+                            "                    <h5 class=\"modal-title text-white me-5\">" + projects[i].title + "</h5>\n" +
+                                                  status +
+                            "                </div>\n" +
+                            "                <button id=\"modalCloseBtn" + projects[i].id + "\" class=\"btn p-1\" type=\"button\" data-bs-dismiss=\"modal\" aria-label=\"Close\"><svg class=\"svg-inline--fa fa-xmark fs--1 text-white\" aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"xmark\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 512\" data-fa-i2svg=\"\"><path fill=\"currentColor\" d=\"M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z\"></path></svg><!-- <span class=\"fas fa-times fs--1 text-white\"></span> Font Awesome fontawesome.com --></button>\n" +
+                            "            </div>\n" +
+                            "            <div class=\"modal-body\">\n" +
+                            "            <h4 class=\"text-bold text-1100 mb-5 mt-3 text-center\">Unassigned tickets</h4>\n" +
+                            "                <div id=\"unassignedTicketsTableBody" + projects[i].id + "\" data-list='{\"valueNames\":[],\"page\":5,\"pagination\":true}'>\n" +
+                            "                    <div class=\"table-responsive\">\n" +
+                            "                        <table class=\"table table-striped table-sm fs--1 mb-0\">\n" +
+                            "                            <thead>\n" +
+                            "                               <tr>\n" +
+                            "                                   <th class=\"sort border-top ps-3\">Title</th>\n" +
+                            "                                   <th class=\"sort border-top\">Type</th>\n" +
+                            "                                   <th class=\"sort border-top\">Priority</th>\n" +
+                            "                                   <th class=\"sort border-top\">Status</th>\n" +
+                            "                                   <th class=\"sort border-top\">Creation date</th>\n" +
+                            "                                   <th class=\"sort border-top\">Deadline</th>\n" +
+                            "                                   <th class=\"sort border-top\">Owner</th>\n" +
+                            "                                   <th class=\"sort border-top\">Assignee</th>\n" +
+                            "                                   <th class=\"sort border-top ms-3\"></th>\n" +
+                            "                                   <th class=\"sort text-end align-middle pe-0 border-top\" scope=\"col\"></th>\n" +
+                            "                               </tr>\n" +
+                            "                            </thead>\n" +
+                            "                            <tbody class=\"list\" id=\"unassignedTicketsTableOfProject" + projects[i].id + "\">\n" +
+
+                            "                            </tbody>\n" +
+                            "                        </table>\n" +
+                            "                    </div>\n" +
+                            "                    <div class=\"row align-items-center justify-content-between py-2 pe-0 fs--1\">\n" +
+                            "                        <div class=\"col-auto d-flex\">\n" +
+                            "                            <p class=\"mb-0 d-none d-sm-block me-3 fw-semi-bold text-900\" data-list-info=\"data-list-info\"></p><a class=\"fw-semi-bold\" href=\"#!\" data-list-view=\"*\">View all<span class=\"fas fa-angle-right ms-1\" data-fa-transform=\"down-1\"></span></a><a class=\"fw-semi-bold d-none\" href=\"#!\" data-list-view=\"less\">View Less<span class=\"fas fa-angle-right ms-1\" data-fa-transform=\"down-1\"></span></a>\n" +
+                            "                        </div>\n" +
+                            "                        <div class=\"col-auto d-flex\">\n" +
+                            "                            <button class=\"page-link\" data-list-pagination=\"prev\"><span class=\"fas fa-chevron-left\"></span></button>\n" +
+                            "                            <ul class=\"mb-0 pagination\"></ul>\n" +
+                            "                            <button class=\"page-link pe-0\" data-list-pagination=\"next\"><span class=\"fas fa-chevron-right\"></span></button>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                </div>\n" +
+                            "                <div><hr></div>\n" +
+
+                            "            <h4 class=\"text-bold text-1100 mb-5 mt-5 text-center\">Assigned tickets</h4>\n" +
+                            "                <div id=\"assignedTicketsTableBody" + projects[i].id + "\" data-list='{\"valueNames\":[],\"page\":5,\"pagination\":true}'>\n" +
+                            "                    <div class=\"table-responsive\">\n" +
+                            "                        <table class=\"table table-striped table-sm fs--1 mb-0\">\n" +
+                            "                            <thead>\n" +
+                            "                               <tr>\n" +
+                            "                                   <th class=\"sort border-top ps-3\">Title</th>\n" +
+                            "                                   <th class=\"sort border-top\">Type</th>\n" +
+                            "                                   <th class=\"sort border-top\">Priority</th>\n" +
+                            "                                   <th class=\"sort border-top\">Status</th>\n" +
+                            "                                   <th class=\"sort border-top\">Creation date</th>\n" +
+                            "                                   <th class=\"sort border-top\">Deadline</th>\n" +
+                            "                                   <th class=\"sort border-top\">Owner</th>\n" +
+                            "                                   <th class=\"sort border-top\">Assignee</th>\n" +
+                            "                                   <th class=\"sort border-top ms-3\"></th>\n" +
+                            "                                   <th class=\"sort text-end align-middle pe-0 border-top\" scope=\"col\"></th>\n" +
+                            "                               </tr>\n" +
+                            "                            </thead>\n" +
+                            "                            <tbody class=\"list\" id=\"assignedTicketsTableOfProject" + projects[i].id + "\">\n" +
+
+                            "                            </tbody>\n" +
+                            "                        </table>\n" +
+                            "                    </div>\n" +
+                            "                    <div class=\"row align-items-center justify-content-between py-2 pe-0 fs--1\">\n" +
+                            "                        <div class=\"col-auto d-flex\">\n" +
+                            "                            <p class=\"mb-0 d-none d-sm-block me-3 fw-semi-bold text-900\" data-list-info=\"data-list-info\"></p><a class=\"fw-semi-bold\" href=\"#!\" data-list-view=\"*\">View all<span class=\"fas fa-angle-right ms-1\" data-fa-transform=\"down-1\"></span></a><a class=\"fw-semi-bold d-none\" href=\"#!\" data-list-view=\"less\">View Less<span class=\"fas fa-angle-right ms-1\" data-fa-transform=\"down-1\"></span></a>\n" +
+                            "                        </div>\n" +
+                            "                        <div class=\"col-auto d-flex\">\n" +
+                            "                            <button class=\"page-link\" data-list-pagination=\"prev\"><span class=\"fas fa-chevron-left\"></span></button>\n" +
+                            "                            <ul class=\"mb-0 pagination\"></ul>\n" +
+                            "                            <button class=\"page-link pe-0\" data-list-pagination=\"next\"><span class=\"fas fa-chevron-right\"></span></button>\n" +
+                            "                        </div>\n" +
+                            "                    </div>" +
+                            "                </div>\n" +
+                            "            </div>\n" +
+
+                            "            <div class=\"modal-footer\">\n" +
+                            "                <button class=\"btn btn-secondary btn-lg\" onclick=\"assignAllTickets(" + projects[i].id + ")\">Assign all</button>\n" +
+                            "            </div>\n" +
+                            "        </div>\n" +
+                            "    </div>\n" +
+                            "</div>";
+                        fillProjectTicketModals(projects[i]);
+                    } else {
+                        let status = null;
+                        switch(projects[i].status) {
+                            case "Inactive":
+                                status =
+                                    "<span class=\"badge badge-phoenix fs--2 badge-phoenix-warning h-25 mt-2\">Inactive</span>\n";
+                                break;
+                            case "Ongoing":
+                                status =
+                                    "<span class=\"badge badge-phoenix fs--2 badge-phoenix-primary h-25 mt-2\">Ongoing</span>\n";
+                                break;
+                            case "Cancelled":
+                                status =
+                                    "<span class=\"badge badge-phoenix fs--2 badge-phoenix-secondary h-25 mt-2\">Cancelled</span>\n";
+                                break;
+                            case "Completed":
+                                status =
+                                    "<span class=\"badge badge-phoenix fs--2 badge-phoenix-success h-25 mt-2\">Completed</span>\n";
+                                break;
+                        }
+
+                        ticketModals.innerHTML +=
+                            "<div class=\"modal fade modal-md\" id=\"modalForProject" + projects[i].id + "\" tabindex=\"-1\" data-bs-backdrop=\"static\" aria-labelledby=\"staticBackdropLabel\" aria-hidden=\"true\">\n" +
+                            "    <div class=\"modal-dialog\">\n" +
+                            "        <div class=\"modal-content\">\n" +
+                            "            <div class=\"modal-header bg-secondary\">\n" +
+                            "                <div class=\"d-flex justify-content-start\">\n" +
+                            "                    <h5 class=\"modal-title text-white me-5\">" + projects[i].title + "</h5>\n" +
+                                                    status +
+                            "                </div>\n" +
+                            "                <button class=\"btn p-1\" type=\"button\" data-bs-dismiss=\"modal\" aria-label=\"Close\"><svg class=\"svg-inline--fa fa-xmark fs--1 text-white\" aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"xmark\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 512\" data-fa-i2svg=\"\"><path fill=\"currentColor\" d=\"M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z\"></path></svg><!-- <span class=\"fas fa-times fs--1 text-white\"></span> Font Awesome fontawesome.com --></button>\n" +
+                            "            </div>\n" +
+                            "            <div class=\"modal-body\">\n" +
+                            "                <h5 class=\"text-900 my-4\">Project has no active tickets.</h5>\n" +
+                            "            </div>\n" +
+                            "        </div>\n" +
+                            "    </div>\n" +
+                            "</div>";
+                    }
+
+                }
+            } else {
+
+            }
+        }
+
+        function fillProjectTicketModals(project) {
+            let projectTickets = project.tickets;
+            let unassignedTicketsTableBody = document.getElementById("unassignedTicketsTableBody" + project.id);
+            let assignedTicketsTableBody = document.getElementById("assignedTicketsTableBody" + project.id);
+            let unassignedTicketsTable = document.getElementById("unassignedTicketsTableOfProject" + project.id);
+            let assignedTicketsTable = document.getElementById("assignedTicketsTableOfProject" + project.id);
+
+            if (projectTickets !== null) {
+                let unassignedTicketsCount = countUnassignedTickets(projectTickets);
+                let assignedTicketsCount = countAssignedTickets(projectTickets);
+                if (unassignedTicketsCount === 0) unassignedTicketsTableBody.innerHTML = "<h5 class=\"text-center text-bold text-600 mb-3\">Project has no unassigned tickets.</h5>";
+                if (assignedTicketsCount === 0) assignedTicketsTableBody.innerHTML = "<h5 class=\"text-center text-bold text-600 mb-3\">Project has no assigned tickets.</h5>";
+
+                for (let j = 0; j < projectTickets.length; j++) {
+                    let ticketStatus = projectTickets[j].status;
+                    let ticketType = projectTickets[j].type !== "null" && projectTickets[j].type !== null ? projectTickets[j].type : "N/A";
+                    let owner = projectTickets[j].owner !== null ? projectTickets[j].owner.fullName : "N/A";
+                    let assignee = projectTickets[j].assignee !== null ? projectTickets[j].assignee.fullName : "N/A";
+                    let creationDate = formatDateTime(projectTickets[j].creationDate);
+                    let deadline = formatDateTime(projectTickets[j].deadline);
+
+                    let selectAssignee = "";
+                    if (project.team != null && project.team.length > 0) {
+                        selectAssignee +=
+                            "<div>\n" +
+                            "    <select class=\"form-select\" id=\"selectDev" + project.id + "-" + projectTickets[j].id + "\">\n" +
+                            "        <option value=\"null\">N/A</option>\n";
+
+                        for (let k = 0; k < project.team.length; k++) {
+                            if (projectTickets[j].assignee !== null) {
+                                if (project.team[k].id === projectTickets[j].assignee.id) {
+                                    selectAssignee += "<option value=\"" + project.team[k].id + "\" selected>" + assignee + "</option>\n";
+                                } else {
+                                    selectAssignee += "<option value=\"" + project.team[k].id + "\">" + project.team[k].fullName + "</option>\n";
+                                }
+                            } else {
+                                selectAssignee += "<option value=\"" + project.team[k].id + "\">" + project.team[k].fullName + "</option>\n";
+                            }
+                        }
+                        selectAssignee +=
+                            "    </select>\n" +
+                            "</div>"
+                    } else {
+                        selectAssignee +=
+                            "<div>\n" +
+                            "    <select class=\"form-select\" id=\"selectPM\">\n" +
+                            "        <option>No developers available.</option>\n" +
+                            "    </select>\n" +
+                            "</div>";
+                    }
+
+                    let assignDevBtn =
+                        "<button class=\"btn btn-secondary btn-sm\" type=\"button\" onclick=\"assignDevToTicket(" + project.id + ", " + projectTickets[j].id + ")\">Assign</button>"
+
+                    let ticketTypeTD = "";
+                    switch (ticketType) {
+                        case ("Incident"): ticketTypeTD = "    <td class=\"align-middle text-danger\">" + ticketType + "</td>\n";
+                            break;
+                        case ("Feature"): ticketTypeTD = "    <td class=\"align-middle text-primary\">" + ticketType + "</td>\n";
+                            break;
+                        case ("Bug"): ticketTypeTD = "    <td class=\"align-middle text-warning\">" + ticketType + "</td>\n";
+                            break;
+                        case ("Change"): ticketTypeTD = "    <td class=\"align-middle text-info\">" + ticketType + "</td>\n";
+                            break;
+                        default: ticketTypeTD = "    <td class=\"align-middle\">" + ticketType + "</td>\n";
+                    }
+
+                    let ticketStatusTD = "";
+                    switch(ticketStatus) {
+                        case ("Pending"): ticketStatusTD = "    <td class=\"align-middle text-danger\">" + projectTickets[j].status + "</td>\n";
+                            break;
+                        case ("Assigned"): ticketStatusTD = "    <td class=\"align-middle text-primary\">" + projectTickets[j].status + "</td>\n";
+                            break;
+                        case ("In Progress"): ticketStatusTD = "    <td class=\"align-middle text-warning\">" + projectTickets[j].status + "</td>\n";
+                            break;
+                        case ("Closed"): ticketStatusTD = "    <td class=\"align-middle text-success\">" + projectTickets[j].status + "</td>\n";
+                            break;
+                    }
+
+                    let ticketPriorityTD = "";
+                    switch(projectTickets[j].priority) {
+                        case ("Low"): ticketPriorityTD = "    <td class=\"align-middle text-success\">" + projectTickets[j].priority + "</td>\n";
+                            break;
+                        case ("Medium"): ticketPriorityTD = "    <td class=\"align-middle text-warning\">" + projectTickets[j].priority + "</td>\n";
+                            break;
+                        case ("High"): ticketPriorityTD = "    <td class=\"align-middle text-danger\">" + projectTickets[j].priority + "</td>\n";
+                            break;
+                        case ("Critical"): ticketPriorityTD = "    <td class=\"align-middle text-bold text-danger-500\">" + projectTickets[j].priority + "</td>\n";
+                            break;
+                    }
+
+                    if (ticketStatus === "Pending") {
+                        unassignedTicketsTable.innerHTML +=
+                            "<tr>\n" +
+                            "    <td class=\"align-middle ps-3 title\">" + projectTickets[j].title + "</td>\n" +
+                                 ticketTypeTD +
+                                 ticketPriorityTD +
+                                 ticketStatusTD +
+                            "    <td class=\"align-middle\">" + creationDate + "</td>\n" +
+                            "    <td class=\"align-middle\">" + deadline + "</td>\n" +
+                            "    <td class=\"align-middle\">" + owner + "</td>\n" +
+                            "    <td class=\"align-middle\">" + selectAssignee + "</td>\n" +
+                            "    <td class=\"align-middle\">" + assignDevBtn + "</td>\n" +
+                            "    <td class=\"align-middle white-space-nowrap text-end pe-0\">\n" +
+                            "        <div class=\"font-sans-serif btn-reveal-trigger position-static\">\n" +
+                            "            <button class=\"btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2\" type=\"button\" data-bs-toggle=\"dropdown\" data-boundary=\"window\" aria-haspopup=\"true\" aria-expanded=\"false\" data-bs-reference=\"parent\"><svg class=\"svg-inline--fa fa-ellipsis fs--2\" aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"ellipsis\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\" data-fa-i2svg=\"\"><path fill=\"currentColor\" d=\"M120 256C120 286.9 94.93 312 64 312C33.07 312 8 286.9 8 256C8 225.1 33.07 200 64 200C94.93 200 120 225.1 120 256zM280 256C280 286.9 254.9 312 224 312C193.1 312 168 286.9 168 256C168 225.1 193.1 200 224 200C254.9 200 280 225.1 280 256zM328 256C328 225.1 353.1 200 384 200C414.9 200 440 225.1 440 256C440 286.9 414.9 312 384 312C353.1 312 328 286.9 328 256z\"></path></svg><!-- <span class=\"fas fa-ellipsis-h fs--2\"></span> Font Awesome fontawesome.com --></button>\n" +
+                            "            <div class=\"dropdown-menu dropdown-menu-end py-2\">" +
+                            "                <a class=\"dropdown-item\" href=\"/tickets/" + projectTickets[j].id + "\">Details</a>" +
+                            "            </div>\n" +
+                            "        </div>\n" +
+                            "    </td>\n" +
+                            "</tr>\n";
+                    } else {
+                        assignedTicketsTable.innerHTML +=
+                            "<tr>\n" +
+                            "    <td class=\"align-middle ps-3 title\">" + projectTickets[j].title + "</td>\n" +
+                                 ticketTypeTD +
+                                 ticketPriorityTD +
+                                 ticketStatusTD +
+                            "    <td class=\"align-middle\">" + creationDate + "</td>\n" +
+                            "    <td class=\"align-middle\">" + deadline + "</td>\n" +
+                            "    <td class=\"align-middle\">" + owner + "</td>\n" +
+                            "    <td class=\"align-middle\">" + selectAssignee + "</td>\n" +
+                            "    <td class=\"align-middle\">" + assignDevBtn + "</td>\n" +
+                            "    <td class=\"align-middle white-space-nowrap text-end pe-0\">\n" +
+                            "        <div class=\"font-sans-serif btn-reveal-trigger position-static\">\n" +
+                            "            <button class=\"btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2\" type=\"button\" data-bs-toggle=\"dropdown\" data-boundary=\"window\" aria-haspopup=\"true\" aria-expanded=\"false\" data-bs-reference=\"parent\"><svg class=\"svg-inline--fa fa-ellipsis fs--2\" aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"ellipsis\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\" data-fa-i2svg=\"\"><path fill=\"currentColor\" d=\"M120 256C120 286.9 94.93 312 64 312C33.07 312 8 286.9 8 256C8 225.1 33.07 200 64 200C94.93 200 120 225.1 120 256zM280 256C280 286.9 254.9 312 224 312C193.1 312 168 286.9 168 256C168 225.1 193.1 200 224 200C254.9 200 280 225.1 280 256zM328 256C328 225.1 353.1 200 384 200C414.9 200 440 225.1 440 256C440 286.9 414.9 312 384 312C353.1 312 328 286.9 328 256z\"></path></svg><!-- <span class=\"fas fa-ellipsis-h fs--2\"></span> Font Awesome fontawesome.com --></button>\n" +
+                            "            <div class=\"dropdown-menu dropdown-menu-end py-2\">" +
+                            "                <a class=\"dropdown-item\" href=\"/tickets/" + projectTickets[j].id + "\">Details</a>" +
+                            "            </div>\n" +
+                            "        </div>\n" +
+                            "    </td>\n" +
+                            "</tr>\n";
+                    }
+                }
+            } else {
+                unassignedTicketsTableBody.innerHTML =
+                    "<h5 class=\"text-center text-bold text-600 mb-3\">Project has no active tickets.</h5>";
+                assignedTicketsTableBody.innerHTML = "";
+            }
+        }
+
+        function assignDevToTicket(projectId, ticketId) {
+            let devId = document.getElementById("selectDev" + projectId + "-" + ticketId).value;
+            let xhr = new XMLHttpRequest();
+
+            xhr.open('PUT', "/api/tickets?ticket_id=" + ticketId + "&" + "dev_id=" + devId, true);
+
+            xhr.onload = () => {
+                let status = xhr.status;
+
+                if (status === 200) {
+                    document.getElementById("modalCloseBtn" + projectId).click();
+                    renderChart();
+                    renderPage();
+                    setTimeout(() => {
+                        // document.getElementById("modalForProject" + projectId).style.display="block";
+                        document.getElementById("modalOpenBtn" + projectId).click();
+                    }, 50);
+
+                }
+            }
+            xhr.send();
+        }
+
+        function assignDevsToTicketsByOne(projectId, ticketId) {
+            let devId = document.getElementById("selectDev" + projectId + "-" + ticketId).value;
+            let xhr = new XMLHttpRequest();
+            xhr.open('PUT', "/api/tickets?ticket_id=" + ticketId + "&" + "dev_id=" + devId, true);
+            xhr.send();
+        }
+
+        function assignAllTickets(projectId) {
+            let devSelects = document.querySelectorAll(".form-select");
+
+            devSelects.forEach((devSelect) => {
+                let devSelectId = devSelect.id;
+                if (devSelectId.includes("selectDev" + projectId + "-")) {
+                    let ticketId = "";
+                    let indexOfDivisor = devSelectId.indexOf("-");
+                    for (let i = indexOfDivisor + 1; i < devSelectId.length; i++) {
+                        ticketId += devSelectId.charAt(i);
+                    }
+                    console.log("Select id = " + devSelectId);
+                    console.log("Ticket id = " + ticketId);
+                    assignDevsToTicketsByOne(projectId, ticketId);
+                }
+            });
+            document.getElementById("modalCloseBtn" + projectId).click();
+            renderChart();
+            renderPage();
+            setTimeout(() => {
+                document.getElementById("modalOpenBtn" + projectId).click();
+            }, 50);
+        }
+
+        function countUnassignedTickets(tickets) {
+            if (tickets !== null) {
+                let unassignedTickets = 0;
+                for (let i = 0; i < tickets.length; i++) {
+                    if (tickets[i].status === "Pending") unassignedTickets++;
+                }
+                return unassignedTickets;
+            }
+            return null;
+        }
+
+        function countAssignedTickets(tickets) {
+            if (tickets !== null) {
+                let assignedTickets = 0;
+                for (let i = 0; i < tickets.length; i++) {
+                    if (tickets[i].status !== "Pending") assignedTickets++;
+                }
+                return assignedTickets;
+            }
+            return null;
+        }
+
+        function formatDateTime(datetime) {
+            let formattedDateTime = "";
+            for (let i = 0; i < datetime.length - 3; i++) {
+                if (datetime.charAt(i) === "T") {
+                    formattedDateTime += " ";
+                } else {
+                    formattedDateTime += datetime.charAt(i);
+                }
+            }
+            return formattedDateTime;
+        }
+
+        function contains(arr, key, val) {
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i][key] === val) return true;
+            }
+            return false;
+        }
+    </script>
+
+    <script layout:fragment="script2" type="text/javascript">
+        document.addEventListener("DOMContentLoaded", renderChart);
+
+        function renderChart() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/projects", true);
+            xhr.responseType = 'json';
+
+            let typeNACount = 0;
+            let bugsCount = 0;
+            let incidentsCount = 0;
+            let changeRequestsCount = 0;
+            let featureRequestsCount = 0;
+
+            let pendingTicketsCount = 0;
+            let assignedTicketsCount = 0;
+            let inProgressTicketsCount = 0;
+            let closedTicketsCount = 0;
+
+            let priorityNACount = 0;
+            let priorityLowCount = 0;
+            let priorityMediumCount = 0;
+            let priorityHighCount = 0;
+            let priorityCriticalCount = 0;
+
+            xhr.onload = () => {
+                let status = xhr.status;
+
+                if (status === 200) {
+                    let projects = xhr.response;
+                    console.log(projects)
+
+                    if (projects !== null) {
+
+                        for (let i = 0; i < projects.length; i++) {
+                            if (projects[i].tickets !== null && projects[i].tickets.length > 0) {
+                                for (let j = 0; j < projects[i].tickets.length; j++) {
+                                    let ticketType = projects[i].tickets[j].type;
+                                    switch (ticketType) {
+                                        case ("null"):
+                                            typeNACount++;
+                                            break;
+                                        case ("Bug"):
+                                            bugsCount++;
+                                            break;
+                                        case ("Incident"):
+                                            incidentsCount++;
+                                            break;
+                                        case ("Change"):
+                                            changeRequestsCount++;
+                                            break;
+                                        case ("Feature"):
+                                            featureRequestsCount++;
+                                            break;
+                                    }
+                                }
+
+                                for (let j = 0; j < projects[i].tickets.length; j++) {
+                                    let ticketStatus = projects[i].tickets[j].status;
+                                    switch (ticketStatus) {
+                                        case ("Pending"):
+                                            pendingTicketsCount++;
+                                            break;
+                                        case ("Assigned"):
+                                            assignedTicketsCount++;
+                                            break;
+                                        case ("In Progress"):
+                                            inProgressTicketsCount++;
+                                            break;
+                                        case ("Closed"):
+                                            closedTicketsCount++;
+                                            break;
+                                    }
+                                }
+
+                                for (let j = 0; j < projects[i].tickets.length; j++) {
+                                    let ticketPriority = projects[i].tickets[j].priority;
+                                    switch (ticketPriority) {
+                                        case ("N/A"):
+                                            priorityNACount++;
+                                            break;
+                                        case ("Low"):
+                                            priorityLowCount++;
+                                            break;
+                                        case ("Medium"):
+                                            priorityMediumCount++;
+                                            break;
+                                        case ("High"):
+                                            priorityHighCount++;
+                                            break;
+                                        case ("Critical"):
+                                            priorityCriticalCount++;
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+
+                        echarts.init(document.querySelector("#donutChartType")).setOption({
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                top: '5%',
+                                left: 'center'
+                            },
+                            series: [{
+                                type: 'pie',
+                                radius: ['40%', '70%'],
+                                avoidLabelOverlap: false,
+                                label: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    label: {
+                                        show: true,
+                                        fontSize: '18',
+                                        fontWeight: 'bold'
+                                    }
+                                },
+                                labelLine: {
+                                    show: false
+                                },
+                                data: [
+                                    {
+                                        value: typeNACount,
+                                        name: "N/A"
+                                    },
+                                    {
+                                        value: bugsCount,
+                                        name: "Bugs"
+                                    },
+                                    {
+                                        value: incidentsCount,
+                                        name: "Incidents"
+                                    },
+                                    {
+                                        value: changeRequestsCount,
+                                        name: "Change Requests"
+                                    },
+                                    {
+                                        value: featureRequestsCount,
+                                        name: "Feature Requests"
+                                    }
+                                ],
+                            }]
+                        });
+
+                        echarts.init(document.querySelector("#donutChartStatus")).setOption({
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                top: '5%',
+                                left: 'center'
+                            },
+                            series: [{
+                                type: 'pie',
+                                radius: ['40%', '70%'],
+                                avoidLabelOverlap: false,
+                                label: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    label: {
+                                        show: true,
+                                        fontSize: '18',
+                                        fontWeight: 'bold'
+                                    }
+                                },
+                                labelLine: {
+                                    show: false
+                                },
+                                data: [
+                                    {
+                                        value: pendingTicketsCount,
+                                        name: "Pending"
+                                    },
+                                    {
+                                        value: assignedTicketsCount,
+                                        name: "Assigned"
+                                    },
+                                    {
+                                        value: inProgressTicketsCount,
+                                        name: "In Progress"
+                                    },
+                                    {
+                                        value: closedTicketsCount,
+                                        name: "Closed"
+                                    }
+                                ],
+                            }]
+                        });
+
+                        echarts.init(document.querySelector("#donutChartPriority")).setOption({
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                top: '5%',
+                                left: 'center'
+                            },
+                            series: [{
+                                type: 'pie',
+                                radius: ['40%', '70%'],
+                                avoidLabelOverlap: false,
+                                label: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    label: {
+                                        show: true,
+                                        fontSize: '18',
+                                        fontWeight: 'bold'
+                                    }
+                                },
+                                labelLine: {
+                                    show: false
+                                },
+                                data: [
+                                    {
+                                        value: priorityNACount,
+                                        name: "N/A"
+                                    },
+                                    {
+                                        value: priorityLowCount,
+                                        name: "Low"
+                                    },
+                                    {
+                                        value: priorityMediumCount,
+                                        name: "Medium"
+                                    },
+                                    {
+                                        value: priorityHighCount,
+                                        name: "High"
+                                    },
+                                    {
+                                        value: priorityCriticalCount,
+                                        name: "Critical"
+                                    }
+                                ],
+                            }]
+                        });
+                    } else {
+                        document.getElementById("chart").innerHTML =
+                            "<h5 class=\"text-900 mb-4\">Not enough tickets to render the chart.</h5>";
+                        document.getElementById("chart1").innerHTML =
+                            "<h5 class=\"text-900 mb-4\">Not enough tickets to render the chart.</h5>";
+                        document.getElementById("chart2").innerHTML =
+                            "<h5 class=\"text-900 mb-4\">Not enough tickets to render the chart.</h5>";
+                    }
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

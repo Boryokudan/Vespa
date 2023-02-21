@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main.html}"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Projects</title>
+    </head>
+    <body>
+        <div layout:fragment="content" onload="loadProjects()">
+        <!--    <a sec:authorize="hasAnyRole('ROLE_ADMIN')" th:href="@{'/admin'}">GO TO ADMIN PAGE</a>-->
+        <!--    <h2>WELCOME TO THE MAIN PAGE, <span th:text="${#authentication.principal.fullName}"></span>!</h2>-->
+            <div class="mb-9">
+                <div id="projectSummary" data-list='{"valueNames":["projectName","assignees","start","deadline","task","projectprogress","status","action"],"page":6,"pagination":true}'>
+                    <div class="row mb-4 gx-6 gy-3 align-items-center">
+                        <div class="col-auto">
+                            <h2 class="mb-0" id="title-and-number">Projects</h2>
+                        </div>
+                        <div class="col-auto" sec:authorize="hasRole('ADMIN')">
+                            <a class="btn btn-primary px-5" th:href="@{'/projects/add'}">
+                                <i class="fa-solid fa-plus me-2"></i>Add new project
+                            </a>
+                        </div>
+                    </div>
+                    <div class="table-responsive scrollbar" id="table-div">
+                        <table class="table fs--1 mb-0 border-top border-200">
+                            <thead>
+                                <tr>
+                                    <th  style="width:30%;">PROJECT NAME</th>
+                                    <th class="sort align-middle text-center ps-3" scope="col" data-sort="assignees" style="width:10%;">ASSIGNEES</th>
+                                    <th class="sort align-middle text-center ps-3" scope="col" data-sort="start" style="width:10%;">START DATE</th>
+                                    <th class="sort align-middle text-center ps-3" scope="col" data-sort="deadline" style="width:15%;">DEADLINE</th>
+                                    <th class="sort align-middle text-center ps-3" scope="col" data-sort="task" style="width:12%;">TICKETS</th>
+                                    <th class="sort align-middle text-center text-end" scope="col" data-sort="statuses" style="width:10%;">STATUS</th>
+                                    <th class="sort align-middle text-center text-end" scope="col" style="width:10%;"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="list" id="table-latest-review-body">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-center justify-content-between py-3 pe-0 fs--1 border-bottom border-200">
+                        <div class="d-flex">
+                            <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                        </div>
+                        <div class="d-flex">
+                            <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+                            <ul class="mb-0 pagination"></ul>
+                            <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script layout:fragment="script" type="text/javascript">
+
+            loadProjects();
+
+            function loadProjects() {
+                let xhr = new XMLHttpRequest();
+                xhr.open('GET', "/api/projects", true);
+                xhr.responseType = 'json';
+
+                xhr.onload = () => {
+                    let status = xhr.status;
+                    if (status === 200) {
+                        let projectsList = xhr.response;
+
+                        let title = document.getElementById("title-and-number");
+                        title.innerHTML = "";
+                        let table = document.getElementById("table-latest-review-body");
+                        table.innerHTML = "";
+                        title.innerHTML += "Projects<span class=\"fw-normal text-700 ms-3\">(" + projectsList.length + ")</span>";
+
+                        for (let i = 0; i < projectsList.length; i++) {
+
+                            let status = projectsList[i].status;
+
+                            switch(status) {
+                                case "Inactive":
+                                    status =
+                                        "<span class=\"badge badge-phoenix fs--2 badge-phoenix-warning\">Inactive</span>\n";
+                                    break;
+                                case "Ongoing":
+                                    status =
+                                        "<span class=\"badge badge-phoenix fs--2 badge-phoenix-primary\">Ongoing</span>\n";
+                                    break;
+                                case "Cancelled":
+                                    status =
+                                        "<span class=\"badge badge-phoenix fs--2 badge-phoenix-secondary\">Cancelled</span>\n";
+                                    break;
+                                case "Completed":
+                                    status =
+                                        "<span class=\"badge badge-phoenix fs--2 badge-phoenix-success\">Completed</span>\n";
+                                    break;
+                            }
+
+                            table.innerHTML +=
+                                "<tr class=\"position-static\">" +
+                                "    <td class=\"align-middle time white-space-nowrap ps-0 projectName py-4\">\n" +
+                                "        <a href=\"/projects/" + projectsList[i].id + "\" class=\"text-decoration-none fw-bold fs-0\">\n" +
+                                            projectsList[i].title +
+                                "        \n</a>\n" +
+                                "    </td>\n" +
+
+                                "    <td class=\"align-middle text-center white-space-nowrap assignees ps-3 py-4\">\n" +
+                                        (projectsList[i].team.length + projectsList[i].submitters.length) +
+                                "    </td>\n" +
+
+                                "    <td class=\"align-middle text-center white-space-nowrap start ps-3 py-4\">\n" +
+                                "        <p class=\"mb-0 fs--1 text-900\">" + projectsList[i].initiationDate + "</p>\n" +
+                                "    </td>\n" +
+
+                                "    <td class=\"align-middle text-center white-space-nowrap deadline ps-3 py-4\">\n" +
+                                "        <p class=\"mb-0 fs--1 text-900\">" + projectsList[i].completionDate + "</p>\n" +
+                                "    </td>\n" +
+
+                                "    <td class=\"align-middle text-center white-space-nowrap task ps-3 py-4\">\n" +
+                                "        <p class=\"fw-bo text-900 fs--1 mb-0\">" + projectsList[i].tickets.length + "</p>\n" +
+                                "    </td>\n" +
+
+                                "    <td class=\"align-middle text-center white-space-nowrap text-end statuses\">\n" +
+                                          status +
+                                "    </td>" +
+
+                                "    <td class=\"align-middle text-center white-space-nowrap pe-0 action\">\n" +
+                                "        <div class=\"font-sans-serif btn-reveal-trigger position-static\">\n" +
+                                "            <button class=\"btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2\" type=\"button\" data-bs-toggle=\"dropdown\" data-boundary=\"window\" aria-haspopup=\"true\" aria-expanded=\"false\" data-bs-reference=\"parent\"><span class=\"fas fa-ellipsis-h fs--2\"></span></button>\n" +
+                                "            <div class=\"dropdown-menu dropdown-menu-end py-2\">" +
+                                "               <a class=\"dropdown-item\" href=\"/projects/" + projectsList[i].id + "\">View Details</a>" +
+                                "               <div class=\"dropdown-divider\"></div>" +
+                                "               <a class=\"dropdown-item text-danger\" onclick=\"deleteProject(" + projectsList[i].id + ")\">Delete</a>\n" +
+                                "               </div>\n" +
+                                "            </div>\n" +
+                                "    </td>\n" +
+                                "</tr>";
+                        }
+                        // document.getElementById('table-div').style.display = 'block';
+                    }
+
+                };
+                xhr.send();
+            }
+
+            function deleteProject(projectId) {
+                let xhr = new XMLHttpRequest();
+                xhr.open('DELETE', "/api/projects/" + projectId, true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+
+                xhr.onload = () => {
+                    // SEND PROJECT HAS BEEN DELETED NOTIFICATION
+                    loadProjects();
+                };
+                xhr.send();
+            }
+        </script>
+    </body>
+</html>

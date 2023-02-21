@@ -1,0 +1,47 @@
+mixin LayoutContent  
+
+  div.container-fluid.px-0&attributes(attrsLayout)
+    //- script.
+
+    block wrapperContent
+      block beforeContent
+        block navbarVertical
+          +NavbarVertical.navbar-expand-lg
+        
+        block navbarHorizontal
+          block navbarTop 
+            +NavbarTop({
+              toggleID: 'navbarVerticalCollapse',
+              links: false,
+              search: true
+            }).navbar-expand
+
+      .content()&attributes(attrsContent)
+        if breadcrumb
+          nav.mb-2(aria-label='breadcrumb')
+            ol.breadcrumb.mb-0
+              each item in breadcrumb
+                if item.active
+                  li.breadcrumb-item.active=item.label
+                else
+                  li.breadcrumb-item
+                    a(href=item.href)=item.label
+
+        block content
+
+        if footer
+          +Footer.position-absolute
+
+      block afterContent
+  script.
+    var navbarTopStyle = localStorage.getItem('phoenixNavbarTopStyle');
+    var navbarTop = document.querySelector('.navbar-top');
+    if(navbarTopStyle === 'darker'){
+        navbarTop.classList.add('navbar-darker');
+    }
+
+    var navbarVerticalStyle = localStorage.getItem('phoenixNavbarVerticalStyle');
+    var navbarVertical = document.querySelector('.navbar-vertical');
+    if(navbarVerticalStyle === 'darker'){
+        navbarVertical.classList.add('navbar-darker');
+    }

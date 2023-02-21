@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main.html}"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Project Details</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <input type="hidden" id="projectId" th:value="${id}">
+        <div class="row g-0 mt-3">
+            <div class="col-12 col-xxl-8 px-0 bg-soft">
+                <div class="px-4 px-lg-6 pt-6 pb-9">
+                    <div class="row gx-0 gx-sm-5 gy-8 mb-8">
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="row gx-0 gx-sm-7 gx-md-9">
+                                    <div class="col-12 col-sm-12">
+                                        <!-- ===============================================-->
+                                        <!--    PROJECT DETAILS TABLE-->
+                                        <!-- ===============================================-->
+                                        <table class="lh-sm mb-4 mb-sm-0 mb-xl-4">
+                                            <div class="font-sans-serif btn-reveal-trigger d-flex justify-content-end">
+                                                <button sec:authorize="hasRole('ADMIN')" class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h"></span></button>
+                                                <div class="dropdown-menu dropdown-menu-end py-2">
+                                                    <a class="dropdown-item" onclick="editProject()">Edit</a>
+                                                    <a class="dropdown-item text-danger" onclick="deleteProject()">Delete</a>
+                                                </div>
+                                            </div>
+                                            <tbody id="table-project-details">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- ===============================================-->
+                                    <!--    PROJECT DATES TABLE-->
+                                    <!-- ===============================================-->
+                                    <div class="col-12 col-sm-12 mb-5">
+                                        <table class="lh-sm">
+                                            <tbody id="table-project-dates">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <!-- ===============================================-->
+                                <!--    PROJECT TICKETS COUNT -->
+                                <!-- ===============================================-->
+                                <div class="row mt-3">
+                                    <div class="text-center">
+                                        <h3 class="text-900 mb-3">Tickets</h3>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div id="number-of-tickets">
+
+                                    </div>
+                                </div>
+                                <div class="row" id="chart">
+                                    <!-- ===============================================-->
+                                    <!--    DONUT CHART -->
+                                    <!-- ===============================================-->
+                                    <div id="donutChart" style="min-height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" class="echart" _echarts_instance_="ec_1673269516976"><div style="position: relative; width: 304px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+                                        <canvas data-zr-dom-id="zr_0" width="400" height="400" style="position: absolute; left: 0px; top: 0px; width: 304px; height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                                    </div>
+                                        <div class="" style="position: absolute; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 10px; transition: opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgb(255, 255, 255); border-width: 1px; border-radius: 4px; color: rgb(102, 102, 102); font: 14px / 21px &quot;Microsoft YaHei&quot;; padding: 10px; top: 0px; left: 0px; transform: translate3d(37px, 173px, 0px); border-color: rgb(84, 112, 198); pointer-events: none; visibility: hidden; opacity: 0;">
+                                            <div style="margin: 0px 0 0;line-height:1;">
+                                                <div style="margin: 10px 0 0;line-height:1;">
+                                                    <div style="margin: 0px 0 0;line-height:1;">
+                                                        <span style="display:inline-block; margin-right:4px; border-radius:10px; width:10px; height:10px; background-color:#5470c6;"></span>
+                                                        <span style="font-size:14px; color:#666; font-weight:400; margin-left:2px"></span>
+                                                        <span style="float:right; margin-left:20px; font-size:14px; color:#666; font-weight:900"></span>
+                                                        <div style="clear:both"></div>
+                                                    </div>
+                                                    <div style="clear:both"></div>
+                                                </div>
+                                                <div style="clear:both"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Donut Chart -->
+                                </div>
+                            </div>
+                            <div class="col-2 d-flex flex-column justify-content-start mx-auto">
+                                <div class="row align-items-center justify-content-between g-3 mb-3">
+                                    <div class="col-auto">
+                                        <div class="d-flex align-items-center">
+
+                                            <!-- ===============================================-->
+                                            <!--    ADD TICKET MODAL -->
+                                            <!-- ===============================================-->
+                                            <button class="btn btn-primary" sec:authorize="hasAnyRole('ADMIN', 'SUB')" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-plus me-2"></i>Add new ticket</button>
+                                            <div class="modal fade modal-md" id="staticBackdrop" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-primary">
+                                                            <h5 class="modal-title text-white" id="staticBackdropLabel"><i class="fa-solid fa-plus me-2"></i>Add new ticket</h5>
+                                                            <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1 text-white"></span></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form class="row g-3 mb-3 mt-3">
+                                                                <div class="row my-2">
+                                                                    <div class="col-sm-6 col-md-6">
+                                                                        <div class="form-floating">
+                                                                            <input class="form-control" id="ticketTitle" type="text" placeholder="Ticket title" />
+                                                                            <label for="ticketTitle">Ticket title</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6 col-md-6">
+                                                                        <div class="form-floating">
+                                                                            <select class="form-select" id="selectType">
+                                                                                <option value="null" selected>N/A</option>
+                                                                                <option value="Bug">Bug</option>
+                                                                                <option value="Incident">Incident</option>
+                                                                                <option value="Change">Change request</option>
+                                                                                <option value="Feature">Feature request</option>
+                                                                            </select>
+                                                                            <label for="selectPriority">Ticket Type</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row my-2">
+                                                                    <div class="col-sm-6 col-md-6">
+                                                                        <div class="form-floating">
+                                                                            <select class="form-select" id="selectPriority">
+                                                                                <option selected="selected">Select priority</option>
+                                                                                <option value="Low">Low</option>
+                                                                                <option value="Medium">Medium</option>
+                                                                                <option value="High">High</option>
+                                                                                <option value="Critical">Critical</option>
+                                                                            </select>
+                                                                            <label for="selectPriority">Ticket Priority</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6 col-md-6">
+                                                                        <div class="flatpickr-input-container">
+                                                                            <div class="form-floating">
+                                                                                <input class="form-control datetimepicker" id="deadline_date" type="text" placeholder="dd/mm/yyyy hour : minute" data-options='{"enableTime":true,"dateFormat":"Z","disableMobile":true}' />
+                                                                                <label class="ps-6" for="deadline_date">Deadline</label><span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row my-2">
+                                                                    <div class="col-sm-12 col-md-12 gy-2">
+                                                                        <div class="form-floating">
+                                                                            <textarea class="form-control" id="ticketDescription" placeholder="Provide ticket description here" style="height: 100px"></textarea>
+                                                                            <label for="ticketDescription">Ticket Description</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-outline-primary" id="cancelBtn" type="button" data-bs-dismiss="modal">Cancel</button>
+                                                            <button class="btn btn-primary" type="button" onclick="addNewTicket()">Create</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-12" id="devt">
+                                <h4 class="text-700 mb-4">Development team</h4>
+                                <div class="table-responsive scrollbar ms-n1 ps-1">
+                                    <table class="table table-sm fs--1 mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th class="white-space-nowrap fs--1 align-middle ps-0" style="width:5%">
+                                                <p>#</p>
+                                            </th>
+                                            <th class="sort align-middle" scope="col" data-sort="" style="width:35%; min-width:200px;">
+                                                <p>Full Name</p>
+                                            </th>
+                                            <th class="sort align-middle" scope="col" data-sort="" style="width:10%; min-width:200px;">
+                                                <p>Email</p>
+                                            </th>
+                                            <th class="sort align-middle pe-3" scope="col" data-sort="" style="width:20%; min-width:200px;">
+                                                <p>Specialization</p>
+                                            </th>
+                                            <th class="sort align-middle pe-3" scope="col" data-sort="" style="width:30%; min-width:200px;">
+                                                <p>Grade</p>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="list" id="developers-table">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row my-5">
+                            <div class="col-12" id="subt">
+                                <h4 class="text-700 mb-4">Submitters</h4>
+                                <div class="table-responsive scrollbar ms-n1 ps-1">
+                                    <table class="table table-sm fs--1 mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th class="white-space-nowrap fs--1 align-middle ps-0" style="width:5%">
+                                                <p>#</p>
+                                            </th>
+                                            <th class="sort align-middle" scope="col" data-sort="" style="width:35%; min-width:200px;">
+                                                <p>Full Name</p>
+                                            </th>
+                                            <th class="sort align-middle" scope="col" data-sort="" style="width:10%; min-width:200px;">
+                                                <p>Email</p>
+                                            </th>
+                                            <th class="sort align-middle pe-3" scope="col" data-sort="" style="width:30%; min-width:200px;">
+                                                <p>Position</p>
+                                            </th>
+                                            <th class="sort align-middle pe-3" scope="col" data-sort="" style="width:20%; min-width:200px;">
+                                                <p>Grade</p>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="list" id="submitters-table">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script layout:fragment="script" type="text/javascript" th:inline="javascript">
+
+        loadProjectDetails();
+
+        function loadProjectDetails() {
+            let projectId = document.getElementById("projectId").value;
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/projects/" + projectId, true);
+            xhr.responseType = 'json';
+
+            xhr.onload = () => {
+                let status = xhr.status;
+
+                let projectDetails = document.getElementById("table-project-details");
+                let numberOfTickets = document.getElementById("number-of-tickets");
+                let projectDates = document.getElementById("table-project-dates");
+                let developersTable = document.getElementById("developers-table");
+                let submittersTable = document.getElementById("submitters-table");
+
+                if (status === 200) {
+                    let project = xhr.response;
+
+                    let status = project.status;
+                    developersTable.innerHTML = "";
+                    submittersTable.innerHTML = "";
+
+                    renderChart(project.tickets);
+
+                    switch(status) {
+                        case "Inactive":
+                            status =
+                                "<div class=\"badge badge-phoenix fs--1 badge-phoenix-warning mt-2\">Inactive</div>\n";
+                            break;
+                        case "Ongoing":
+                            status =
+                                "<div class=\"badge badge-phoenix fs--1 badge-phoenix-primary mt-2\">Ongoing</div>\n";
+                            break;
+                        case "Cancelled":
+                            status =
+                                "<div class=\"badge badge-phoenix fs--1 badge-phoenix-secondary mt-2\">Cancelled</div>\n";
+                            break;
+                        case "Completed":
+                            status =
+                                "<div class=\"badge badge-phoenix fs--1 badge-phoenix-success mt-2\">Completed</div>\n";
+                            break;
+                    }
+
+                    projectDetails.innerHTML =
+                        "<tr>\n" +
+                        "    <td>" +
+                        "        <div class=\"mb-5\">\n" +
+                        "            <div class=\"d-flex justify-content-between\">\n" +
+                        "                <h2 class=\"text-black fw-bolder mb-2\">" + project.title + "</h2>\n" +
+                        "            </div>\n" + status +
+                        "       </div>\n" +
+                        "</tr>\n";
+
+                        if (project.projectManager === null) {
+                            projectDetails.innerHTML +=
+                                "<tr>\n" +
+                                "    <td class=\"align-top py-3\">\n" +
+                                "        <div class=\"d-flex\"><span class=\"fa-solid fa-user me-2 text-700 fs--1\"></span>\n" +
+                                "        <h5 class=\"text-900 mb-0 text-nowrap\">Project Manager: N/A</h5>\n" +
+                                "        </div>\n" +
+                                "    </td>\n" +
+                                "</tr>\n";
+                        } else {
+                            projectDetails.innerHTML +=
+                                "<tr>\n" +
+                                "    <td class=\"align-top py-3\">\n" +
+                                "        <div class=\"d-flex\"><span class=\"fa-solid fa-user me-2 text-700 fs--1\"></span>\n" +
+                                "        <h5 class=\"text-900 mb-0 text-nowrap\">Project Manager: " + project.projectManager.fullName + "</h5>\n" +
+                                "        </div>\n" +
+                                "    </td>\n" +
+                                "</tr>\n";
+                        }
+
+                    projectDetails.innerHTML +=
+                        "<tr>\n" +
+                        "    <td class=\"align-top py-3\">\n" +
+                        "        <div class=\"d-flex\">" +
+                        "            <span class=\"fa-regular me-2 text-700 fs--1 far fa-flushed\ fs--1\"></span>\n" +
+                        "            <h5 class=\"text-900 mb-0 text-nowrap\">Number of developers involved: " + project.team.length + "</h5>\n" +
+                        "        </div>\n" +
+                        "    </td>\n" +
+                        "</tr>";
+
+                    projectDates.innerHTML =
+                        "<tr>\n" +
+                        "    <td class=\"align-top py-1 text-900 text-nowrap fw-bold\">Initiation date: </td>\n" +
+                        "    <td class=\"text-600 fw-semi-bold ps-3\">" + project.initiationDate + "</td>\n" +
+                        "</tr>\n" +
+                        "<tr>\n" +
+                        "    <td class=\"align-top py-1 text-900 text-nowrap fw-bold\">Completion date: </td>\n" +
+                        "    <td class=\"text-600 fw-semi-bold ps-3\">" + project.completionDate + "</td>\n" +
+                        "</tr>"
+
+                    if (project.tickets !== null && project.tickets.length > 0) {
+                        numberOfTickets.innerHTML =
+                            "<div class=\"d-flex align-items-center\">" +
+                                "<span class=\"fa-solid fa-list-check me-2 text-700 fs--1\"></span>\n" +
+                                "<h5 class=\"text-1100 mb-0 me-2\">" + project.tickets.length + "<span class=\"text-900 fw-normal ms-2\">ticket(-s)</span></h5>" +
+                                "<a class=\"fw-bold fs--1 mt-1\" href=\"/tickets/project/" + projectId + "\">See tickets " +
+                                "   <span class=\"fa-solid fa-chevron-right me-2 fs--2\"></span>" +
+                                "</a>\n" +
+                            "</div>";
+                    } else {
+                        numberOfTickets.innerHTML =
+                            "<div class=\"d-flex align-items-center\">" +
+                                "<span class=\"fa-solid fa-list-check me-2 text-700 fs--1\"></span>\n" +
+                                "<h5 class=\"text-1100 mb-0 me-2\">" + project.tickets.length + "<span class=\"text-900 fw-normal ms-2\">ticket(-s)</span></h5>" +
+                            "</div>";
+                    }
+
+                    if (project.team.length > 0) {
+                        for (let i = 0; i < project.team.length; i++) {
+                            developersTable.innerHTML +=
+                                "<tr class=\"hover-actions-trigger btn-reveal-trigger position-static\">\n" +
+                                "    <td class=\"align-middle white-space-nowrap\">" +
+                                "        <span class=\"d-flex align-items-center text-900 text-hover-1000\">\n" +
+                                "            <h6 class=\"mb-0 fw-semi-bold\">" + (i + 1) + "</h6>\n" +
+                                "        </span>" +
+                                "    </td>\n" +
+                                "    <td class=\"align-middle white-space-nowrap\">" +
+                                "        <span class=\"d-flex align-items-center text-900 text-hover-1000\">\n" +
+                                "            <h6 class=\"mb-0 fw-semi-bold\">" + project.team[i].fullName + "</h6>\n" +
+                                "        </span>" +
+                                "    </td>\n" +
+                                "    <td class=\"email align-middle white-space-nowrap\">" +
+                                "        <a class=\"fw-semi-bold\" href=\"mailto:" + project.team[i].email + "\">" + project.team[i].email + "</a>" +
+                                "    </td>\n" +
+                                "    <td class=\"align-middle white-space-nowrap\">" +
+                                "        <span class=\"d-flex align-items-center text-900 text-hover-1000\" href=\"#\">\n" +
+                                "            <h6 class=\"mb-0 fw-semi-bold\">" + project.team[i].specialization + "</h6>\n" +
+                                "        </span>" +
+                                "    </td>\n" +
+                                "    <td class=\"align-middle white-space-nowrap\">" +
+                                "        <span class=\"d-flex align-items-center text-900 text-hover-1000\" href=\"#!\">\n" +
+                                "            <h6 class=\"mb-0 fw-semi-bold\">" + project.team[i].grade + "</h6>\n" +
+                                "        </span>" +
+                                "    </td>\n";
+
+                        }
+                    } else {
+                        devt.innerHTML =
+                            "<h4 class=\"text-700 mb-4\">Development team</h4>" +
+                            "<h5 class=\"text-900 fs-0 mb-4\">There are no developers assigned for this project</h5>";
+                    }
+
+                    if (project.submitters.length > 0) {
+                        for (let i = 0; i < project.submitters.length; i++) {
+                            submittersTable.innerHTML +=
+                                "<tr class=\"hover-actions-trigger btn-reveal-trigger position-static\">\n" +
+                                "    <td class=\"align-middle white-space-nowrap\">" +
+                                "        <span class=\"d-flex align-items-center text-900 text-hover-1000\">\n" +
+                                "            <h6 class=\"mb-0 fw-semi-bold\">" + (i + 1) + "</h6>\n" +
+                                "        </span>" +
+                                "    </td>\n" +
+                                "    <td class=\"align-middle white-space-nowrap\">" +
+                                "        <span class=\"d-flex align-items-center text-900 text-hover-1000\">\n" +
+                                "            <h6 class=\"mb-0 fw-semi-bold\">" + project.submitters[i].fullName + "</h6>\n" +
+                                "        </span>" +
+                                "    </td>\n" +
+                                "    <td class=\"email align-middle white-space-nowrap\">" +
+                                "        <a class=\"fw-semi-bold\" href=\"mailto:" + project.submitters[i].email + "\">" + project.submitters[i].email + "</a>" +
+                                "    </td>\n" +
+                                "    <td class=\"align-middle white-space-nowrap\">" +
+                                "        <span class=\"d-flex align-items-center text-900 text-hover-1000\" href=\"#\">\n" +
+                                "            <h6 class=\"mb-0 fw-semi-bold\">" + project.submitters[i].position + "</h6>\n" +
+                                "        </span>" +
+                                "    </td>\n" +
+                                "    <td class=\"align-middle white-space-nowrap\">" +
+                                "        <span class=\"d-flex align-items-center text-900 text-hover-1000\" href=\"#!\">\n" +
+                                "            <h6 class=\"mb-0 fw-semi-bold\">" + project.submitters[i].grade + "</h6>\n" +
+                                "        </span>" +
+                                "    </td>\n";
+
+                        }
+                    } else {
+                        subt.innerHTML =
+                            "<h4 class=\"text-700 mb-4\">Submitters</h4>" +
+                            "<h5 class=\"text-900 fs-0 mb-4\">There are no submitters assigned for this project</h5>";
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function editProject() {
+            let url = "/projects/edit/" + projectId.value;
+            window.location.href = url;
+        }
+
+        function deleteProject() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('DELETE', "/api/projects/" + projectId.value, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onload = () => {
+                let url = "/projects";
+                window.location.href = url;
+            };
+            xhr.send();
+        }
+
+        function addNewTicket() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', "/api/tickets", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            let project_id = projectId.value;
+            let type = selectType.value;
+            let title = ticketTitle.value;
+            let priority = selectPriority.value;
+            let creationDate = getCurrentDateTime();
+            let deadline = deadline_date.value;
+            let ticket_description = ticketDescription.value;
+            // ADD COMMENTS TO TICKET MODEL
+            // let ownersComment = ownersComment.value;
+
+            const params = {
+                projectId: project_id,
+                type: type,
+                title: title,
+                content: ticket_description,
+                priority: priority,
+                status: "Pending",
+                creationDate: creationDate,
+                deadline: deadline
+            };
+
+            xhr.onload = () => {
+                selectType.value = "";
+                ticketTitle.value = "";
+                selectPriority.value = "";
+                deadline_date.value = "";
+                ticketDescription.value = "";
+
+                let cancelButton = document.getElementById("cancelBtn");
+                cancelButton.click();
+                loadProjectDetails();
+                renderChart();
+            };
+            xhr.send(JSON.stringify(params));
+        }
+
+        function getCurrentDateTime() {
+            let date = new Date();
+
+            let year = date.getFullYear();
+            let month = ((date.getMonth() + 1) < 10 ? "0" : "") + (date.getMonth() + 1);
+            let day = (date.getDate() < 10 ? "0" : "") + date.getDate();
+            let hours = (date.getHours() < 10 ? "0" : "") + date.getHours();
+            let minutes = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+            let seconds = (date.getSeconds() < 10 ? "0" : "") + date.getSeconds();
+            return (year + "-" + month + "-" + day + "T" + hours + ":" + minutes + ":" + seconds);
+        }
+    </script>
+
+    <script layout:fragment="script2" type="text/javascript">
+        document.addEventListener("DOMContentLoaded", renderChart);
+
+        function renderChart() {
+            let xhr = new XMLHttpRequest();
+            const projectId = document.getElementById("projectId").value;
+            xhr.open('GET', "/api/projects/" + projectId, true);
+            xhr.responseType = 'json';
+
+            let pendingTicketsCount = 0;
+            let assignedTicketsCount = 0;
+            let inProgressTicketsCount = 0;
+            let closedTicketsCount = 0;
+
+            xhr.onload = () => {
+                let status = xhr.status;
+
+                if (status === 200) {
+                    let project = xhr.response;
+                    let projectTickets = project.tickets;
+
+                    if (projectTickets !== null && projectTickets.length > 0) {
+                        for (let i = 0; i < projectTickets.length; i++) {
+                            let ticketStatus = projectTickets[i].status;
+                            switch (ticketStatus) {
+                                case ("Pending"):
+                                    pendingTicketsCount++;
+                                    break;
+                                case ("Assigned"):
+                                    assignedTicketsCount++;
+                                    break;
+                                case ("In Progress"):
+                                    inProgressTicketsCount++;
+                                    break;
+                                case ("Closed"):
+                                    closedTicketsCount++;
+                                    break;
+                            }
+                        }
+
+                        echarts.init(document.querySelector("#donutChart")).setOption({
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                top: '5%',
+                                left: 'center'
+                            },
+                            series: [{
+                                type: 'pie',
+                                radius: ['40%', '70%'],
+                                avoidLabelOverlap: false,
+                                label: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    label: {
+                                        show: true,
+                                        fontSize: '18',
+                                        fontWeight: 'bold'
+                                    }
+                                },
+                                labelLine: {
+                                    show: false
+                                },
+                                data: [
+                                    {
+                                        value: pendingTicketsCount,
+                                        name: "Pending"
+                                    },
+                                    {
+                                        value: assignedTicketsCount,
+                                        name: "Assigned"
+                                    },
+                                    {
+                                        value: inProgressTicketsCount,
+                                        name: "In Progress"
+                                    },
+                                    {
+                                        value: closedTicketsCount,
+                                        name: "Closed"
+                                    }
+                                ],
+                            }]
+                        });
+                    } else {
+                        document.getElementById("chart").innerHTML =
+                            "<h5 class=\"text-900 mb-4\">Project has no active tickets.</h5>";
+                    }
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

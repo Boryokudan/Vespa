@@ -1,0 +1,9 @@
+include Mixins
+include ../common/Avatar
+
+mixin NavbarTopNew(config)
+  nav.navbar.navbar-top#navbarTopNew&attributes(attributes) 
+    +NavbarLogo(config.toggleID)
+    #navbarToplCollapse.collapse.navbar-collapse.navbar-top-collapse.order-1.order-lg-0.justify-content-center
+      +NewTopNav({combo:false})
+    +NavbarIcons

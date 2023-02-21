@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main.html}">
+<head>
+    <title>Manage roles</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="row">
+            <div class="d-flex flex-column justify-content-between col-sm-5 col-md-3">
+                <div class="row mt-5">
+                    <div class="row">
+                        <h2 class="text-bold text-1100 mb-5">Manage user roles</h2>
+                    </div>
+                    <div class="row">
+                        <h4 class="text-bold text-1100 mb-5">
+                            Select the role to assign
+                        </h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <select class="form-select" id="roleSelector">
+                                    <option value="undefined" selected="selected">N/A</option>
+                                    <option value="1">Admin</option>
+                                    <option value="2">Project manager</option>
+                                    <option value="3">Developer</option>
+                                    <option value="4">Submitter</option>
+                                </select>
+                                <label for="roleSelector">Role</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <hr>
+                </div>
+                <div class="row mb-5">
+                    <div class="row mb-5">
+                        <h4 class="text-bold text-1100">
+                            Select users to assign the role to
+                        </h4>
+                    </div>
+                    <div class="row me-5">
+                        <div class="col col-auto">
+                            <div class="search-box">
+                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                    <input class="form-control search-input search" type="search" placeholder="Search members" aria-label="Search" />
+                                    <span class="fas fa-search search-box-icon"></span>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-6 mx-auto">
+                <!-- ===============================================-->
+                <!--    DONUT CHART -->
+                <!-- ===============================================-->
+                <div id="donutChart" style="min-height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" class="echart" _echarts_instance_="ec_1673269516976"><div style="position: relative; width: 304px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+                    <canvas data-zr-dom-id="zr_0" width="400" height="400" style="position: absolute; left: 0px; top: 0px; width: 304px; height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                </div>
+                    <div class="" style="position: absolute; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 10px; transition: opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgb(255, 255, 255); border-width: 1px; border-radius: 4px; color: rgb(102, 102, 102); font: 14px / 21px &quot;Microsoft YaHei&quot;; padding: 10px; top: 0px; left: 0px; transform: translate3d(37px, 173px, 0px); border-color: rgb(84, 112, 198); pointer-events: none; visibility: hidden; opacity: 0;">
+                        <div style="margin: 0px 0 0;line-height:1;">
+                            <div style="margin: 10px 0 0;line-height:1;">
+                                <div style="margin: 0px 0 0;line-height:1;">
+                                    <span style="display:inline-block; margin-right:4px; border-radius:10px; width:10px; height:10px; background-color:#5470c6;"></span>
+                                    <span style="font-size:14px; color:#666; font-weight:400; margin-left:2px"></span>
+                                    <span style="float:right; margin-left:20px; font-size:14px; color:#666; font-weight:900"></span>
+                                    <div style="clear:both"></div>
+                                </div>
+                                <div style="clear:both"></div>
+                            </div>
+                            <div style="clear:both"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Donut Chart -->
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="row">
+                <div id="members" data-list='{"valueNames":["", "full_name","email","current_role"],"page":10,"pagination":true}'>
+                    <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 mb-3 bg-white border-y border-300 mt-2 position-relative top-1">
+                        <div class="table-responsive scrollbar ms-n1 ps-1">
+                            <table class="table table-sm fs--1 mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="white-space-nowrap fs--1 align-middle ps-0" style="width:5%"></th>
+                                    <th class="sort align-middle" scope="col" data-sort="" style="width:45%; min-width:200px;">
+                                        <a onclick="loadUserList()">Full Name</a>
+                                    </th>
+                                    <th class="sort align-middle" scope="col" data-sort="" style="width:25%; min-width:200px;">
+                                        <a onclick="loadUserList('email')">Email</a>
+                                    </th>
+                                    <th class="sort align-middle pe-3" scope="col" data-sort="" style="width:25%; min-width:200px;">
+                                        <a onclick="loadUserList('role')">Current role</a>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody class="list" id="table-latest-review-body">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                            <div class="col-auto d-flex">
+                                <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                            </div>
+                            <div class="col-auto d-flex">
+                                <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+                                <ul class="mb-0 pagination"></ul>
+                                <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex align-items-end justify-content-start">
+                <div class="row col-md-3 col-sm-4 col-lg-2 d-flex align-items-center justify-content-between g-3 mb-3">
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-success col-12" id="assign-role-button" onclick="assignRole()">
+                                <span class="far fa-check-circle fs-5" style="width: 20px; height: 20px"></span>
+                                   Assign
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script layout:fragment="script" type="text/javascript">
+
+        loadUserList();
+
+        function loadUserList(sort) {
+            if (sort === undefined) {
+                loadUserListSortedByFullName();
+            } else if (sort === "email") {
+                loadUserListSortedByEmail();
+            } else if (sort === "role") {
+                loadUserListSortedByRole();
+            }
+        }
+
+        function loadDefaultUserList() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/users", true);
+            xhr.responseType = 'json';
+            renderUserData(xhr)
+            xhr.send();
+        }
+
+        function loadUserListSortedByFullName() {
+            let xhr1 = new XMLHttpRequest();
+            xhr1.open('GET', "/api/users?sort=name", true);
+            xhr1.responseType = 'json';
+            renderUserData(xhr1);
+            xhr1.send();
+        }
+
+        function loadUserListSortedByEmail() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/users?sort=email", true);
+            xhr.responseType = 'json';
+            renderUserData(xhr);
+            xhr.send();
+        }
+
+        function loadUserListSortedByRole() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/users?sort=role", true);
+            xhr.responseType = 'json';
+            renderUserData(xhr);
+            xhr.send();
+        }
+
+        function assignRole() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('PUT', "api/users?update=roles", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            const roleToAssign = roleSelector.value;
+            const markedUsers = [];
+            Array.from(document.getElementsByName("user_checkbox")).forEach(function(checkbox) {
+                if (checkbox.checked === true) {
+                    let userId = checkbox.value;
+                    markedUsers.push(
+                        {
+                            "id": userId,
+                            "permission": {
+                                "id": roleToAssign
+                            }
+                        }
+                    );
+                }
+            });
+
+            xhr.addEventListener('load', function() {
+                if (xhr.status === 200) {
+                    loadUserListSortedByFullName();
+                    renderChart();
+                } else {
+                    throw new Error("Bad Request");
+                }
+            })
+
+            xhr.send(JSON.stringify(markedUsers));
+        }
+
+        function renderUserData(xhr) {
+            xhr.onload = () => {
+                let status = xhr.status;
+                let table = document.getElementById("table-latest-review-body");
+
+                if (status === 200) {
+                    table.innerHTML = "";
+                    let userList = xhr.response;
+                    let roleAdmin = "Admin";
+                    let rolePM = "Project manager";
+                    let roleDev = "Developer";
+                    let roleSub = "Submitter";
+
+                    for (let i = 0; i < userList.length; i++) {
+
+                        let permissionLevel = userList[i].permission.permissionLevel;
+                        let userRole = "";
+
+                        if (permissionLevel === "ROLE_ADMIN") {
+                            userRole += "<td class=\"city align-middle white-space-nowrap text-900\">" + roleAdmin + "</td>";
+                        } else if (permissionLevel === "ROLE_PM") {
+                            userRole += "<td class=\"city align-middle white-space-nowrap text-900\">" + rolePM + "</td>";
+                        } else if (permissionLevel === "ROLE_DEV") {
+                            userRole += "<td class=\"city align-middle white-space-nowrap text-900\">" + roleDev + "</td>";
+                        } else if (permissionLevel === "ROLE_SUB") {
+                            userRole += "<td class=\"city align-middle white-space-nowrap text-900\">" + roleSub + "</td>";
+                        } else {
+                            userRole += "<td class=\"city align-middle white-space-nowrap text-900\">N/A</td>";
+                        }
+
+                        table.innerHTML +=
+                            "<tr class=\"hover-actions-trigger btn-reveal-trigger position-static\">\n" +
+                            "    <td class=\"fs--1 align-middle ps-0 py-3\">\n" +
+                            "        <div class=\"form-check mb-0 fs-0\">\n" +
+                            "            <input class=\"form-check-input\" name=\"user_checkbox\" type=\"checkbox\" value=\"" + userList[i].id + "\"/>\n" +
+                            "        </div>\n" +
+                            "    </td>\n" +
+                            "    <td class=\"customer align-middle white-space-nowrap\">" +
+                            "        <span class=\"d-flex align-items-center text-900 text-hover-1000\" href=\"#\">\n" +
+                            "            <h6 class=\"mb-0 ms-3 fw-semi-bold\">" + userList[i].fullName + "</h6>\n" +
+                            "        </span>" +
+                            "    </td>\n" +
+                            "    <td class=\"email align-middle white-space-nowrap\">" +
+                            "        <a class=\"fw-semi-bold\" href=\"mailto:" + userList[i].email + "\">" + userList[i].email + "</a>" +
+                            "    </td>\n" + userRole + '\n</tr>';
+                    }
+                }
+            }
+        }
+
+        function contains(arr, key, val) {
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i][key] === val) return true;
+            }
+            return false;
+        }
+    </script>
+
+    <script layout:fragment="script2" type="text/javascript">
+        document.addEventListener("DOMContentLoaded", renderChart);
+
+        function renderChart() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/users", true);
+            xhr.responseType = 'json';
+
+            let admCount = 0;
+            let pmCount = 0;
+            let devCount = 0;
+            let subCount = 0;
+            let unassignedCount = 0;
+
+            xhr.onload = () => {
+                let status = xhr.status;
+
+                if (status === 200) {
+                    let userList = xhr.response;
+
+                    for (let i = 0; i < userList.length; i++) {
+                        let userPermissionLevel = userList[i].permission.permissionLevel;
+                        switch (userPermissionLevel) {
+                            case ("ROLE_ADMIN"):
+                                admCount++;
+                                break;
+                            case ("ROLE_PM"):
+                                pmCount++;
+                                break;
+                            case ("ROLE_DEV"):
+                                devCount++;
+                                break;
+                            case ("ROLE_SUB"):
+                                subCount++;
+                                break;
+                            default:
+                                unassignedCount++;
+                        }
+                    }
+                }
+                echarts.init(document.querySelector("#donutChart")).setOption({
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    legend: {
+                        top: '5%',
+                        left: 'center'
+                    },
+                    series: [{
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: '18',
+                                fontWeight: 'bold'
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data: [
+                            {
+                                value: admCount,
+                                name: "Admins"
+                            },
+                            {
+                                value: pmCount,
+                                name: 'Project Managers'
+                            },
+                            {
+                                value: devCount,
+                                name: 'Developers'
+                            },
+                            {
+                                value: subCount,
+                                name: 'Submitters (QA/BA)'
+                            },
+                            {
+                                value: unassignedCount,
+                                name: 'N/A'
+                            }
+                        ]
+                    }]
+                });
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

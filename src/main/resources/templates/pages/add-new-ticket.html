@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main.html}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Add Ticket</title>
+</head>
+<body>
+    <div layout:fragment="content" onload="loadData()">
+        <div class="row" id="addTicketTo">
+            <h2 class="mb-6">Add new ticket</h2>
+        </div>
+        <div class="row">
+            <div class="col-xl-9">
+                <div id="success_alert">
+
+                </div>
+            </div>
+            <div class="col-xl-9">
+                <form class="row g-3 mb-6">
+                    <div class="row my-2">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="form-floating">
+                                <input class="form-control" id="ticketTitle" type="text" placeholder="Ticket title" />
+                                <label for="ticketTitle">Ticket title</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-floating">
+                                <select class="form-select" id="selectPriority">
+                                    <option selected="selected">Select priority</option>
+                                    <option>Low</option>
+                                    <option>Medium</option>
+                                    <option>High</option>
+                                    <option>Critical</option>
+                                </select>
+                                <label for="selectPriority">Ticket Priority</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="flatpickr-input-container">
+                                <div class="form-floating">
+                                    <input class="form-control datetimepicker" id="deadline_date" type="date" placeholder="deadline" data-options='{"disableMobile":true}' />
+                                    <label class="ps-6" for="deadline_date">Deadline</label><span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-sm-6 col-md-6 gy-2">
+                            <div class="form-floating">
+                                <textarea class="form-control" id="ticketDescription" placeholder="Provide ticket description here" style="height: 100px"></textarea>
+                                <label for="ticketDescription">Ticket Description</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 gy-2">
+                            <div class="form-floating">
+                                <textarea class="form-control" id="ownersComment" placeholder="Leave a comment here" style="height: 100px"></textarea>
+                                <label for="ownersComment">Owner's Comment</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 gy-5">
+                            <div class="row g-3 justify-content-end">
+                                <div class="col-auto">
+                                    <a class="btn btn-lg btn-phoenix-primary px-5" href="/index">Cancel</a>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-lg btn-primary px-5 px-sm-15" type="submit" onclick="addNewTicket()">Create Ticket</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script layout:fragment="script" type="text/javascript">
+
+        loadData();
+
+        // private String title;
+        // private String priority;
+        // private LocalDateTime creationDate; OPTIONAL
+        // private LocalDateTime deadline;
+        // private String ticketContent;
+        // private String ownersComment;
+
+        function loadData() {
+            loadProjectManagersList();
+            loadDevelopersList();
+            loadSubmittersList();
+        }
+
+        function loadProjectManagersList() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/pm", true);
+            xhr.responseType = 'json';
+
+            xhr.onload = () => {
+                let status = xhr.status;
+                if (status === 200) {
+                    let pmList = xhr.response;
+                    let selectPM = document.getElementById("selectPM");
+
+                    for (let i = 0; i < pmList.length; i++) {
+                        selectPM.innerHTML += "<option value=\"" + pmList[i].id + "\">" + pmList[i].fullName + "</option>"
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function loadDevelopersList() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/dev", true);
+            xhr.responseType = 'json';
+
+            xhr.onload = () => {
+                let status = xhr.status;
+                if (status === 200) {
+                    let developersList = xhr.response;
+                    let selectDevelopers = document.getElementById("selectDevelopers");
+
+                    for (let i = 0; i < developersList.length; i++) {
+                        selectDevelopers.innerHTML +=
+                            "<option value=\""
+                                + developersList[i].id + "\">"
+                                + developersList[i].fullName + " / "
+                                + developersList[i].grade + " / "
+                                + developersList[i].specialization +
+                            "</option>"
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function loadSubmittersList() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/sub", true);
+            xhr.responseType = 'json';
+
+            xhr.onload = () => {
+                let status = xhr.status;
+                if (status === 200) {
+                    let submittersList = xhr.response;
+                    let selectSubmitters = document.getElementById("selectSubmitters");
+
+                    for (let i = 0; i < submittersList.length; i++) {
+                        selectSubmitters.innerHTML +=
+                            "<option value=\""
+                            + submittersList[i].id + "\">"
+                            + submittersList[i].fullName + " / "
+                            + submittersList[i].grade + " / "
+                            + submittersList[i].position +
+                            "</option>"
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function addNewProject() {
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', "/api/projects", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            let title = projectTitle.value;
+            let overview = projectOverview.value;
+            let initiationDate = initiation_date.value;
+            let completionDate = deadline_date.value;
+            let projectManager = {"id": selectPM.value};
+
+            const team = [];
+            Array.from(document.querySelector("#selectDevelopers").options).forEach(function(option_element) {
+                if (option_element.selected === true) {
+                    let option_value = option_element.value;
+                    team.push({"id": option_value});
+                }
+            });
+
+            const submitters = [];
+            Array.from(document.querySelector("#selectSubmitters").options).forEach(function(option_element) {
+                if (option_element.selected === true) {
+                    let option_value = option_element.value;
+                    submitters.push({"id": option_value});
+                }
+            });
+
+            const params = {
+                title: title,
+                status: "Ongoing",
+                overview: overview,
+                initiationDate: initiationDate,
+                completionDate: completionDate,
+                projectManager: projectManager,
+                team: team,
+                submitters: submitters
+            };
+
+            xhr.onload = () => {
+                success_alert.innerHTML += "<div class=\"alert alert-soft-success\" role=\"alert\">" +
+                "Project has been successfully added!" +
+                "</div>"
+            };
+
+            xhr.send(JSON.stringify(params));
+        }
+    </script>
+</body>
+</html>

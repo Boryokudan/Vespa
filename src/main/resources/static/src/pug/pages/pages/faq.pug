@@ -1,0 +1,65 @@
+extends ../../layouts/LayoutTheme
+
+append variables
+  - 
+    var breadcrumb = [
+      {
+        label: 'Pages',
+        href: '#!'
+      },
+      {
+        label: 'Faq',
+        href: '#!',
+        active: true
+      }
+    ];
+
+block content
+  h2.mb-5 FAQ
+  h5.mb-3 How can we help?
+  p.text-700 Search for the topic you need help with  or 
+    a(href='#!') contact our support
+  +Search({placeholder: 'Search'}).mb-8.w-100(style='max-width:25rem;')
+  .accordion
+    .accordion-item.border-top.border-300
+      h2#headingOne.accordion-header
+        button.accordion-button(type='button', data-bs-toggle='collapse', data-bs-target='#collapseOne', aria-expanded='false', aria-controls='collapseOne')
+          | How long do payouts take?
+      #collapseOne.accordion-collapse.collapse.show(aria-labelledby='headingOne', data-bs-parent='#accordionExample')
+        .accordion-body.pt-0
+          | We allow the return of all items within 30 days of your original order’s date. If you’re interested in returning your items, send us an email with your order number and we’ll ship a return label.
+    .accordion-item
+      h2#headingTwo.accordion-header
+        button.accordion-button.collapsed(type='button', data-bs-toggle='collapse', data-bs-target='#collapseTwo', aria-expanded='true', aria-controls='collapseOne')
+          | How long does it take to ship my order?
+      #collapseTwo.accordion-collapse.collapse(aria-labelledby='headingTwo', data-bs-parent='#accordionExample')
+        .accordion-body.pt-0
+          | We allow the return of all items within 30 days of your original order’s date. If you’re interested in returning your items, send us an email with your order number and we’ll ship a return label.
+    .accordion-item
+      h2#headingThree.accordion-header
+        button.accordion-button.collapsed(type='button', data-bs-toggle='collapse', data-bs-target='#collapseThree', aria-expanded='false', aria-controls='collapseOne')
+          | How much do disputs costs?
+      #collapseThree.accordion-collapse.collapse(aria-labelledby='headingThree', data-bs-parent='#accordionExample')
+        .accordion-body.pt-0
+          | We allow the return of all items within 30 days of your original order’s date. If you’re interested in returning your items, send us an email with your order number and we’ll ship a return label.
+    .accordion-item
+      h2#headingFour.accordion-header
+        button.accordion-button.collapsed(type='button', data-bs-toggle='collapse', data-bs-target='#collapseFour', aria-expanded='false', aria-controls='collapseOne')
+          | Is there a fee to use Apple pay or Google pay?
+      #collapseFour.accordion-collapse.collapse(aria-labelledby='headingFour', data-bs-parent='#accordionExample')
+        .accordion-body.pt-0
+          | We allow the return of all items within 30 days of your original order’s date. If you’re interested in returning your items, send us an email with your order number and we’ll ship a return label.
+    .accordion-item
+      h2#headingFive.accordion-header
+        button.accordion-button.collapsed(type='button', data-bs-toggle='collapse', data-bs-target='#collapseFive', aria-expanded='false', aria-controls='collapseOne')
+          | What is the refund policy?
+      #collapseFive.accordion-collapse.collapse(aria-labelledby='headingFive', data-bs-parent='#accordionExample')
+        .accordion-body.pt-0
+          | We allow the return of all items within 30 days of your original order’s date. If you’re interested in returning your items, send us an email with your order number and we’ll ship a return label.
+
+  .text-center.py-11
+    h3.text-black Still can’t find your answer?
+    p.text-900 We are happy to help
+    button.btn.btn-sm.btn-outline-primary 
+      span.fas.fa-comment.me-2
+      | Chat with us

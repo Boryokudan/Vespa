@@ -1,0 +1,25 @@
+extends ../index
+
+
+
+append variables
+  - var disableNavigationType = true;
+  - var disableVerticalNavbarAppearance = true;
+  - var disableHorizontalNavbarShape = true;
+
+append headScripts
+  script(src=`${CWD}assets/js/demo.js`) 
+
+block navbarHorizontal
+  +NavbarTopSlimNew({
+      toggleID: 'navbarToplCollapse',
+      links: false,
+      search: true
+    }).navbar-expand-lg(style='display:none')
+  script.
+    var navbarVertical = document.querySelector('.navbar-vertical');
+    var navbarTopSlimNew = document.querySelector('#navbarTopSlimNew');
+    var body = document.querySelector('body');
+    navbarVertical.remove()
+    navbarTopSlimNew.removeAttribute('style');
+    body.classList.add('nav-slim');

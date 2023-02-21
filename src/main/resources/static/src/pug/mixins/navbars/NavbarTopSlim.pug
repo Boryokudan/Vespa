@@ -1,0 +1,10 @@
+include Mixins
+include ../common/Avatar
+//- include ../common/Card
+//- include ../common/Notification
+
+mixin NavbarTopSlim(config)
+  nav.navbar.navbar-top.navbar-slim#navbarSlim&attributes(attributes)
+    .collapse.navbar-collapse.justify-content-between
+      +NavbarLogoSlim(config.toggleID)
+      +NavbarIconsSlim

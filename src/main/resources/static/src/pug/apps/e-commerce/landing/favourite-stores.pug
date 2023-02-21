@@ -1,0 +1,134 @@
+extends ../../../layouts/LayoutEcommerce
+include ../../../mixins/e-commerce/profile/ProfileStores
+
+append variables
+	- 
+		var breadcrumb = [
+			{
+				label: 'Page 1',
+				href: '#!'
+			},
+			{
+				label: 'Page 2',
+				href: '#!',
+			},
+			{
+				label: 'Default',
+				href: '#!',
+				active: true
+			},
+		];
+	-
+		var storeItems = [
+			{
+				name: 'Dell Technologies',
+				rating: 4,
+				people: 1263,
+				image: 'brand2/dell.png'
+			},
+			{
+				name: 'HP Global Store',
+				rating: 3,
+				people: 365,
+				image: 'brand2/hp.png'
+			},
+			{
+				name: 'Honda',
+				rating: 5,
+				people: 596,
+				image: 'brand2/honda.png'
+			},
+			{
+				name: 'Asus ROG',
+				rating: 3,
+				people: 2365,
+				image: 'brand2/asus-rog.png'
+			},
+			{
+				name: 'Yamaha',
+				rating: 5,
+				people: 1253,
+				image: 'brand2/yamaha.png'
+			},
+			{
+				name: 'IBM',
+				rating: 3,
+				people: 996,
+				image: 'brand2/ibm.png'
+			},
+			{
+				name: 'Apple Store',
+				rating: 3,
+				people: 365,
+				image: 'brand2/apple-2.png'
+			},
+			{
+				name: 'Oppo',
+				rating: 3,
+				people: 576,
+				image: 'brand2/oppo.png'
+			},
+			{
+				name: 'Redragon',
+				rating: 2,
+				people: 1125,
+				image: 'brand2/redragon.png'
+			},
+			{
+				name: 'Microsoft XBOX',
+				rating: 4,
+				people: 830,
+				image: 'brand2/xbox.png'
+			},
+			{
+				name: 'Lenovo',
+				rating: 3,
+				people: 1032,
+				image: 'brand2/lenovo.png'
+			},
+			{
+				name: 'Xiaomi',
+				rating: 3,
+				people: 965,
+				image: 'brand2/xiaomi.png'
+			},
+			{
+				name: 'Oneplus',
+				rating: 4,
+				people: 562,
+				image: 'brand2/oneplus-2.png'
+			},
+			{
+				name: 'Suzuki',
+				rating: 3,
+				people: 125,
+				image: 'brand2/suzuki-2.png'
+			},
+			{
+				name: 'Google store',
+				rating: 4,
+				people: 1859,
+				image: 'brand2/google-store.png'
+			},
+			{
+				name: 'Intel',
+				rating: 5,
+				people: 1542,
+				image: 'brand2/intel-2.png'
+			},
+		]	
+
+block ecomContent
+	+Section(null,'container-small').pt-5.pb-9
+		nav.mb-2(aria-label='breadcrumb')
+			ol.breadcrumb.mb-0
+				li.breadcrumb-item
+					a(href='#!') Page 1
+				li.breadcrumb-item
+					a(href='#!') Page 2
+				li.breadcrumb-item.active(aria-current='page') Default
+		h2.mb-1 My Favorites Stores
+		p.mb-5.text-700.fw-semi-bold Essential for a better life
+		.row.gx-3.gy-5
+			each item in storeItems
+				+StoreItem(item)

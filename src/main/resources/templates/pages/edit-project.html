@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main.html}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Edit Project</title>
+</head>
+<body>
+<div layout:fragment="content" onload="loadData()">
+    <input type="hidden" id="projectId" th:value="${id}">
+    <h2 class="mb-6">Edit a project</h2>
+    <div class="row">
+        <div class="col-xl-9">
+            <div id="successAlert">
+
+            </div>
+        </div>
+        <div class="col-xl-9">
+            <form class="row g-3 mb-6">
+                <div class="row my-2">
+                    <div class="col-sm-12 col-md-9 col-lg-9">
+                        <div class="form-floating">
+                            <input class="form-control" id="projectTitle" type="text" placeholder="Project title" />
+                            <label for="projectTitle">Project title</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3 col-lg-3">
+                        <div class="form-floating">
+                            <select class="form-select" id="selectStatus">
+                                <option value="undefined">N/A</option>
+                                <option value="Inactive" class="badge badge-phoenix fs--2 badge-phoenix-warning">
+                                    Inactive
+                                </option>
+                                <option value="Ongoing" class="badge badge-phoenix fs--2 badge-phoenix-primary">
+                                    Ongoing
+                                </option>
+                                <option value="Cancelled" class="badge badge-phoenix fs--2 badge-phoenix-secondary">
+                                    Cancelled
+                                </option>
+                                <option value="Completed" class="badge badge-phoenix fs--2 badge-phoenix-success">
+                                    Completed
+                                </option>
+                            </select>
+                            <label for="selectStatus">Status</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-floating">
+                            <select class="form-select" id="selectPM">
+                                <option value="null">N/A</option>
+                            </select>
+                            <label for="selectPM">Project manager</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="flatpickr-input-container">
+                            <div class="form-floating">
+                                <input class="form-control datetimepicker" id="initiationDate" type="date" placeholder="end date" data-options='{"disableMobile":true}' />
+                                <label class="ps-6" for="initiationDate">Start date</label><span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="flatpickr-input-container">
+                            <div class="form-floating">
+                                <input class="form-control datetimepicker" id="deadlineDate" type="date" placeholder="deadline" data-options='{"disableMobile":true}' />
+                                <label class="ps-6" for="deadlineDate">Deadline</label><span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-6 gy-2">
+                        <select class="form-select" id="selectDevelopers" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'>
+                            <option value="" class="mt-2">Add developers</option>
+                        </select>
+                    </div>
+                    <div class="col-6 gy-2">
+                        <select class="form-select" id="selectSubmitters" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'>
+                            <option value="" class="mt-2">Add submitters</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-12 gy-2">
+                        <div class="form-floating">
+                            <textarea class="form-control" id="projectOverview" placeholder="Leave a comment here" style="height: 100px"></textarea>
+                            <label for="projectOverview">Project overview</label>
+                        </div>
+                    </div>
+                    <div class="col-12 gy-5">
+                        <div class="row g-3 justify-content-end">
+                            <div class="col-auto">
+                                <a class="btn btn-lg btn-phoenix-primary px-5" th:href="@{'/projects/' + ${id}}">Cancel</a>
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-lg btn-primary px-5 px-sm-15" type="button" id="save-changes-btn">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script layout:fragment="script" type="text/javascript">
+
+    loadData();
+
+    function loadData() {
+        loadProjectManagersList();
+        loadDevelopersList();
+        loadSubmittersList();
+        loadProjectData();
+    }
+
+    // renderPage();
+
+    // function loadData() {
+    //     loadProjectManagersList1();
+    //     loadDevelopersList1();
+    //     loadSubmittersList1();
+    // }
+
+    // async function renderPage() {
+    //     await loadProjectManagersList1();
+    //     await loadDevelopersList1();
+    //     await loadSubmittersList1();
+    //     loadProjectData1();
+    // }
+
+    function loadProjectManagersList() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', "/api/pm", true);
+        xhr.responseType = 'json';
+
+        xhr.onload = () => {
+            let status = xhr.status;
+            if (status === 200) {
+                let pmList = xhr.response;
+                let selectPM = document.getElementById("selectPM");
+
+                for (let i = 0; i < pmList.length; i++) {
+                    selectPM.innerHTML += "<option value=\"" + pmList[i].id + "\">" + pmList[i].fullName + "</option>"
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    function loadDevelopersList() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', "/api/dev", true);
+        xhr.responseType = 'json';
+
+        xhr.onload = () => {
+            const status = xhr.status;
+
+            if (status === 200) {
+                let developersList = xhr.response;
+                let selectDevelopers = document.getElementById("selectDevelopers");
+
+                for (let i = 0; i < developersList.length; i++) {
+                    selectDevelopers.innerHTML +=
+                        "<option value=\"" + developersList[i].id + "\">"
+                        + developersList[i].fullName + " / "
+                        + developersList[i].grade + " / "
+                        + developersList[i].specialization +
+                        "</option>"
+                    console.log(developersList[i].fullName + " " + developersList[i].grade);
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    function loadSubmittersList() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', "/api/sub", true);
+        xhr.responseType = 'json';
+
+        xhr.onload = () => {
+            let status = xhr.status;
+            if (status === 200) {
+                let submittersList = xhr.response;
+                let selectSubmitters = document.getElementById("selectSubmitters");
+
+                for (let i = 0; i < submittersList.length; i++) {
+                    if (submittersList[i].position === "Admin") continue;
+                    selectSubmitters.innerHTML +=
+                        "<option value=\"" + submittersList[i].id + "\">"
+                        + submittersList[i].fullName + " / "
+                        + submittersList[i].grade + " / "
+                        + submittersList[i].position +
+                        "</option>"
+                    console.log(submittersList[i].fullName + " " + submittersList[i].grade);
+                }
+            }
+        };
+        xhr.send();
+    }
+    let projectTickets = null;
+
+    function loadProjectData() {
+        let projectId = document.getElementById("projectId").value;
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', "/api/projects/" + projectId, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.responseType = 'json';
+
+        xhr.onload = () => {
+            let status = xhr.status;
+            console.log(status);
+
+            if (status === 200) {
+                let project = xhr.response;
+
+                projectTitle.value = project.title;
+                projectOverview.value = project.overview;
+                initiationDate.value = project.initiationDate;
+                deadlineDate.value = project.completionDate;
+                projectTickets = project.tickets;
+
+                Array.from(document.querySelector("#selectStatus").options).forEach(function(option_element) {
+                    if (option_element.value === project.status) {
+                        option_element.selected = true;
+                    }
+                });
+
+                Array.from(document.querySelector("#selectPM").options).forEach(function(option_element) {
+                    if (option_element.value === null && project.projectManager === null) option_element.selected = true;
+                    else if (option_element.value === project.projectManager.id.toString()) {
+                        option_element.selected = true;
+                    }
+                });
+
+                for (let i = 0; i < project.team.length; i++) {
+                    Array.from(document.querySelector("#selectDevelopers").options).forEach(function(option_element) {
+                        if (option_element.value === project.team[i].id.toString()) {
+                            option_element.selected = true;
+                        }
+                    });
+                }
+
+                for (let i = 0; i < project.submitters.length; i++) {
+                    Array.from(document.querySelector("#selectSubmitters").options).forEach(function(option_element) {
+                        if (option_element.value === project.submitters[i].id.toString()) {
+                            option_element.selected = true;
+                        }
+                    });
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    function updateProject() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('PUT', "/api/projects", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        let pId = projectId.value;
+        let title = projectTitle.value;
+        let status = selectStatus.value;
+        let overview = projectOverview.value;
+        let startDate = initiationDate.value;
+        let completionDate = deadlineDate.value;
+
+        let projectManager = null;
+        if (selectPM.value !== "null") projectManager = {"id": selectPM.value};
+
+        const team = [];
+        Array.from(document.querySelector("#selectDevelopers").options).forEach(function(option_element) {
+            if (option_element.selected === true) {
+                let option_value = option_element.value;
+                team.push({"id": option_value});
+            }
+        });
+
+        const submitters = [];
+        Array.from(document.querySelector("#selectSubmitters").options).forEach(function(option_element) {
+            if (option_element.selected === true) {
+                let option_value = option_element.value;
+                submitters.push({"id": option_value});
+            }
+        });
+
+        const params = {
+            id: pId,
+            title: title,
+            status: status,
+            overview: overview,
+            initiationDate: startDate,
+            completionDate: completionDate,
+            projectManager: projectManager,
+            team: team,
+            submitters: submitters,
+            tickets: projectTickets
+        };
+
+        // xhr.onload = () => {
+        //     if (xhr.status === 200) {
+        //         successAlert.innerHTML +=
+        //             "<div class=\"alert alert-soft-success\" role=\"alert\">" +
+        //                 "Project has been successfully updated!" +
+        //             "</div>"
+        //     }
+        // };
+
+        xhr.send(JSON.stringify(params));
+    }
+
+    document.getElementById("save-changes-btn").addEventListener("click", function () {
+        updateProject();
+        let url = "/projects/" + projectId.value;
+        window.location.href = url;
+    });
+
+
+    //-----------------------------------------------------------------------------------------------
+    // function loadProjectManagersList1() {
+    //     return new Promise((resolve, reject) => {
+    //         let xhr = new XMLHttpRequest();
+    //         xhr.open('GET', "/api/pm", true);
+    //         xhr.responseType = 'json';
+    //
+    //         xhr.onload = () => {
+    //             let status = xhr.status;
+    //             if (status === 200) {
+    //                 let pmList = xhr.response;
+    //                 let selectPM = document.getElementById("selectPM");
+    //
+    //                 for (let i = 0; i < pmList.length; i++) {
+    //                     selectPM.innerHTML += "<option value=\"" + pmList[i].id + "\">" + pmList[i].fullName + "</option>"
+    //                 }
+    //                 resolve();
+    //             } else {
+    //                 reject();
+    //             }
+    //         };
+    //         xhr.send();
+    //     })
+    // }
+    //
+    // function loadDevelopersList1() {
+    //     return new Promise((resolve, reject) => {
+    //         let xhr = new XMLHttpRequest();
+    //         xhr.open('GET', "/api/dev", true);
+    //         xhr.responseType = 'json';
+    //
+    //         xhr.onload = () => {
+    //             const status = xhr.status;
+    //
+    //             if (status === 200) {
+    //                 let developersList = xhr.response;
+    //                 let selectDevelopers = document.getElementById("selectDevelopers");
+    //
+    //                 for (let i = 0; i < developersList.length; i++) {
+    //                     selectDevelopers.innerHTML +=
+    //                         "<option value=\"" + developersList[i].id + "\">"
+    //                         + developersList[i].fullName + " / "
+    //                         + developersList[i].grade + " / "
+    //                         + developersList[i].specialization +
+    //                         "</option>"
+    //                     console.log(developersList[i].fullName + " " + developersList[i].grade);
+    //                 }
+    //                 resolve();
+    //             } else {
+    //                 reject();
+    //             }
+    //         };
+    //         xhr.send();
+    //     })
+    // }
+    //
+    // function loadSubmittersList1() {
+    //     return new Promise((resolve, reject) => {
+    //         let xhr = new XMLHttpRequest();
+    //         xhr.open('GET', "/api/sub", true);
+    //         xhr.responseType = 'json';
+    //
+    //         xhr.onload = () => {
+    //             let status = xhr.status;
+    //             if (status === 200) {
+    //                 let submittersList = xhr.response;
+    //                 let selectSubmitters = document.getElementById("selectSubmitters");
+    //
+    //                 for (let i = 0; i < submittersList.length; i++) {
+    //                     selectSubmitters.innerHTML +=
+    //                         "<option value=\"" + submittersList[i].id + "\">"
+    //                         + submittersList[i].fullName + " / "
+    //                         + submittersList[i].grade + " / "
+    //                         + submittersList[i].position +
+    //                         "</option>"
+    //                     console.log(submittersList[i].fullName + " " + submittersList[i].grade);
+    //                 }
+    //                 resolve();
+    //             } else {
+    //                 reject();
+    //             }
+    //         };
+    //         xhr.send();
+    //     })
+    // }
+    //
+    // function loadProjectData1() {
+    //     let projectId = document.getElementById("projectId").value;
+    //     let xhr = new XMLHttpRequest();
+    //     xhr.open('GET', "/api/projects/" + projectId, true);
+    //     xhr.responseType = 'json';
+    //
+    //     xhr.onload = () => {
+    //         let status = xhr.status;
+    //         console.log(status);
+    //
+    //         if (status === 200) {
+    //             let project = xhr.response;
+    //
+    //             projectTitle.value = project.title;
+    //             projectOverview.value = project.overview;
+    //             initiationDate.value = project.initiationDate;
+    //             deadlineDate.value = project.completionDate;
+    //
+    //             Array.from(document.querySelector("#selectPM").options).forEach(function(option_element) {
+    //                 if (option_element.value === project.projectManager.id.toString()) {
+    //                     option_element.selected = true;
+    //                 }
+    //             });
+    //
+    //             for (let i = 0; i < project.team.length; i++) {
+    //                 Array.from(document.querySelector("#selectDevelopers").options).forEach(function(option_element) {
+    //                     if (option_element.value === project.team[i].id.toString()) {
+    //                         option_element.selected = true;
+    //                     }
+    //                 });
+    //             }
+    //
+    //             for (let i = 0; i < project.submitters.length; i++) {
+    //                 Array.from(document.querySelector("#selectSubmitters").options).forEach(function(option_element) {
+    //                     if (option_element.value === project.submitters[i].id.toString()) {
+    //                         option_element.selected = true;
+    //                     }
+    //                 });
+    //             }
+    //         }
+    //     };
+    //     xhr.send();
+    // }
+</script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main.html}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Ticket Details</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <input type="hidden" id="ticketId" th:value="${id}">
+        <div class="row g-0 mt-3">
+            <div class="col-12 col-xxl-8 px-0 bg-soft">
+                <div class="px-4 px-lg-6 pt-6 pb-9">
+                    <h3 class="text-black fw-bolder mb-5">Ticket Details</h3>
+                    <div class="row gx-0 gx-sm-5 gy-8 mb-8">
+                        <div class="col-6">
+                            <div class="card" style="width:50rem;" id="ticket-card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <h5 class="card-title">Title goes here</h5><hr>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h6>TICKET TITLE</h6>
+                                            <p class="card-text">title...</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <h6>TICKET DESCRIPTION</h6>
+                                            <p class="card-text">description...</p>
+                                        </div>
+                                    </div><hr>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h6>STATUS</h6>
+                                            <p class="card-text">ticket status...</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <h6>PRIORITY</h6>
+                                            <p class="card-text">ticket priority...</p>
+                                        </div>
+                                    </div><hr>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h6>ASSIGNED DEVELOPER</h6>
+                                            <p class="card-text">developer...</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <h6>SUBMITTER</h6>
+                                            <p class="card-text">submitter...</p>
+                                        </div>
+                                    </div><hr>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h6>CREATION DATETIME</h6>
+                                            <p class="card-text">creation datetime...</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <h6>DEADLINE</h6>
+                                            <p class="card-text">deadline...</p>
+                                        </div>
+                                    </div><hr>
+                                    <button class="btn btn-primary">Go somewhere</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto d-flex flex-column justify-content-start">
+                    <div class="row align-items-center justify-content-between g-3 mb-3">
+                        <div class="col-auto">
+                            <div class="d-flex align-items-center">
+                                <!-- ===============================================-->
+                                <!--    EDIT TICKET MODAL -->
+                                <!-- ===============================================-->
+                                <div class="modal fade modal-md" id="staticBackdrop" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-primary">
+                                                <h5 class="modal-title text-white" id="staticBackdropLabel"><i class="fa-solid far fa-edit me-2"></i>Edit ticket</h5>
+                                                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1 text-white"></span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="row g-3 mb-3 mt-3">
+                                                    <div class="row my-2">
+                                                        <div class="col-sm-6 col-md-6">
+                                                            <div class="form-floating">
+                                                                <input class="form-control" id="ticketTitle" type="text" placeholder="Ticket title" />
+                                                                <label for="ticketTitle">Ticket title</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6 col-md-6">
+                                                            <div class="form-floating">
+                                                                <select class="form-select" id="selectType">
+                                                                    <option value="null">Select ticket type</option>
+                                                                    <option value="Bug">Bug</option>
+                                                                    <option value="Incident">Incident</option>
+                                                                    <option value="Change">Change request</option>
+                                                                    <option value="Feature">Feature request</option>
+                                                                </select>
+                                                                <label for="selectPriority">Ticket Type</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row my-2">
+                                                        <div class="col-sm-6 col-md-6">
+                                                            <div class="form-floating">
+                                                                <select class="form-select" id="selectPriority">
+                                                                    <option selected="selected">Select priority</option>
+                                                                    <option value="Low">Low</option>
+                                                                    <option value="Medium">Medium</option>
+                                                                    <option value="High">High</option>
+                                                                    <option value="Critical">Critical</option>
+                                                                </select>
+                                                                <label for="selectPriority">Ticket Priority</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6 col-md-6">
+                                                            <div class="flatpickr-input-container">
+                                                                <div class="form-floating">
+                                                                    <input class="form-control datetimepicker" id="deadline_date" type="text" placeholder="dd/mm/yyyy hour : minute" data-options='{"enableTime":true,"dateFormat":"Z","disableMobile":true}' />
+                                                                    <label class="ps-6" for="deadline_date">Deadline</label><span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row my-2">
+                                                        <div class="col-sm-12 col-md-12 gy-2">
+                                                            <div class="form-floating">
+                                                                <textarea class="form-control" id="ticketDescription" placeholder="Provide ticket description here" style="height: 100px"></textarea>
+                                                                <label for="ticketDescription">Ticket Description</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-outline-primary" id="cancelBtn" type="button" data-bs-dismiss="modal">Cancel</button>
+                                                <button class="btn btn-primary" type="button" onclick="editTicket()">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script layout:fragment="script" type="text/javascript">
+
+        loadTicketDetails();
+
+        let ticket = null;
+        function loadTicketDetails() {
+            let ticketId = document.getElementById("ticketId").value;
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "/api/tickets/" + ticketId, true);
+            xhr.responseType = 'json';
+
+            xhr.onload = () => {
+                let status = xhr.status;
+                let ticketDetails = document.getElementById("ticket-card");
+                let editTicketModal = document.getElementById("staticBackdrop");
+                ticketDetails.innerHTML = "";
+
+                if (status === 200) {
+                    ticket = xhr.response;
+
+                    let assigneeName = ticket.assignee !== null ? ticket.assignee.fullName : "N/A";
+                    let ownerName = ticket.owner !== null ? ticket.owner.fullName : "N/A";
+                    let creationDatetime = formatDateTime(ticket.creationDate);
+                    let deadline = formatDateTime(ticket.deadline);
+
+                    ticketDetails.innerHTML +=
+                        "<div class=\"card-body\">\n" +
+                        "    <div class=\"row mb-3\">\n" +
+                        "       <h3>Ticket #" + ticket.id + "</h3><hr>\n" +
+                        "    </div>\n" +
+                        "    <div class=\"row mb-3\">\n" +
+                        "        <div class=\"col-6\">\n" +
+                        "            <h6>TICKET TITLE</h6>\n" +
+                        "            <p class=\"card-text\">" + ticket.title + "</p>\n" +
+                        "        </div>\n" +
+                        "        <div class=\"col-6\">\n" +
+                        "            <h6>TICKET DESCRIPTION</h6>\n" +
+                        "            <p class=\"card-text\">" + ticket.content + "</p>\n" +
+                        "        </div>\n" +
+                        "    </div><hr>\n" +
+                        "    <div class=\"row mb-3\">\n" +
+                        "        <div class=\"col-6\">\n" +
+                        "            <h6>STATUS</h6>\n" +
+                        "            <p class=\"card-text\">" + ticket.status + "</p>\n" +
+                        "        </div>\n" +
+                        "        <div class=\"col-6\">\n" +
+                        "            <h6>PRIORITY</h6>\n" +
+                        "            <p class=\"card-text\">" + ticket.priority + "</p>\n" +
+                        "        </div>\n" +
+                        "    </div><hr>\n" +
+                        "    <div class=\"row mb-3\">\n" +
+                        "       <div class=\"col-6\">\n" +
+                        "               <h6>ASSIGNED DEVELOPER</h6>\n" +
+                        "               <p class=\"card-text\">" + assigneeName + "</p>\n" +
+                        "           </div>\n" +
+                        "       <div class=\"col-6\">\n" +
+                        "               <h6>SUBMITTER</h6>\n" +
+                        "               <p class=\"card-text\">" + ownerName + "</p>\n" +
+                        "       </div>\n" +
+                        "    </div><hr>\n" +
+                        "    <div class=\"row mb-3\">\n" +
+                        "        <div class=\"col-6\">\n" +
+                        "            <h6>CREATION DATETIME</h6>\n" +
+                        "            <p class=\"card-text\">" + creationDatetime + "</p>\n" +
+                        "        </div>\n" +
+                        "        <div class=\"col-6\">\n" +
+                        "            <h6>DEADLINE</h6>\n" +
+                        "            <p class=\"card-text\">" + deadline + "</p>\n" +
+                        "        </div>\n" +
+                        "    </div><hr>\n" +
+                        "    <div class=\"row d-flex justify-content-end\">" +
+                        "        <button class=\"btn btn-soft-primary col-2 mx-2\" data-bs-toggle=\"modal\" data-bs-target=\"#staticBackdrop\">" +
+                        "           <svg class=\"svg-inline--fa fa-pen me-2\" aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"pen\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\" data-fa-i2svg=\"\"><path fill=\"currentColor\" d=\"M362.7 19.32C387.7-5.678 428.3-5.678 453.3 19.32L492.7 58.75C517.7 83.74 517.7 124.3 492.7 149.3L444.3 197.7L314.3 67.72L362.7 19.32zM421.7 220.3L188.5 453.4C178.1 463.8 165.2 471.5 151.1 475.6L30.77 511C22.35 513.5 13.24 511.2 7.03 504.1C.8198 498.8-1.502 489.7 .976 481.2L36.37 360.9C40.53 346.8 48.16 333.9 58.57 323.5L291.7 90.34L421.7 220.3z\"></path></svg>" +
+                        "           Edit" +
+                        "        </button>\n" +
+                        "        <button class=\"btn btn-soft-danger col-2 mx-2\" id=\"delete-btn\" onclick=\"deleteTicket()\">" +
+                        "            <svg class=\"svg-inline--fa fa-trash me-2\" aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"trash\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\" data-fa-i2svg=\"\"><path fill=\"currentColor\" d=\"M135.2 17.69C140.6 6.848 151.7 0 163.8 0H284.2C296.3 0 307.4 6.848 312.8 17.69L320 32H416C433.7 32 448 46.33 448 64C448 81.67 433.7 96 416 96H32C14.33 96 0 81.67 0 64C0 46.33 14.33 32 32 32H128L135.2 17.69zM394.8 466.1C393.2 492.3 372.3 512 346.9 512H101.1C75.75 512 54.77 492.3 53.19 466.1L31.1 128H416L394.8 466.1z\"></path></svg>" +
+                        "            Delete" +
+                        "        </button>\n" +
+                        "    </div>\n" +
+                        "</div>";
+
+                    ticketTitle.value = ticket.title;
+                    Array.from(document.querySelector("#selectType").options).forEach(function(option_element) {
+                        if (option_element.value === ticket.priority) {
+                            option_element.selected = true;
+                        }
+                    });
+                    Array.from(document.querySelector("#selectPriority").options).forEach(function(option_element) {
+                        if (option_element.value === ticket.priority) {
+                            option_element.selected = true;
+                        }
+                    });
+                    deadline_date.value = deadline;
+                    ticketDescription.value = ticket.content;
+                }
+            };
+            xhr.send();
+        }
+
+        function editTicket() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('PUT', "/api/tickets", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            let ticketId = ticket.id;
+            let project_id = ticket.projectId;
+            let type = selectType.value === "null" ? null : selectType.value;
+            let title = ticketTitle.value;
+            let priority = selectPriority.value;
+            let status = ticket.status;
+            let creationDate = ticket.creationDate;
+            let deadline = deadline_date.value;
+            let ticket_description = ticketDescription.value;
+
+
+            let ticketOwnerId = ticket.owner === null ? null : {id: ticket.owner.id};
+            let ticketAssigneeId = ticket.assignee === null ? null : {id: ticket.assignee.id};
+
+            const params = {
+                id: ticketId,
+                projectId: project_id,
+                title: title,
+                type: type,
+                content: ticket_description,
+                priority: priority,
+                status: status,
+                creationDate: creationDate,
+                deadline: deadline,
+                owner: ticketOwnerId,
+                assignee: ticketAssigneeId
+            };
+
+            xhr.onload = () => {
+                let cancelButton = document.getElementById("cancelBtn");
+                cancelButton.click();
+                loadTicketDetails();
+            };
+            console.log(JSON.stringify(params));
+            xhr.send(JSON.stringify(params));
+        }
+
+        function deleteTicket() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('DELETE', "/api/tickets/" + ticket.id, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onload = () => {
+                redirectToProjectPage();
+            };
+            xhr.send();
+        }
+
+        function redirectToProjectPage() {
+            let url = "/tickets/project/" + ticket.projectId;
+            window.location.href = url;
+        }
+
+        function formatDateTime(datetime) {
+            let formattedDateTime = "";
+            for (let i = 0; i < datetime.length - 3; i++) {
+                if (datetime.charAt(i) === "T") {
+                    formattedDateTime += " ";
+                } else {
+                    formattedDateTime += datetime.charAt(i);
+                }
+            }
+            return formattedDateTime;
+        }
+    </script>
+</body>
+</html>

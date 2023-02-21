@@ -1,0 +1,30 @@
+<nav class="navbar navbar-vertical navbar-expand-lg" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <script>
+        var navbarStyle = localStorage.getItem("phoenixNavbarStyle");
+        if (navbarStyle && navbarStyle !== 'transparent') {
+            document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
+        }
+    </script>
+    <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+        <!-- scrollbar removed-->
+        <div class="navbar-vertical-content">
+            <ul class="navbar-nav flex-column" sec:authorize="isAuthenticated()" id="navbarVerticalNav">
+
+                <span class="nav-item-wrapper h-25"><a class="nav-link active" href="/projects" role="button" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16px" height="23px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-0 text-dark text-opacity-65">Projects</span></span></div></a>
+                </span>
+                <span sec:authorize="hasRole('ADMIN')" class="nav-item-wrapper h-25"><a class="nav-link active" href="/manage-roles" role="button" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16px" height="23px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-0 text-dark text-opacity-65">Manage user roles</span></span></div></a>
+                </span>
+                <span sec:authorize="hasAnyRole('ADMIN', 'PM')" class="nav-item-wrapper h-25"><a class="nav-link active" href="/tickets/manage" role="button" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16px" height="23px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-triangle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span><span class="nav-link-text-wrapper"><span class=" nav-link-text fs-0 text-dark text-opacity-65">Manage tickets</span></span></div></a>
+                </span>
+                <span sec:authorize="hasAnyRole('ADMIN', 'DEV', 'SUB')" class="nav-item-wrapper h-25"><a class="nav-link active" href="/tickets/my-tickets" role="button" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center"><span class="nav-link-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16px" height="23px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-0 text-dark text-opacity-65">My Tickets</span></span></div></a>
+                </span>
+            </ul>
+        </div>
+    <div class="navbar-vertical-footer">
+        <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 text-start white-space-nowrap"><span class="uil uil-left-arrow-to-left fs-0"></span><span class="uil uil-arrow-from-right fs-0"></span><span class="navbar-vertical-footer-text ms-2">Collapsed View</span></button>
+    </div>
+</nav>

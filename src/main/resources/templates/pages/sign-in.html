@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/sign-in-sign-up.html}">
+
+  <body>
+    <div layout:fragment="content">
+      <div class="row flex-center min-vh-100 py-5">
+        <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3"><a class="d-flex flex-center text-decoration-none mb-4" th:href="@{/public/index.html}">
+          <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block"><img th:src="@{/public/assets/img/icons/icon_0.png}" alt="logo" width="100" />
+          </div>
+        </a>
+          <div class="text-center mb-7 mt-3">
+            <h3 class="text-1000">Sign In</h3>
+            <p class="text-700">Get access to your Vespa account</p>
+          </div>
+          <div th:if="${param.error != null}">
+              <div class="alert alert-soft-danger" role="alert">Incorrect credentials. Check your email and password.</div>
+          </div>
+          <form th:action="@{'/auth'}" method="post">
+            <div class="mb-3 text-start">
+              <label class="form-label" for="email">Email address</label>
+              <div class="form-icon-container">
+                <input class="form-control form-icon-input" name="email" id="email" type="email" placeholder="yourname@vespa.com" required /><span class="fas fa-user text-900 fs--1 form-icon"></span>
+              </div>
+            </div>
+            <div class="mb-3 text-start">
+              <label class="form-label" for="password">Password</label>
+              <div class="form-icon-container">
+                <input class="form-control form-icon-input" name="password" id="password" type="password" placeholder="Password" required /><span class="fas fa-key text-900 fs--1 form-icon"></span>
+              </div>
+            </div>
+            <button class="btn btn-primary w-100 my-3">Sign In</button>
+          </form>
+          <div class="row flex-between-center mb-7">
+            <div class="text-center"><a class="fs--1 fw-semi-bold" href="../../../pages/authentication/simple/forgot-password.html">Forgot Password?</a></div>
+            <div class="text-center"><a class="fs--1 fw-bold" th:href="@{'/sign-up'}">Create an account</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
