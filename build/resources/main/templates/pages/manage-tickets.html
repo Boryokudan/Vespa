@@ -20,7 +20,7 @@
                         <div class="col col-auto">
                             <div class="search-box">
                                 <div class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                                    <input class="form-control search-input search" id="search-box" type="search" placeholder="Search projects" aria-label="Search" onchange="searchProjects()"/>
+                                    <input class="form-control search-input search" id="search-box" type="search" placeholder="Search projects" aria-label="Search"/>
                                     <span class="fas fa-search search-box-icon"></span>
                                 </div>
                             </div>
@@ -142,6 +142,11 @@
             loadGeneralData();
             loadDefaultProjectCards();
         }
+
+        document.getElementById("search-box").addEventListener("change", function () {
+            searchProjects();
+            renderCharts();
+        });
 
         function loadGeneralData() {
             let xhr = new XMLHttpRequest();
@@ -768,11 +773,12 @@
     </script>
 
     <script layout:fragment="script2" type="text/javascript">
-        document.addEventListener("DOMContentLoaded", renderChart);
+        document.addEventListener("DOMContentLoaded", renderCharts);
 
-        function renderChart() {
+        function renderCharts() {
             let xhr = new XMLHttpRequest();
-            xhr.open('GET', "/api/projects", true);
+            let query = document.getElementById("search-box").value;
+            xhr.open('GET', "/api/search/projects?query=" + query, true);
             xhr.responseType = 'json';
 
             let typeNACount = 0;

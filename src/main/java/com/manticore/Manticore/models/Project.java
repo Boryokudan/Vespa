@@ -29,7 +29,7 @@ public class Project {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "overview")
+    @Column(name = "overview", columnDefinition = "TEXT")
     private String overview;
 
     @Column(name = "initiation_date")

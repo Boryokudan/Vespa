@@ -211,7 +211,7 @@
                 <div class="col col-auto">
                     <div class="search-box">
                         <div class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                            <input class="form-control search-input search" id="search-box" type="search" placeholder="Search tickets" aria-label="Search" onchange="searchTickets()"/>
+                            <input class="form-control search-input search" id="search-box" type="search" placeholder="Search tickets" aria-label="Search"/>
                             <span class="fas fa-search search-box-icon"></span>
                         </div>
                     </div>
@@ -259,6 +259,11 @@
     <script layout:fragment="script" type="text/javascript">
 
         loadDefaultTicketList();
+
+        document.getElementById("search-box").addEventListener("change", function () {
+            searchTickets();
+            renderCharts();
+        });
 
         function loadDefaultTicketList() {
             let xhr = new XMLHttpRequest();
@@ -419,7 +424,6 @@
                         tableTitles.innerHTML =
                             "<h5 class=\"text-900 mb-4\">Project does not have active tickets.</h5>";
                     }
-
                 }
             }
         }
@@ -469,18 +473,11 @@
 
                 let cancelButton = document.getElementById("cancelBtn");
                 cancelButton.click();
-                loadDefaultTicketList();
-                renderChart();
+                searchTickets();
+                renderSearchChart();
             };
             xhr.send(JSON.stringify(params));
         }
-
-        // function contains(arr, key, val) {
-        //     for (let i = 0; i < arr.length; i++) {
-        //         if (arr[i][key] === val) return true;
-        //     }
-        //     return false;
-        // }
 
         function getCurrentDateTime() {
             let date = new Date();
@@ -496,12 +493,50 @@
     </script>
 
     <script layout:fragment="script2" type="text/javascript">
-        document.addEventListener("DOMContentLoaded", renderChart);
+        document.addEventListener("DOMContentLoaded", renderCharts);
 
-        function renderChart() {
+        // function renderDefaultChart() {
+        //     let xhr = new XMLHttpRequest();
+        //     const projectId = document.getElementById("projectId").value;
+        //     xhr.open('GET', "/api/projects/" + projectId, true);
+        //     xhr.responseType = 'json';
+        //
+        //     xhr.onload = () => {
+        //         let status = xhr.status;
+        //         console.log(status);
+        //         if (status === 200) {
+        //             let project = xhr.response;
+        //             let projectTickets = project.tickets;
+        //             console.log("Rendering default chart");
+        //             renderChart(projectTickets);
+        //         }
+        //     }
+        // }
+        //
+        // function renderSearchChart() {
+        //     let xhr = new XMLHttpRequest();
+        //     const projectId = document.getElementById("projectId").value;
+        //     let query = document.getElementById("search-box").value;
+        //     xhr.open('GET', "/api/search/tickets?p_id=" + projectId + "&" + "query=" + query, true);
+        //     xhr.responseType = 'json';
+        //
+        //     xhr.onload = () => {
+        //         let status = xhr.status;
+        //         console.log(status);
+        //         if (status === 200) {
+        //             let project = xhr.response;
+        //             let projectTickets = project.tickets;
+        //             console.log("Rendering search chart");
+        //             renderChart(projectTickets);
+        //         }
+        //     }
+        // }
+
+        function renderCharts() {
             let xhr = new XMLHttpRequest();
             const projectId = document.getElementById("projectId").value;
-            xhr.open('GET', "/api/projects/" + projectId, true);
+            let query = document.getElementById("search-box").value;
+            xhr.open('GET', "/api/search/tickets?p_id=" + projectId + "&" + "query=" + query, true);
             xhr.responseType = 'json';
 
             let typeNACount = 0;
@@ -749,6 +784,258 @@
             };
             xhr.send();
         }
+
+        // function renderChart() {
+        //     let xhr = new XMLHttpRequest();
+        //     const projectId = document.getElementById("projectId").value;
+        //     xhr.open('GET', "/api/projects/" + projectId, true);
+        //     xhr.responseType = 'json';
+        //
+        //     let typeNACount = 0;
+        //     let bugsCount = 0;
+        //     let incidentsCount = 0;
+        //     let changeRequestsCount = 0;
+        //     let featureRequestsCount = 0;
+        //
+        //     let pendingTicketsCount = 0;
+        //     let assignedTicketsCount = 0;
+        //     let inProgressTicketsCount = 0;
+        //     let closedTicketsCount = 0;
+        //
+        //     let priorityNACount = 0;
+        //     let priorityLowCount = 0;
+        //     let priorityMediumCount = 0;
+        //     let priorityHighCount = 0;
+        //     let priorityCriticalCount = 0;
+        //
+        //     xhr.onload = () => {
+        //         let status = xhr.status;
+        //
+        //         if (status === 200) {
+        //             let project = xhr.response;
+        //             let projectTickets = project.tickets;
+        //
+        //             if (projectTickets !== null && projectTickets.length > 0) {
+        //                 for (let i = 0; i < projectTickets.length; i++) {
+        //                     let ticketType = projectTickets[i].type;
+        //                     switch (ticketType) {
+        //                         case ("null"):
+        //                             typeNACount++;
+        //                             break;
+        //                         case ("Bug"):
+        //                             bugsCount++;
+        //                             break;
+        //                         case ("Incident"):
+        //                             incidentsCount++;
+        //                             break;
+        //                         case ("Change"):
+        //                             changeRequestsCount++;
+        //                             break;
+        //                         case ("Feature"):
+        //                             featureRequestsCount++;
+        //                             break;
+        //                     }
+        //                 }
+        //
+        //                 for (let i = 0; i < projectTickets.length; i++) {
+        //                     let ticketStatus = projectTickets[i].status;
+        //                     switch (ticketStatus) {
+        //                         case ("Pending"):
+        //                             pendingTicketsCount++;
+        //                             break;
+        //                         case ("Assigned"):
+        //                             assignedTicketsCount++;
+        //                             break;
+        //                         case ("In Progress"):
+        //                             inProgressTicketsCount++;
+        //                             break;
+        //                         case ("Closed"):
+        //                             closedTicketsCount++;
+        //                             break;
+        //                     }
+        //                 }
+        //
+        //                 for (let i = 0; i < projectTickets.length; i++) {
+        //                     let ticketPriority = projectTickets[i].priority;
+        //                     switch (ticketPriority) {
+        //                         case ("N/A"):
+        //                             priorityNACount++;
+        //                             break;
+        //                         case ("Low"):
+        //                             priorityLowCount++;
+        //                             break;
+        //                         case ("Medium"):
+        //                             priorityMediumCount++;
+        //                             break;
+        //                         case ("High"):
+        //                             priorityHighCount++;
+        //                             break;
+        //                         case ("Critical"):
+        //                             priorityCriticalCount++;
+        //                             break;
+        //                     }
+        //                 }
+        //
+        //                 echarts.init(document.querySelector("#donutChartType")).setOption({
+        //                     tooltip: {
+        //                         trigger: 'item'
+        //                     },
+        //                     legend: {
+        //                         top: '5%',
+        //                         left: 'center'
+        //                     },
+        //                     series: [{
+        //                         type: 'pie',
+        //                         radius: ['40%', '70%'],
+        //                         avoidLabelOverlap: false,
+        //                         label: {
+        //                             show: false,
+        //                             position: 'center'
+        //                         },
+        //                         emphasis: {
+        //                             label: {
+        //                                 show: true,
+        //                                 fontSize: '18',
+        //                                 fontWeight: 'bold'
+        //                             }
+        //                         },
+        //                         labelLine: {
+        //                             show: false
+        //                         },
+        //                         data: [
+        //                             {
+        //                                 value: typeNACount,
+        //                                 name: "N/A"
+        //                             },
+        //                             {
+        //                                 value: bugsCount,
+        //                                 name: "Bugs"
+        //                             },
+        //                             {
+        //                                 value: incidentsCount,
+        //                                 name: "Incidents"
+        //                             },
+        //                             {
+        //                                 value: changeRequestsCount,
+        //                                 name: "Change Requests"
+        //                             },
+        //                             {
+        //                                 value: featureRequestsCount,
+        //                                 name: "Feature Requests"
+        //                             }
+        //                         ],
+        //                     }]
+        //                 });
+        //
+        //                 echarts.init(document.querySelector("#donutChartStatus")).setOption({
+        //                     tooltip: {
+        //                         trigger: 'item'
+        //                     },
+        //                     legend: {
+        //                         top: '5%',
+        //                         left: 'center'
+        //                     },
+        //                     series: [{
+        //                         type: 'pie',
+        //                         radius: ['40%', '70%'],
+        //                         avoidLabelOverlap: false,
+        //                         label: {
+        //                             show: false,
+        //                             position: 'center'
+        //                         },
+        //                         emphasis: {
+        //                             label: {
+        //                                 show: true,
+        //                                 fontSize: '18',
+        //                                 fontWeight: 'bold'
+        //                             }
+        //                         },
+        //                         labelLine: {
+        //                             show: false
+        //                         },
+        //                         data: [
+        //                             {
+        //                                 value: pendingTicketsCount,
+        //                                 name: "Pending"
+        //                             },
+        //                             {
+        //                                 value: assignedTicketsCount,
+        //                                 name: "Assigned"
+        //                             },
+        //                             {
+        //                                 value: inProgressTicketsCount,
+        //                                 name: "In Progress"
+        //                             },
+        //                             {
+        //                                 value: closedTicketsCount,
+        //                                 name: "Closed"
+        //                             }
+        //                         ],
+        //                     }]
+        //                 });
+        //
+        //                 echarts.init(document.querySelector("#donutChartPriority")).setOption({
+        //                     tooltip: {
+        //                         trigger: 'item'
+        //                     },
+        //                     legend: {
+        //                         top: '5%',
+        //                         left: 'center'
+        //                     },
+        //                     series: [{
+        //                         type: 'pie',
+        //                         radius: ['40%', '70%'],
+        //                         avoidLabelOverlap: false,
+        //                         label: {
+        //                             show: false,
+        //                             position: 'center'
+        //                         },
+        //                         emphasis: {
+        //                             label: {
+        //                                 show: true,
+        //                                 fontSize: '18',
+        //                                 fontWeight: 'bold'
+        //                             }
+        //                         },
+        //                         labelLine: {
+        //                             show: false
+        //                         },
+        //                         data: [
+        //                             {
+        //                                 value: priorityNACount,
+        //                                 name: "N/A"
+        //                             },
+        //                             {
+        //                                 value: priorityLowCount,
+        //                                 name: "Low"
+        //                             },
+        //                             {
+        //                                 value: priorityMediumCount,
+        //                                 name: "Medium"
+        //                             },
+        //                             {
+        //                                 value: priorityHighCount,
+        //                                 name: "High"
+        //                             },
+        //                             {
+        //                                 value: priorityCriticalCount,
+        //                                 name: "Critical"
+        //                             }
+        //                         ],
+        //                     }]
+        //                 });
+        //             } else {
+        //                 document.getElementById("chart").innerHTML =
+        //                     "<h5 class=\"text-900 mb-4\">Not enough tickets to render the chart.</h5>";
+        //                 document.getElementById("chart1").innerHTML =
+        //                     "<h5 class=\"text-900 mb-4\">Not enough tickets to render the chart.</h5>";
+        //                 document.getElementById("chart2").innerHTML =
+        //                     "<h5 class=\"text-900 mb-4\">Not enough tickets to render the chart.</h5>";
+        //             }
+        //         }
+        //     };
+        //     xhr.send();
+        // }
     </script>
 </body>
 </html>

@@ -143,6 +143,11 @@
             loadProjectCards();
         }
 
+        document.getElementById("search-box").addEventListener("change", function () {
+            searchProjects();
+            renderCharts();
+        });
+
         function loadGeneralData() {
             let xhr = new XMLHttpRequest();
             xhr.open('GET', "/api/projects", true);
@@ -760,11 +765,12 @@
     </script>
 
     <script layout:fragment="script2" type="text/javascript">
-        document.addEventListener("DOMContentLoaded", renderChart);
+        document.addEventListener("DOMContentLoaded", renderCharts);
 
-        function renderChart() {
+        function renderCharts() {
             let xhr = new XMLHttpRequest();
-            xhr.open('GET', "/api/projects", true);
+            let query = document.getElementById("search-box").value;
+            xhr.open('GET', "/api/search/projects?filtered_tickets=true&query=" + query, true);
             xhr.responseType = 'json';
 
             let typeNACount = 0;
