@@ -15,6 +15,7 @@ public class TicketsRestController {
     private final TicketService ticketService;
 
     @GetMapping("{id}")
+    @PreAuthorize("isAuthenticated()")
     public TicketDto getTicket(@PathVariable(name = "id") Long id) {
         return ticketService.getTicketDtoById(id);
     }

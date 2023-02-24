@@ -6,7 +6,7 @@ import com.manticore.Manticore.repositories.ProjectManagerRepository;
 import com.manticore.Manticore.services.PermissionService;
 import com.manticore.Manticore.services.ProjectManagerService;
 import com.manticore.Manticore.services.UserService;
-import com.manticore.Manticore.user_dtos.ProjectManagerDto;
+import com.manticore.Manticore.dtos.user_dtos.ProjectManagerDto;
 import com.manticore.Manticore.models.user_models.ProjectManager;
 import com.manticore.Manticore.models.user_models.User;
 import lombok.RequiredArgsConstructor;

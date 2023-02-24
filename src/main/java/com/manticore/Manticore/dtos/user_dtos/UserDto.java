@@ -1,4 +1,4 @@
-package com.manticore.Manticore.user_dtos;
+package com.manticore.Manticore.dtos.user_dtos;
 
 import com.manticore.Manticore.dtos.PermissionDto;
 import lombok.Getter;

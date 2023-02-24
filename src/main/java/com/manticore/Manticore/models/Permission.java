@@ -20,6 +20,9 @@ public class Permission implements GrantedAuthority {
     @Column(name = "permission_level")
     private String permissionLevel;
 
+    @Column(name = "role_name")
+    private String roleName;
+
     public Permission(String permissionLevel) {
         this.permissionLevel = permissionLevel;
     }

@@ -1,9 +1,9 @@
 package com.manticore.Manticore.mappers;
 
 import com.manticore.Manticore.dtos.PermissionDto;
+import com.manticore.Manticore.dtos.user_dtos.UserDto;
 import com.manticore.Manticore.models.Permission;
 import com.manticore.Manticore.models.user_models.User;
-import com.manticore.Manticore.user_dtos.UserDto;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-21T11:53:34+0600",
+    date = "2023-02-23T18:22:51+0600",
     comments = "version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.jar, environment: Java 17.0.4.1 (BellSoft)"
 )
 @Component

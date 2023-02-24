@@ -1,7 +1,7 @@
 package com.manticore.Manticore.services.implementations;
 
 import com.manticore.Manticore.mappers.UserMapper;
-import com.manticore.Manticore.user_dtos.UserDto;
+import com.manticore.Manticore.dtos.user_dtos.UserDto;
 import com.manticore.Manticore.models.user_models.User;
 import com.manticore.Manticore.repositories.UserRepository;
 import com.manticore.Manticore.services.UserService;

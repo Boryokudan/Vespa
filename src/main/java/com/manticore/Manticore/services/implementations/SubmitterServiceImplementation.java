@@ -6,7 +6,7 @@ import com.manticore.Manticore.repositories.SubmitterRepository;
 import com.manticore.Manticore.services.PermissionService;
 import com.manticore.Manticore.services.SubmitterService;
 import com.manticore.Manticore.services.UserService;
-import com.manticore.Manticore.user_dtos.SubmitterDto;
+import com.manticore.Manticore.dtos.user_dtos.SubmitterDto;
 import com.manticore.Manticore.models.user_models.Submitter;
 import com.manticore.Manticore.models.user_models.User;
 import lombok.RequiredArgsConstructor;

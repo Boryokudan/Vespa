@@ -1,7 +1,7 @@
 package com.manticore.Manticore.controllers.rest_controllers;
 
 import com.manticore.Manticore.services.ProjectManagerService;
-import com.manticore.Manticore.user_dtos.ProjectManagerDto;
+import com.manticore.Manticore.dtos.user_dtos.ProjectManagerDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

@@ -206,6 +206,18 @@
                 </div>
             </div>
         </div>
+        <div class="row mb-5">
+            <div class="row me-5">
+                <div class="col col-auto">
+                    <div class="search-box">
+                        <div class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                            <input class="form-control search-input search" id="search-box" type="search" placeholder="Search tickets" aria-label="Search" onchange="searchTickets()"/>
+                            <span class="fas fa-search search-box-icon"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row d-flex justify-content-center">
             <div class="row">
                 <div id="members" data-list='{"valueNames":["", "full_name","email","current_role"],"page":10,"pagination":true}'>
@@ -252,6 +264,16 @@
             let xhr = new XMLHttpRequest();
             const projectId = document.getElementById("projectId").value;
             xhr.open('GET', "/api/projects/" + projectId, true);
+            xhr.responseType = 'json';
+            renderTicketData(xhr);
+            xhr.send();
+        }
+
+        function searchTickets() {
+            let xhr = new XMLHttpRequest();
+            const projectId = document.getElementById("projectId").value;
+            let query = document.getElementById("search-box").value;
+            xhr.open('GET', "/api/search/tickets?p_id=" + projectId + "&" + "query=" + query, true);
             xhr.responseType = 'json';
             renderTicketData(xhr);
             xhr.send();
@@ -414,27 +436,6 @@
             return formattedDateTime;
         }
 
-        function displayJSONObj() {
-            let project_id = projectId.value;
-            let title = ticketTitle.value;
-            let priority = selectPriority.value;
-            let creationDate = getCurrentDateTime();
-            let deadline = deadline_date.value;
-            let ticket_description = ticketDescription.value;
-
-            const params = {
-                projectId: project_id,
-                title: title,
-                content: ticket_description,
-                priority: priority,
-                status: "Pending",
-                creationDate: creationDate,
-                deadline: deadline
-            };
-
-            console.log(JSON.stringify(params));
-        }
-
         function addNewTicket() {
             let xhr = new XMLHttpRequest();
             xhr.open('POST', "/api/tickets", true);
@@ -447,8 +448,6 @@
             let creationDate = getCurrentDateTime();
             let deadline = deadline_date.value;
             let ticket_description = ticketDescription.value;
-            // ADD COMMENTS TO TICKET MODEL
-            // let ownersComment = ownersComment.value;
 
             const params = {
                 projectId: project_id,

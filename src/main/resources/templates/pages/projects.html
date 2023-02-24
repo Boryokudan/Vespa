@@ -23,6 +23,18 @@
                             </a>
                         </div>
                     </div>
+                    <div class="row mb-5">
+                        <div class="row me-5">
+                            <div class="col col-auto">
+                                <div class="search-box">
+                                    <div class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                        <input class="form-control search-input search" id="search-box" type="search" placeholder="Search projects" aria-label="Search" onchange="searchProjects()"/>
+                                        <span class="fas fa-search search-box-icon"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive scrollbar" id="table-div">
                         <table class="table fs--1 mb-0 border-top border-200">
                             <thead>
@@ -67,81 +79,99 @@
                     let status = xhr.status;
                     if (status === 200) {
                         let projectsList = xhr.response;
-
-                        let title = document.getElementById("title-and-number");
-                        title.innerHTML = "";
-                        let table = document.getElementById("table-latest-review-body");
-                        table.innerHTML = "";
-                        title.innerHTML += "Projects<span class=\"fw-normal text-700 ms-3\">(" + projectsList.length + ")</span>";
-
-                        for (let i = 0; i < projectsList.length; i++) {
-
-                            let status = projectsList[i].status;
-
-                            switch(status) {
-                                case "Inactive":
-                                    status =
-                                        "<span class=\"badge badge-phoenix fs--2 badge-phoenix-warning\">Inactive</span>\n";
-                                    break;
-                                case "Ongoing":
-                                    status =
-                                        "<span class=\"badge badge-phoenix fs--2 badge-phoenix-primary\">Ongoing</span>\n";
-                                    break;
-                                case "Cancelled":
-                                    status =
-                                        "<span class=\"badge badge-phoenix fs--2 badge-phoenix-secondary\">Cancelled</span>\n";
-                                    break;
-                                case "Completed":
-                                    status =
-                                        "<span class=\"badge badge-phoenix fs--2 badge-phoenix-success\">Completed</span>\n";
-                                    break;
-                            }
-
-                            table.innerHTML +=
-                                "<tr class=\"position-static\">" +
-                                "    <td class=\"align-middle time white-space-nowrap ps-0 projectName py-4\">\n" +
-                                "        <a href=\"/projects/" + projectsList[i].id + "\" class=\"text-decoration-none fw-bold fs-0\">\n" +
-                                            projectsList[i].title +
-                                "        \n</a>\n" +
-                                "    </td>\n" +
-
-                                "    <td class=\"align-middle text-center white-space-nowrap assignees ps-3 py-4\">\n" +
-                                        (projectsList[i].team.length + projectsList[i].submitters.length) +
-                                "    </td>\n" +
-
-                                "    <td class=\"align-middle text-center white-space-nowrap start ps-3 py-4\">\n" +
-                                "        <p class=\"mb-0 fs--1 text-900\">" + projectsList[i].initiationDate + "</p>\n" +
-                                "    </td>\n" +
-
-                                "    <td class=\"align-middle text-center white-space-nowrap deadline ps-3 py-4\">\n" +
-                                "        <p class=\"mb-0 fs--1 text-900\">" + projectsList[i].completionDate + "</p>\n" +
-                                "    </td>\n" +
-
-                                "    <td class=\"align-middle text-center white-space-nowrap task ps-3 py-4\">\n" +
-                                "        <p class=\"fw-bo text-900 fs--1 mb-0\">" + projectsList[i].tickets.length + "</p>\n" +
-                                "    </td>\n" +
-
-                                "    <td class=\"align-middle text-center white-space-nowrap text-end statuses\">\n" +
-                                          status +
-                                "    </td>" +
-
-                                "    <td class=\"align-middle text-center white-space-nowrap pe-0 action\">\n" +
-                                "        <div class=\"font-sans-serif btn-reveal-trigger position-static\">\n" +
-                                "            <button class=\"btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2\" type=\"button\" data-bs-toggle=\"dropdown\" data-boundary=\"window\" aria-haspopup=\"true\" aria-expanded=\"false\" data-bs-reference=\"parent\"><span class=\"fas fa-ellipsis-h fs--2\"></span></button>\n" +
-                                "            <div class=\"dropdown-menu dropdown-menu-end py-2\">" +
-                                "               <a class=\"dropdown-item\" href=\"/projects/" + projectsList[i].id + "\">View Details</a>" +
-                                "               <div class=\"dropdown-divider\"></div>" +
-                                "               <a class=\"dropdown-item text-danger\" onclick=\"deleteProject(" + projectsList[i].id + ")\">Delete</a>\n" +
-                                "               </div>\n" +
-                                "            </div>\n" +
-                                "    </td>\n" +
-                                "</tr>";
-                        }
-                        // document.getElementById('table-div').style.display = 'block';
+                        renderPage(projectsList);
                     }
 
                 };
                 xhr.send();
+            }
+
+            function searchProjects() {
+                let xhr = new XMLHttpRequest();
+                let query = document.getElementById("search-box").value;
+                xhr.open('GET', "/api/search/projects?query=" + query, true);
+                xhr.responseType = 'json';
+
+                xhr.onload = () => {
+                    let status = xhr.status;
+                    if (status === 200) {
+                        let projectsList = xhr.response;
+                        renderPage(projectsList);
+                    }
+                };
+                xhr.send();
+            }
+
+            function renderPage(projectsList) {
+                let title = document.getElementById("title-and-number");
+                title.innerHTML = "";
+                let table = document.getElementById("table-latest-review-body");
+                table.innerHTML = "";
+                title.innerHTML += "Projects<span class=\"fw-normal text-700 ms-3\">(" + projectsList.length + ")</span>";
+
+                for (let i = 0; i < projectsList.length; i++) {
+
+                    let status = projectsList[i].status;
+
+                    switch(status) {
+                        case "Inactive":
+                            status =
+                                "<span class=\"badge badge-phoenix fs--2 badge-phoenix-warning\">Inactive</span>\n";
+                            break;
+                        case "Ongoing":
+                            status =
+                                "<span class=\"badge badge-phoenix fs--2 badge-phoenix-primary\">Ongoing</span>\n";
+                            break;
+                        case "Cancelled":
+                            status =
+                                "<span class=\"badge badge-phoenix fs--2 badge-phoenix-secondary\">Cancelled</span>\n";
+                            break;
+                        case "Completed":
+                            status =
+                                "<span class=\"badge badge-phoenix fs--2 badge-phoenix-success\">Completed</span>\n";
+                            break;
+                    }
+
+                    table.innerHTML +=
+                        "<tr class=\"position-static\">" +
+                        "    <td class=\"align-middle time white-space-nowrap ps-0 projectName py-4\">\n" +
+                        "        <a href=\"/projects/" + projectsList[i].id + "\" class=\"text-decoration-none fw-bold fs-0\">\n" +
+                        projectsList[i].title +
+                        "        \n</a>\n" +
+                        "    </td>\n" +
+
+                        "    <td class=\"align-middle text-center white-space-nowrap assignees ps-3 py-4\">\n" +
+                        (projectsList[i].team.length + projectsList[i].submitters.length) +
+                        "    </td>\n" +
+
+                        "    <td class=\"align-middle text-center white-space-nowrap start ps-3 py-4\">\n" +
+                        "        <p class=\"mb-0 fs--1 text-900\">" + projectsList[i].initiationDate + "</p>\n" +
+                        "    </td>\n" +
+
+                        "    <td class=\"align-middle text-center white-space-nowrap deadline ps-3 py-4\">\n" +
+                        "        <p class=\"mb-0 fs--1 text-900\">" + projectsList[i].completionDate + "</p>\n" +
+                        "    </td>\n" +
+
+                        "    <td class=\"align-middle text-center white-space-nowrap task ps-3 py-4\">\n" +
+                        "        <p class=\"fw-bo text-900 fs--1 mb-0\">" + projectsList[i].tickets.length + "</p>\n" +
+                        "    </td>\n" +
+
+                        "    <td class=\"align-middle text-center white-space-nowrap text-end statuses\">\n" +
+                        status +
+                        "    </td>" +
+
+                        "    <td class=\"align-middle text-center white-space-nowrap pe-0 action\">\n" +
+                        "        <div class=\"font-sans-serif btn-reveal-trigger position-static\">\n" +
+                        "            <button class=\"btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2\" type=\"button\" data-bs-toggle=\"dropdown\" data-boundary=\"window\" aria-haspopup=\"true\" aria-expanded=\"false\" data-bs-reference=\"parent\"><span class=\"fas fa-ellipsis-h fs--2\"></span></button>\n" +
+                        "            <div class=\"dropdown-menu dropdown-menu-end py-2\">" +
+                        "               <a class=\"dropdown-item\" href=\"/projects/" + projectsList[i].id + "\">View Details</a>" +
+                        "               <div class=\"dropdown-divider\"></div>" +
+                        "               <a class=\"dropdown-item text-danger\" onclick=\"deleteProject(" + projectsList[i].id + ")\">Delete</a>\n" +
+                        "               </div>\n" +
+                        "            </div>\n" +
+                        "    </td>\n" +
+                        "</tr>";
+                }
             }
 
             function deleteProject(projectId) {

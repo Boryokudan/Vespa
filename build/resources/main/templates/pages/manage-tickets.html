@@ -12,21 +12,21 @@
                 <div class="row mt-5" id="generalData">
 
                 </div>
-<!--                <div class="row my-5">-->
-<!--                    <hr>-->
-<!--                </div>-->
-<!--                <div class="row mb-5">-->
-<!--                    <div class="row me-5">-->
-<!--                        <div class="col col-auto">-->
-<!--                            <div class="search-box">-->
-<!--                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">-->
-<!--                                    <input class="form-control search-input search" type="search" placeholder="Search projects" aria-label="Search" />-->
-<!--                                    <span class="fas fa-search search-box-icon"></span>-->
-<!--                                </form>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div class="row my-5">
+                    <hr>
+                </div>
+                <div class="row mb-5">
+                    <div class="row me-5">
+                        <div class="col col-auto">
+                            <div class="search-box">
+                                <div class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                    <input class="form-control search-input search" id="search-box" type="search" placeholder="Search projects" aria-label="Search" onchange="searchProjects()"/>
+                                    <span class="fas fa-search search-box-icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-sm-9 col-md-9 mx-auto">
                 <div class="col-12">
@@ -140,7 +140,7 @@
 
         function renderPage() {
             loadGeneralData();
-            loadProjectCards();
+            loadDefaultProjectCards();
         }
 
         function loadGeneralData() {
@@ -245,7 +245,25 @@
             xhr.send();
         }
 
-        function loadProjectCards() {
+        function searchProjects() {
+            let xhr = new XMLHttpRequest();
+            let query = document.getElementById("search-box").value;
+            xhr.open('GET', "/api/search/projects?query=" + query, true);
+            xhr.responseType = 'json';
+
+            xhr.onload = () => {
+                let status = xhr.status;
+                let projectCards = document.getElementById("projectCards");
+                projectCards.innerHTML = "";
+                if (status === 200) {
+                    let projects = xhr.response;
+                    renderProjectCards(projects);
+                }
+            };
+            xhr.send();
+        }
+
+        function loadDefaultProjectCards() {
             let xhr = new XMLHttpRequest();
             xhr.open('GET', "/api/projects", true);
             xhr.responseType = 'json';
@@ -256,90 +274,93 @@
 
                 if (status === 200) {
                     let projects = xhr.response;
-
-                    if (projects !== null) {
-                        projectCards.innerHTML = "";
-                        for (let i = 0; i < projects.length; i++) {
-                                let projectTicketsCount = 0;
-                                let projectDevelopers = 0;
-                                let projectSubmitters = 0;
-                                let projectUnassignedTickets = 0;
-
-                                let status = projects[i].status;
-
-                                if (projects[i].tickets !== null) {
-                                    projectTicketsCount = projects[i].tickets.length;
-                                }
-                                if (projects[i].team !== null ) {
-                                    projectDevelopers = projects[i].team.length;
-                                }
-                                if (projects[i].submitters !== null) {
-                                    projectSubmitters = projects[i].submitters.length;
-                                }
-                                if (projects[i].tickets !== null) {
-                                    projects[i].tickets.forEach(ticket => function() {
-                                        if (ticket.status === null) {
-                                            projectUnassignedTickets++;
-                                        }
-                                    });
-                                }
-
-                                switch(status) {
-                                    case "Inactive":
-                                        status =
-                                            "<span class=\"badge badge-phoenix fs--2 badge-phoenix-warning mb-3\">Inactive</span>\n";
-                                        break;
-                                    case "Ongoing":
-                                        status =
-                                            "<span class=\"badge badge-phoenix fs--2 badge-phoenix-primary mb-3\">Ongoing</span>\n";
-                                        break;
-                                    case "Cancelled":
-                                        status =
-                                            "<span class=\"badge badge-phoenix fs--2 badge-phoenix-secondary mb-3\">Cancelled</span>\n";
-                                        break;
-                                    case "Completed":
-                                        status =
-                                            "<span class=\"badge badge-phoenix fs--2 badge-phoenix-success mb-3\">Completed</span>\n";
-                                        break;
-                                }
-
-                                projectCards.innerHTML +=
-                                    "<div class=\"col\">\n" +
-                                    "    <div class=\"card h-100 hover-actions-trigger\">\n" +
-                                    "        <div class=\"card-body\">\n" +
-                                    "            <div class=\"d-flex align-items-center\">\n" +
-                                    "                <h4 class=\"mb-2 line-clamp-1 lh-sm flex-1 me-5\">" + projects[i].title + "</h4>\n" +
-                                    "                <div class=\"hover-actions top-0 end-0 mt-4 me-4\">\n" +
-                                    "                    <button id=\"modalOpenBtn" + projects[i].id + "\" class=\"btn btn-primary btn-icon flex-shrink-0\" data-bs-target=\"#modalForProject" + projects[i].id + "\" data-bs-toggle=\"modal\"><svg class=\"svg-inline--fa fa-chevron-right\" aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"chevron-right\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 512\" data-fa-i2svg=\"\"><path fill=\"currentColor\" d=\"M96 480c-8.188 0-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L242.8 256L73.38 86.63c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l192 192c12.5 12.5 12.5 32.75 0 45.25l-192 192C112.4 476.9 104.2 480 96 480z\"></path></svg><!-- <span class=\"fa-solid fa-chevron-right\"></span> Font Awesome fontawesome.com --></button>\n" +
-                                    "                </div>\n" +
-                                    "            </div>" + status +
-                                    "            <div class=\"d-flex align-items-center mb-2\"><span class=\"fa-solid far fa-file-code me-2 text-700 fs--1 fw-extra-bold\"></span>\n" +
-                                    "                <p class=\"fw-bold mb-0 text-truncate lh-1\">Tickets: <span class=\"fw-semi-bold ms-1\">" + projectTicketsCount + "</span></p>\n" +
-                                    "            </div>\n" +
-                                    "            <div class=\"d-flex align-items-center mb-2\"><svg class=\"svg-inline--fa fa-user me-2 text-700 fs--1 fw-extra-bold\" aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"user\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\" data-fa-i2svg=\"\"><path fill=\"currentColor\" d=\"M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z\"></path></svg><!-- <span class=\"fa-solid fa-user me-2 text-700 fs--1 fw-extra-bold\"></span> Font Awesome fontawesome.com -->\n" +
-                                    "                <p class=\"fw-bold mb-0 text-truncate lh-1\">Developers: <span class=\"fw-semi-bold ms-1\">" + projectDevelopers + "</span></p>\n" +
-                                    "            </div>\n" +
-                                    "            <div class=\"d-flex align-items-center mb-2\"><svg class=\"svg-inline--fa fa-user me-2 text-700 fs--1 fw-extra-bold\" aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"user\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\" data-fa-i2svg=\"\"><path fill=\"currentColor\" d=\"M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z\"></path></svg><!-- <span class=\"fa-solid fa-user me-2 text-700 fs--1 fw-extra-bold\"></span> Font Awesome fontawesome.com -->\n" +
-                                    "                <p class=\"fw-bold mb-0 text-truncate lh-1\">Submitters: <span class=\"fw-semi-bold ms-1\">" + projectSubmitters + "</span></p>\n" +
-                                    "            </div>\n" +
-                                    "            <div class=\"d-flex align-items-center mt-4\">\n" +
-                                    "                <p class=\"mb-0 fw-bold fs--1\">Initiation date:<span class=\"fw-semi-bold text-600 ms-1\">" + projects[i].initiationDate + "</span></p>\n" +
-                                    "            </div>\n" +
-                                    "            <div class=\"d-flex align-items-center mt-2\">\n" +
-                                    "                <p class=\"mb-0 fw-bold fs--1\">Completion date: <span class=\"fw-semi-bold text-600 ms-1\">" + projects[i].completionDate + "</span></p>\n" +
-                                    "            </div>\n" +
-                                    "            <div class=\"d-flex align-items-center mt-2\">\n" +
-                                    "                <a class=\"mb-0 fw-bold fs--1\" href=\"/projects/" + projects[i].id + "\">Details</a>\n" +
-                                    "            </div>\n" +
-                                    "        </div>\n" +
-                                    "    </div>\n" +
-                                    "</div>";
-                            }
-                        loadProjectTicketModals(projects);
-                    }
+                    renderProjectCards(projects);
                 }
             }
             xhr.send();
+        }
+
+        function renderProjectCards(projects) {
+            if (projects !== null) {
+                projectCards.innerHTML = "";
+                for (let i = 0; i < projects.length; i++) {
+                    let projectTicketsCount = 0;
+                    let projectDevelopers = 0;
+                    let projectSubmitters = 0;
+                    let projectUnassignedTickets = 0;
+
+                    let status = projects[i].status;
+
+                    if (projects[i].tickets !== null) {
+                        projectTicketsCount = projects[i].tickets.length;
+                    }
+                    if (projects[i].team !== null ) {
+                        projectDevelopers = projects[i].team.length;
+                    }
+                    if (projects[i].submitters !== null) {
+                        projectSubmitters = projects[i].submitters.length;
+                    }
+                    if (projects[i].tickets !== null) {
+                        projects[i].tickets.forEach(ticket => function() {
+                            if (ticket.status === null) {
+                                projectUnassignedTickets++;
+                            }
+                        });
+                    }
+
+                    switch(status) {
+                        case "Inactive":
+                            status =
+                                "<span class=\"badge badge-phoenix fs--2 badge-phoenix-warning mb-3\">Inactive</span>\n";
+                            break;
+                        case "Ongoing":
+                            status =
+                                "<span class=\"badge badge-phoenix fs--2 badge-phoenix-primary mb-3\">Ongoing</span>\n";
+                            break;
+                        case "Cancelled":
+                            status =
+                                "<span class=\"badge badge-phoenix fs--2 badge-phoenix-secondary mb-3\">Cancelled</span>\n";
+                            break;
+                        case "Completed":
+                            status =
+                                "<span class=\"badge badge-phoenix fs--2 badge-phoenix-success mb-3\">Completed</span>\n";
+                            break;
+                    }
+
+                    projectCards.innerHTML +=
+                        "<div class=\"col\">\n" +
+                        "    <div class=\"card h-100 hover-actions-trigger\">\n" +
+                        "        <div class=\"card-body\">\n" +
+                        "            <div class=\"d-flex align-items-center\">\n" +
+                        "                <h4 class=\"mb-2 line-clamp-1 lh-sm flex-1 me-5\">" + projects[i].title + "</h4>\n" +
+                        "                <div class=\"hover-actions top-0 end-0 mt-4 me-4\">\n" +
+                        "                    <button id=\"modalOpenBtn" + projects[i].id + "\" class=\"btn btn-primary btn-icon flex-shrink-0\" data-bs-target=\"#modalForProject" + projects[i].id + "\" data-bs-toggle=\"modal\"><svg class=\"svg-inline--fa fa-chevron-right\" aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"chevron-right\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 512\" data-fa-i2svg=\"\"><path fill=\"currentColor\" d=\"M96 480c-8.188 0-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L242.8 256L73.38 86.63c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l192 192c12.5 12.5 12.5 32.75 0 45.25l-192 192C112.4 476.9 104.2 480 96 480z\"></path></svg><!-- <span class=\"fa-solid fa-chevron-right\"></span> Font Awesome fontawesome.com --></button>\n" +
+                        "                </div>\n" +
+                        "            </div>" + status +
+                        "            <div class=\"d-flex align-items-center mb-2\"><span class=\"fa-solid far fa-file-code me-2 text-700 fs--1 fw-extra-bold\"></span>\n" +
+                        "                <p class=\"fw-bold mb-0 text-truncate lh-1\">Tickets: <span class=\"fw-semi-bold ms-1\">" + projectTicketsCount + "</span></p>\n" +
+                        "            </div>\n" +
+                        "            <div class=\"d-flex align-items-center mb-2\"><svg class=\"svg-inline--fa fa-user me-2 text-700 fs--1 fw-extra-bold\" aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"user\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\" data-fa-i2svg=\"\"><path fill=\"currentColor\" d=\"M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z\"></path></svg><!-- <span class=\"fa-solid fa-user me-2 text-700 fs--1 fw-extra-bold\"></span> Font Awesome fontawesome.com -->\n" +
+                        "                <p class=\"fw-bold mb-0 text-truncate lh-1\">Developers: <span class=\"fw-semi-bold ms-1\">" + projectDevelopers + "</span></p>\n" +
+                        "            </div>\n" +
+                        "            <div class=\"d-flex align-items-center mb-2\"><svg class=\"svg-inline--fa fa-user me-2 text-700 fs--1 fw-extra-bold\" aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"user\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\" data-fa-i2svg=\"\"><path fill=\"currentColor\" d=\"M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z\"></path></svg><!-- <span class=\"fa-solid fa-user me-2 text-700 fs--1 fw-extra-bold\"></span> Font Awesome fontawesome.com -->\n" +
+                        "                <p class=\"fw-bold mb-0 text-truncate lh-1\">Submitters: <span class=\"fw-semi-bold ms-1\">" + projectSubmitters + "</span></p>\n" +
+                        "            </div>\n" +
+                        "            <div class=\"d-flex align-items-center mt-4\">\n" +
+                        "                <p class=\"mb-0 fw-bold fs--1\">Initiation date:<span class=\"fw-semi-bold text-600 ms-1\">" + projects[i].initiationDate + "</span></p>\n" +
+                        "            </div>\n" +
+                        "            <div class=\"d-flex align-items-center mt-2\">\n" +
+                        "                <p class=\"mb-0 fw-bold fs--1\">Completion date: <span class=\"fw-semi-bold text-600 ms-1\">" + projects[i].completionDate + "</span></p>\n" +
+                        "            </div>\n" +
+                        "            <div class=\"d-flex align-items-center mt-2\">\n" +
+                        "                <a class=\"mb-0 fw-bold fs--1\" href=\"/projects/" + projects[i].id + "\">Details</a>\n" +
+                        "            </div>\n" +
+                        "        </div>\n" +
+                        "    </div>\n" +
+                        "</div>";
+                }
+                loadProjectTicketModals(projects);
+            }
         }
 
         function loadProjectTicketModals(projects) {
@@ -662,7 +683,7 @@
                 if (status === 200) {
                     document.getElementById("modalCloseBtn" + projectId).click();
                     renderChart();
-                    renderPage();
+                    searchProjects();
                     setTimeout(() => {
                         // document.getElementById("modalForProject" + projectId).style.display="block";
                         document.getElementById("modalOpenBtn" + projectId).click();
@@ -698,7 +719,7 @@
             });
             document.getElementById("modalCloseBtn" + projectId).click();
             renderChart();
-            renderPage();
+            searchProjects();
             setTimeout(() => {
                 document.getElementById("modalOpenBtn" + projectId).click();
             }, 50);

@@ -4,7 +4,7 @@ import com.manticore.Manticore.mappers.UserMapper;
 import com.manticore.Manticore.models.Project;
 import com.manticore.Manticore.models.Ticket;
 import com.manticore.Manticore.services.*;
-import com.manticore.Manticore.user_dtos.UserDto;
+import com.manticore.Manticore.dtos.user_dtos.UserDto;
 import com.manticore.Manticore.models.user_models.Developer;
 import com.manticore.Manticore.models.user_models.ProjectManager;
 import com.manticore.Manticore.models.user_models.Submitter;

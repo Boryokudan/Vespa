@@ -26,33 +26,33 @@
                                     <option value="1">Admin</option>
                                     <option value="2">Project manager</option>
                                     <option value="3">Developer</option>
-                                    <option value="4">Submitter</option>
+                                    <option value="5">Submitter</option>
                                 </select>
                                 <label for="roleSelector">Role</label>
                             </div>
                         </div>
                     </div>
                 </div>
-<!--                <div class="row">-->
-<!--                    <hr>-->
-<!--                </div>-->
-<!--                <div class="row mb-5">-->
-<!--                    <div class="row mb-5">-->
-<!--                        <h4 class="text-bold text-1100">-->
-<!--                            Select users to assign the role to-->
-<!--                        </h4>-->
-<!--                    </div>-->
-<!--                    <div class="row me-5">-->
-<!--                        <div class="col col-auto">-->
-<!--                            <div class="search-box">-->
-<!--                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">-->
-<!--                                    <input class="form-control search-input search" type="search" placeholder="Search members" aria-label="Search" />-->
-<!--                                    <span class="fas fa-search search-box-icon"></span>-->
-<!--                                </form>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div class="row">
+                    <hr>
+                </div>
+                <div class="row mb-5">
+                    <div class="row mb-5">
+                        <h4 class="text-bold text-1100">
+                            Select users to assign the role to
+                        </h4>
+                    </div>
+                    <div class="row me-5">
+                        <div class="col col-auto">
+                            <div class="search-box">
+                                <div class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                    <input class="form-control search-input search" id="search-box" type="search" placeholder="Search users" aria-label="Search" onchange="searchUsers()" />
+                                    <span class="fas fa-search search-box-icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-sm-6 col-md-6 mx-auto">
                 <!-- ===============================================-->
@@ -177,6 +177,15 @@
             xhr.send();
         }
 
+        function searchUsers() {
+            let xhr = new XMLHttpRequest();
+            let query = document.getElementById("search-box").value;
+            xhr.open('GET', "/api/search/users?query=" + query, true);
+            xhr.responseType = 'json';
+            renderUserData(xhr);
+            xhr.send();
+        }
+
         function assignRole() {
             const xhr = new XMLHttpRequest();
             xhr.open('PUT', "api/users?update=roles", true);
@@ -200,7 +209,7 @@
 
             xhr.addEventListener('load', function() {
                 if (xhr.status === 200) {
-                    loadUserListSortedByFullName();
+                    searchUsers();
                     renderChart();
                 } else {
                     throw new Error("Bad Request");

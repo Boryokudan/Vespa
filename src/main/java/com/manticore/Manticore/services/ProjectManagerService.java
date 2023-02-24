@@ -1,7 +1,7 @@
 package com.manticore.Manticore.services;
 
 import com.manticore.Manticore.registration_forms.ProjectManagerRegistrationForm;
-import com.manticore.Manticore.user_dtos.ProjectManagerDto;
+import com.manticore.Manticore.dtos.user_dtos.ProjectManagerDto;
 import com.manticore.Manticore.models.user_models.ProjectManager;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.manticore.Manticore.services;
 
 import com.manticore.Manticore.registration_forms.DeveloperRegistrationForm;
-import com.manticore.Manticore.user_dtos.DeveloperDto;
+import com.manticore.Manticore.dtos.user_dtos.DeveloperDto;
 import com.manticore.Manticore.models.user_models.Developer;
 
 import java.util.List;

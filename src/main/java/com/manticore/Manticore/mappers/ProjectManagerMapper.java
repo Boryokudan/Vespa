@@ -1,6 +1,6 @@
 package com.manticore.Manticore.mappers;
 
-import com.manticore.Manticore.user_dtos.ProjectManagerDto;
+import com.manticore.Manticore.dtos.user_dtos.ProjectManagerDto;
 import com.manticore.Manticore.models.user_models.ProjectManager;
 import org.mapstruct.Mapper;
 

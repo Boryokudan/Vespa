@@ -1,8 +1,8 @@
 package com.manticore.Manticore.dtos;
 
-import com.manticore.Manticore.user_dtos.DeveloperDto;
-import com.manticore.Manticore.user_dtos.ProjectManagerDto;
-import com.manticore.Manticore.user_dtos.SubmitterDto;
+import com.manticore.Manticore.dtos.user_dtos.DeveloperDto;
+import com.manticore.Manticore.dtos.user_dtos.ProjectManagerDto;
+import com.manticore.Manticore.dtos.user_dtos.SubmitterDto;
 import lombok.Getter;
 import lombok.Setter;
 
